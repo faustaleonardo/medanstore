@@ -4,6 +4,7 @@ const cors = require('@koa/cors');
 const logger = require('koa-logger');
 const passport = require('koa-passport');
 const session = require('koa-session');
+const { sequelize } = require('./database/models');
 
 const app = new Koa();
 const itemRouter = require('./routes/itemRoutes');
@@ -13,7 +14,6 @@ require('dotenv').config();
 require('./services/passport');
 
 app.use(cors());
-
 app.use(logger());
 app.use(bodyParser());
 
@@ -26,8 +26,24 @@ app.use(passport.session());
 app.use(itemRouter.routes());
 app.use(authRouter.routes());
 
+// error handling
+app.use(async (ctx, next) => {
+  try {
+    await next();
+  } catch (err) {
+    ctx.status = err.status || 500;
+    ctx.body = err.result;
+    ctx.app.emit('error', err, ctx);
+  }
+});
+app.on('error', (err, ctx) => {
+  console.log(err);
+});
+
 const port = 4000;
 
-app.listen(port, () => {
-  console.log(`Server is listenig on port ${port}`);
+sequelize.sync().then(() => {
+  app.listen(port, () => {
+    console.log(`Server is listening on port ${port}`);
+  });
 });
