@@ -9,7 +9,9 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       orderId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        unique: true
       },
       userId: {
         type: Sequelize.INTEGER,
@@ -33,7 +35,8 @@ module.exports = {
         references: {
           model: 'Vouchers',
           key: 'id'
-        },
+        }
+      },
       quantity: {
         type: Sequelize.INTEGER
       },
