@@ -1,6 +1,6 @@
 const Router = require('koa-router');
 
-const requireLogin = require('../middlewares/requireLogin');
+const { requireLogin, requireAdmin } = require('../middlewares/require');
 
 const {
   getCategories,
@@ -16,8 +16,8 @@ const BASE_URL = '/api/v1/categories';
 
 router.get(`${BASE_URL}`, getCategories);
 router.get(`${BASE_URL}/:id`, getCategory);
-router.post(`${BASE_URL}`, requireLogin, createCategory);
-router.patch(`${BASE_URL}/:id`, requireLogin, updateCategory);
-router.delete(`${BASE_URL}/:id`, requireLogin, deleteCategory);
+router.post(`${BASE_URL}`, requireLogin, requireAdmin, createCategory);
+router.patch(`${BASE_URL}/:id`, requireLogin, requireAdmin, updateCategory);
+router.delete(`${BASE_URL}/:id`, requireLogin, requireAdmin, deleteCategory);
 
 module.exports = router;
