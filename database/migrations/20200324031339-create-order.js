@@ -36,9 +36,10 @@ module.exports = {
         },
       quantity: {
         type: Sequelize.INTEGER
-      },    
+      },
       statusPayment: {
-        type: Sequelize.BOOLEAN
+        type: Sequelize.BOOLEAN,
+        defaultValue: false
       },
       expiredTime: {
         type: Sequelize.DATE
