@@ -5,14 +5,14 @@ module.exports = (sequelize, DataTypes) => {
     {
       name: DataTypes.STRING,
       price: DataTypes.DECIMAL,
-      description: DataTypes.STRING,
+      description: DataTypes.TEXT,
       stock: DataTypes.INTEGER,
       condition: DataTypes.STRING,
       cpu: DataTypes.STRING,
-      display: DataTypes.STRING,
+      display: DataTypes.TEXT,
       ram: DataTypes.STRING,
       battery: DataTypes.STRING,
-      rearCamera: DataTypes.STRING,
+      rearCamera: DataTypes.TEXT,
       frontCamera: DataTypes.STRING,
       os: DataTypes.STRING,
       categoryId: DataTypes.INTEGER

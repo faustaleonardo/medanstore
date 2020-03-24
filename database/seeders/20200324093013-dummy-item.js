@@ -24,7 +24,9 @@ module.exports = {
           frontCamera: '10MP Front + 8MP Depth Camera',
           os: 'Android 10.0 with One UI 2',
           network: '2G, 3G, 4G, 4G LTE, 5G',
-          categoryId: 1
+          categoryId: 1,
+          createdAt: new Date(),
+          updatedAt: new Date()
         },
         {
           name: 'Samsung Galaxy Note 10',
@@ -44,7 +46,9 @@ module.exports = {
           frontCamera: '10MP Front',
           os: 'Android 10.0 with One UI 2',
           network: '2G 3G 4G',
-          categoryId: 1
+          categoryId: 1,
+          createdAt: new Date(),
+          updatedAt: new Date()
         },
         {
           name: 'Samsung Galaxy S20 Plus',
@@ -65,7 +69,9 @@ module.exports = {
           frontCamera: '10 MP, f/2.2, 26mm, 1/3.2", 1.22µm, Dual Pixel PDAF',
           os: 'Android 10.0 with One UI 2',
           network: '2G, 3G, 4G, 4G LTE, 5G',
-          categoryId: 1
+          categoryId: 1,
+          createdAt: new Date(),
+          updatedAt: new Date()
         },
         {
           name: 'Huawei P30 Pro',
@@ -85,10 +91,12 @@ module.exports = {
           frontCamera: '32 MP, autofocus, f/2.0, 1080p video',
           os: 'Android 9.0 "Pie"',
           network: '2G 3G 4G',
-          categoryId: 2
+          categoryId: 2,
+          createdAt: new Date(),
+          updatedAt: new Date()
         },
         {
-          name: 'Huawei Mate 20 Pro',
+          name: 'Huawei P20 Pro',
           price: 6000000,
           description:
             "The new Leica Triple Camera powered by AI reveals life's drama, texture, colour and beauty in every photograph that will take your breath away. Designed for different scenarios, the 40 MP main RGB lens captures great details in everyday photos, while the 8 MP telephoto lens will focus on your distant shots and the whole new 20 MP Leica Ultra Wide Angle Lens is perfect for the landscape photos and macro shots. Life is about exploring. Take your HUAWEI Mate 20 Pro for fun to the beach or through the rain. The IP68 rated water and dust resistance1 means no worry of taking spills, splashes, and dunks.",
@@ -105,7 +113,9 @@ module.exports = {
           frontCamera: '24 MP, fixed-focus, f/2.0, 1080p video',
           os: 'Android 10.0',
           network: '2G 3G 4G',
-          categoryId: 2
+          categoryId: 2,
+          createdAt: new Date(),
+          updatedAt: new Date()
         },
         {
           name: 'Huawei Mate 20X',
@@ -125,10 +135,12 @@ module.exports = {
           frontCamera: '24 MP, f/2.0, 26mm (wide), 1/2.8", 0.9µm',
           os: 'Android 9.0 (Pie); EMUI 9.1',
           network: 'GSM / HSPA / LTE',
-          categoryId: 2
+          categoryId: 2,
+          createdAt: new Date(),
+          updatedAt: new Date()
         },
         {
-          name: 'Apple iPhone 7 Plus',
+          name: 'Apple Iphone 7 Plus',
           price: 5550000,
           description:
             'This iPhone 7 Plus is a factory unlocked Apple smartphone with black finish and iOS for effortless usage. With its entire casing re-engineered, it is water resistant thus protected against spills and splashes, the oleophobic coating keeps off fingerprints. The highly responsive Home button is pressure sensitive with a built-in fingerprint sensor. It works with Taptic Engine for precise tactile feedback as you press. The built-in rechargeable lithium-ion battery provides enough power to last throughout the day, supporting up to 21 hours of talk time or 15 hours on a mobile data connection. The Retina display with 1920 x 1080-pixel resolution at 401 ppi delivers crisp and sharp images. A 12 MP iSight camera captures your precious moments brighter and more detailed with auto image stabilisation and HDR. The phone measures 158.2 x 77.9 x 7.3 mm, weighs 188 g and has a memory capacity of 32 GB. This device is compatible with Vodafone, EE, O2, Three, Tesco Mobile, Virgin Mobile Carriers.',
@@ -143,7 +155,9 @@ module.exports = {
           frontCamera: '7-megapixel',
           os: 'iOS 13.3.1',
           network: 'GSM / Edge / UMTS / HSPA+ / Dc-HSDPA / Fdd-LTE / TD-LTE',
-          categoryId: 3
+          categoryId: 3,
+          createdAt: new Date(),
+          updatedAt: new Date()
         },
         {
           name: 'Apple Iphone 8 Plus',
@@ -161,7 +175,9 @@ module.exports = {
           frontCamera: '7MP',
           os: 'iOS 13.3.1',
           network: 'GSM, CDMA2000, EV-DO, HSPA+, LTE, LTE Advanced',
-          categoryId: 3
+          categoryId: 3,
+          createdAt: new Date(),
+          updatedAt: new Date()
         },
         {
           name: 'Apple Iphone X',
@@ -181,7 +197,9 @@ module.exports = {
           frontCamera: '7MP',
           os: 'iOS 13.3.1',
           network: 'GSM, CDMA2000, EV-DO, HSPA+, LTE, LTE Advanced',
-          categoryId: 3
+          categoryId: 3,
+          createdAt: new Date(),
+          updatedAt: new Date()
         },
         {
           name: 'Xiaomi Mi 9T Pro',
@@ -201,7 +219,9 @@ module.exports = {
           frontCamera: 'Motorized pop-up 20 MP, f/2.2, (wide), 1/3.4", 0.8µm',
           os: 'Android 9.0 (Pie); MIUI 10',
           network: 'GSM / HSPA / LTE',
-          categoryId: 4
+          categoryId: 4,
+          createdAt: new Date(),
+          updatedAt: new Date()
         },
         {
           name: 'Xiaomi Poco X2',
@@ -221,7 +241,9 @@ module.exports = {
           frontCamera: '20 MP, f/2.2, 27mm (wide), 1/3.4", 0.8µm',
           os: 'Android 10.0; MIUI 11',
           network: 'GSM / HSPA / LTE',
-          categoryId: 4
+          categoryId: 4,
+          createdAt: new Date(),
+          updatedAt: new Date()
         },
         {
           name: 'Oppo Reno 3 Pro',
@@ -242,7 +264,9 @@ module.exports = {
           frontCamera: '32 MP, f/2.4, 26mm (wide), 1/2.8", 0.8µm',
           os: 'Android 10.0; MIUI 11',
           network: 'GSM / CDMA / HSPA / EVDO / LTE / 5G',
-          categoryId: 5
+          categoryId: 5,
+          createdAt: new Date(),
+          updatedAt: new Date()
         },
         {
           name: 'Oppo Find X2 865',
@@ -263,7 +287,9 @@ module.exports = {
           frontCamera: '32 MP, f/2.4, (wide), 1/2.8", 0.8µm',
           os: 'Android 10.0; ColorOS 7.1',
           network: 'GSM / HSPA / LTE / 5G',
-          categoryId: 5
+          categoryId: 5,
+          createdAt: new Date(),
+          updatedAt: new Date()
         }
       ],
       {}

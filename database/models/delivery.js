@@ -8,12 +8,6 @@ module.exports = (sequelize, DataTypes) => {
     },
     {}
   );
-  Delivery.associate = function(models) {
-    Delivery.belongsTo(models.Order, {
-      foreignKey: 'orderId',
-      targetKey: 'orderId',
-      as: 'order'
-    });
-  };
+  Delivery.associate = function(models) {};
   return Delivery;
 };

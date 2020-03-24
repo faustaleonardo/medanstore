@@ -15,7 +15,7 @@ module.exports = {
         type: Sequelize.DECIMAL
       },
       description: {
-        type: Sequelize.STRING
+        type: Sequelize.TEXT
       },
       stock: {
         type: Sequelize.INTEGER
@@ -27,7 +27,7 @@ module.exports = {
         type: Sequelize.STRING
       },
       display: {
-        type: Sequelize.STRING
+        type: Sequelize.TEXT
       },
       ram: {
         type: Sequelize.STRING
@@ -39,7 +39,7 @@ module.exports = {
         type: Sequelize.STRING
       },
       rearCamera: {
-        type: Sequelize.STRING
+        type: Sequelize.TEXT
       },
       frontCamera: {
         type: Sequelize.STRING
