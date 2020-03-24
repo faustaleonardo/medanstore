@@ -2,7 +2,7 @@ const bcrypt = require('bcryptjs');
 const models = require('../database/models');
 const { promisify } = require('util');
 
-const sendSuccessResponse = require('../utils/sendSuccessResponse');
+const { sendSuccessResponse } = require('../utils/response');
 
 exports.signup = async ctx => {
   const { username, email, password } = ctx.request.body;
