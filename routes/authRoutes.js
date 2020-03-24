@@ -4,6 +4,7 @@ const passport = require('koa-passport');
 const {
   signup,
   login,
+  user,
   logout,
   error
 } = require('../controllers/authController');
@@ -18,6 +19,8 @@ router.post(
   passport.authenticate('local', { failureRedirect: `${BASE_URL}/error` }),
   login
 );
+
+router.get(`${BASE_URL}/user`, user);
 
 router.get(`${BASE_URL}/logout`, logout);
 

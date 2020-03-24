@@ -16,8 +16,8 @@ module.exports = (sequelize, DataTypes) => {
   );
   Item.associate = function(models) {
     Item.hasOne(models.Category, {
-      foreignKey: 'categoryId',
-      targetKey: 'id',
+      foreignKey: 'id',
+      targetKey: 'categoryId',
       as: 'category'
     });
   };

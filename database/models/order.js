@@ -27,8 +27,8 @@ module.exports = (sequelize, DataTypes) => {
     });
 
     Order.hasOne(models.Voucher, {
-      foreignKey: 'voucherId',
-      targetKey: 'id',
+      foreignKey: 'id',
+      targetKey: 'voucherId',
       as: 'voucher'
     });
   };

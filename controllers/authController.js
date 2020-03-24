@@ -2,14 +2,7 @@ const bcrypt = require('bcryptjs');
 const models = require('../database/models');
 const { promisify } = require('util');
 
-const sendSuccessResponse = (ctx, user) => {
-  ctx.body = {
-    status: 'success',
-    data: {
-      user
-    }
-  };
-};
+const sendSuccessResponse = require('../utils/sendSuccessResponse');
 
 exports.signup = async ctx => {
   const { username, email, password } = ctx.request.body;
@@ -43,6 +36,10 @@ exports.login = async ctx => {
 exports.logout = async ctx => {
   ctx.logout();
   ctx.redirect('/');
+};
+
+exports.user = async ctx => {
+  sendSuccessResponse(ctx, ctx.state.user);
 };
 
 exports.error = async ctx => {

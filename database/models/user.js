@@ -12,8 +12,8 @@ module.exports = (sequelize, DataTypes) => {
   );
   User.associate = function(models) {
     User.hasOne(models.Role, {
-      foreignKey: 'roleId',
-      targetKey: 'id',
+      foreignKey: 'id',
+      targetKey: 'roleId',
       as: 'role'
     });
   };
