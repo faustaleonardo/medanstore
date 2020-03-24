@@ -8,8 +8,3 @@ exports.sendSuccessResponse = (ctx, data, statusCode = 200) => {
     }
   };
 };
-
-exports.sendResponseIfNotFound = async (ctx, id, model) => {
-  const record = await model.findByPk(id);
-  if (!record) ctx.throw(404, `${model.name} not found`);
-};
