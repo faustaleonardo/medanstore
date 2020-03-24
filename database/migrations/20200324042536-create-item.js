@@ -20,13 +20,34 @@ module.exports = {
       stock: {
         type: Sequelize.INTEGER
       },
-      weight: {
-        type: Sequelize.INTEGER
-      },
-      unit: {
+      condition: {
         type: Sequelize.STRING
       },
-      condition: {
+      cpu: {
+        type: Sequelize.STRING
+      },
+      display: {
+        type: Sequelize.STRING
+      },
+      ram: {
+        type: Sequelize.STRING
+      },
+      storage: {
+        type: Sequelize.STRING
+      },
+      battery: {
+        type: Sequelize.STRING
+      },
+      rearCamera: {
+        type: Sequelize.STRING
+      },
+      frontCamera: {
+        type: Sequelize.STRING
+      },
+      os: {
+        type: Sequelize.STRING
+      },
+      network: {
         type: Sequelize.STRING
       },
       categoryId: {
