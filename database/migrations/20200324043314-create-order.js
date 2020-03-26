@@ -29,13 +29,8 @@ module.exports = {
           key: 'id'
         }
       },
-      voucherId: {
-        type: Sequelize.INTEGER,
-        allowNull: true,
-        references: {
-          model: 'Vouchers',
-          key: 'id'
-        }
+      discount: {
+        type: Sequelize.SMALLINT
       },
       quantity: {
         type: Sequelize.INTEGER

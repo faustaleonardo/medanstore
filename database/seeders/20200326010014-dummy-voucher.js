@@ -9,23 +9,23 @@ module.exports = {
       'Vouchers',
       [
         {
-          itemId: 1,
           discount: 10,
           expiredTime: fiveDaysFromToday,
+          code: 'happy-10',
           createdAt: new Date(),
           updatedAt: new Date()
         },
         {
-          itemId: 2,
           discount: 20,
           expiredTime: fiveDaysFromToday,
+          code: 'nice-20',
           createdAt: new Date(),
           updatedAt: new Date()
         },
         {
-          itemId: 3,
           discount: 30,
           expiredTime: fiveDaysFromToday,
+          code: 'huge-30',
           createdAt: new Date(),
           updatedAt: new Date()
         }

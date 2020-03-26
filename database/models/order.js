@@ -6,7 +6,7 @@ module.exports = (sequelize, DataTypes) => {
       orderId: DataTypes.INTEGER,
       userId: DataTypes.INTEGER,
       itemId: DataTypes.INTEGER,
-      voucherId: DataTypes.INTEGER,
+      discount: DataTypes.SMALLINT,
       quantity: DataTypes.INTEGER,
       statusPayment: DataTypes.BOOLEAN,
       expiredTime: DataTypes.DATE
@@ -24,12 +24,6 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: 'itemId',
       targetKey: 'id',
       as: 'item'
-    });
-
-    Order.hasOne(models.Voucher, {
-      foreignKey: 'id',
-      targetKey: 'voucherId',
-      as: 'voucher'
     });
   };
   return Order;

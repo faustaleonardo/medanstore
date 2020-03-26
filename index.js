@@ -10,6 +10,7 @@ const app = new Koa();
 const itemRouter = require('./routes/itemRoutes');
 const authRouter = require('./routes/authRoutes');
 const categoryRouter = require('./routes/categoryRoutes');
+const pictureRouter = require('./routes/pictureRoutes');
 
 require('dotenv').config();
 require('./services/passport');
@@ -27,6 +28,7 @@ app.use(passport.session());
 app.use(itemRouter.routes());
 app.use(authRouter.routes());
 app.use(categoryRouter.routes());
+app.use(pictureRouter.routes());
 
 // error handling
 app.use(async (ctx, next) => {

@@ -3,18 +3,12 @@ module.exports = (sequelize, DataTypes) => {
   const Voucher = sequelize.define(
     'Voucher',
     {
-      itemId: DataTypes.INTEGER,
       discount: DataTypes.SMALLINT,
+      code: DataTypes.STRING,
       expiredTime: DataTypes.DATE
     },
     {}
   );
-  Voucher.associate = function(models) {
-    Voucher.belongsTo(models.Item, {
-      foreignKey: 'itemId',
-      targetKey: 'id',
-      as: 'item'
-    });
-  };
+  Voucher.associate = function(models) {};
   return Voucher;
 };

@@ -8,13 +8,8 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      itemId: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        references: {
-          model: 'Items',
-          key: 'id'
-        }
+      code: {
+        type: Sequelize.STRING
       },
       discount: {
         type: Sequelize.SMALLINT

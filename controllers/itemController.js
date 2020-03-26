@@ -8,15 +8,23 @@ const filter = body => {
     'price',
     'description',
     'stock',
-    'weight',
-    'unit',
     'condition',
+    'cpu',
+    'display',
+    'ram',
+    'storage',
+    'battery',
+    'rearCamera',
+    'frontCamera',
+    'os',
+    'network',
     'categoryId'
   ];
 
-  for (let fieldName in acceptedFields) {
+  for (let fieldName of acceptedFields) {
     if (body[fieldName]) fields[fieldName] = body[fieldName];
   }
+
   return fields;
 };
 
@@ -36,6 +44,7 @@ exports.getItem = async ctx => {
 
 exports.createItem = async ctx => {
   const filteredBody = filter(ctx.request.body);
+
   item = await models.Item.create(filteredBody);
 
   sendSuccessResponse(ctx, item, 201);
