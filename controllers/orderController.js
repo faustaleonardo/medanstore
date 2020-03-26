@@ -3,7 +3,7 @@ const models = require('../database/models');
 const { sendSuccessResponse } = require('../utils/response');
 const { filterFields } = require('../utils/filter');
 
-const acceptedFields = ['items', 'discount', 'deliveryCost'];
+const acceptedFields = ['items'];
 
 exports.getOrders = async ctx => {
   const user = ctx.state.user;
@@ -13,17 +13,14 @@ exports.getOrders = async ctx => {
 };
 
 exports.getOrder = async ctx => {
-  const { id } = ctx.params;
-  const user = ctx.state.user;
+  const orderId = ctx.params.orderId;
 
-  const order = await models.Order.findByPk(id);
-  if (!order) ctx.throw(404, `Order not found`);
-
-  if (order.userId !== user.id) {
-    ctx.throw(401, 'You cannot access this resource');
+  try {
+    const order = await models.Order.findAll({ where: { orderId } });
+    sendSuccessResponse(ctx, order);
+  } catch (er) {
+    ctx.throw(404, `Order not found`);
   }
-
-  sendSuccessResponse(ctx, Order);
 };
 
 exports.createOrder = async ctx => {

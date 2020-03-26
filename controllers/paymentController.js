@@ -1,6 +1,7 @@
 const models = require('../database/models');
 const { sendSuccessResponse } = require('../utils/response');
 const { getExpiredTime } = require('../utils/expire');
+const { filterFields } = require('../utils/filter');
 
 const acceptedFields = ['discount', 'deliveryCost'];
 
@@ -37,13 +38,14 @@ exports.createPayment = async ctx => {
 
 exports.updatePayment = async ctx => {
   const { orderId } = ctx.params;
-  const payment = models.Payment.find({ where: { orderId } });
-  if (!payments) ctx.throw(404, `Payment not found`);
+
+  const payment = await models.Payment.findOne({ where: { orderId } });
+  if (!payment) ctx.throw(404, `Payment not found`);
 
   const { active, statusPayment } = ctx.request.body;
 
-  if (active) payment.active = active;
-  if (statusPayment) payment.statePayment = statePayment;
+  if (active !== undefined) payment.active = active;
+  if (statusPayment !== undefined) payment.statusPayment = statusPayment;
 
   await payment.save();
 
