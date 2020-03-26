@@ -1,32 +1,24 @@
 const models = require('../database/models');
 const { sendSuccessResponse } = require('../utils/response');
+const { filterFields } = require('../utils/filter');
 
-const filter = body => {
-  let fields = {};
-  const acceptedFields = [
-    'name',
-    'price',
-    'description',
-    'stock',
-    'condition',
-    'cpu',
-    'display',
-    'ram',
-    'storage',
-    'battery',
-    'rearCamera',
-    'frontCamera',
-    'os',
-    'network',
-    'categoryId'
-  ];
-
-  for (let fieldName of acceptedFields) {
-    if (body[fieldName]) fields[fieldName] = body[fieldName];
-  }
-
-  return fields;
-};
+const acceptedFields = [
+  'name',
+  'price',
+  'description',
+  'stock',
+  'condition',
+  'cpu',
+  'display',
+  'ram',
+  'storage',
+  'battery',
+  'rearCamera',
+  'frontCamera',
+  'os',
+  'network',
+  'categoryId'
+];
 
 exports.getItems = async ctx => {
   const items = await models.Item.findAll();
@@ -43,7 +35,7 @@ exports.getItem = async ctx => {
 };
 
 exports.createItem = async ctx => {
-  const filteredBody = filter(ctx.request.body);
+  const filteredBody = filterFields(ctx.request.body, acceptedFields);
 
   item = await models.Item.create(filteredBody);
 
@@ -55,7 +47,7 @@ exports.updateItem = async ctx => {
   const item = await models.Item.findByPk(id);
   if (!item) ctx.throw(404, `Item not found`);
 
-  const filteredBody = filter(ctx.request.body);
+  const filteredBody = filterFields(ctx.request.body, acceptedFields);
   for (let key in filteredBody) item[key] = filteredBody[key];
   await item.save();
 

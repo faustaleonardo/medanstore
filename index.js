@@ -7,10 +7,12 @@ const session = require('koa-session');
 const { sequelize } = require('./database/models');
 
 const app = new Koa();
+
 const itemRouter = require('./routes/itemRoutes');
 const authRouter = require('./routes/authRoutes');
 const categoryRouter = require('./routes/categoryRoutes');
 const pictureRouter = require('./routes/pictureRoutes');
+const voucherRouter = require('./routes/voucherRoutes');
 
 require('dotenv').config();
 require('./services/passport');
@@ -29,6 +31,7 @@ app.use(itemRouter.routes());
 app.use(authRouter.routes());
 app.use(categoryRouter.routes());
 app.use(pictureRouter.routes());
+app.use(voucherRouter.routes());
 
 // error handling
 app.use(async (ctx, next) => {
