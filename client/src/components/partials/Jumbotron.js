@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const Jumbotron = () => {
   return (
@@ -10,9 +11,9 @@ const Jumbotron = () => {
       </p>
       <hr className="my-4" />
       <p></p>
-      <a className="btn btn-success btn-lg" href="#" role="button">
+      <Link to="/items" className="btn btn-success btn-lg" role="button">
         Find more
-      </a>
+      </Link>
     </div>
   );
 };

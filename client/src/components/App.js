@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
 
 // partials
@@ -9,6 +9,9 @@ import Jumbotron from './partials/Jumbotron';
 // auth
 import Login from './auth/Login';
 import Signup from './auth/Signup';
+
+// items
+import ItemList from './items/ItemList';
 
 const App = () => {
   return (
@@ -21,6 +24,8 @@ const App = () => {
 
           <Route exact path="/login" component={Login} />
           <Route exact path="/signup" component={Signup} />
+
+          <Route exact path="/items" component={ItemList} />
         </div>
       </BrowserRouter>
     </div>
