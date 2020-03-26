@@ -8,6 +8,7 @@ import Jumbotron from './partials/Jumbotron';
 
 // auth
 import Login from './auth/Login';
+import Signup from './auth/Signup';
 
 const App = () => {
   return (
@@ -17,7 +18,9 @@ const App = () => {
           <Header />
           <Route exact path="/" component={SearchBar} />
           <Route exact path="/" component={Jumbotron} />
+
           <Route exact path="/login" component={Login} />
+          <Route exact path="/signup" component={Signup} />
         </div>
       </BrowserRouter>
     </div>

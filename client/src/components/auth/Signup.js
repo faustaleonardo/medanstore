@@ -1,10 +1,10 @@
 import React from 'react';
 
-const Login = () => {
+const Signup = () => {
   return (
     <div className="center-vh auth-section">
       <div className="card">
-        <div className="card-header">Welcome back!</div>
+        <div className="card-header">Excellent choice!</div>
         <div className="card-body">
           <form>
             <div className="form-group">
@@ -12,11 +12,23 @@ const Login = () => {
               <input type="text" className="form-control" id="username" />
             </div>
             <div className="form-group">
+              <label htmlFor="email">Email</label>
+              <input type="text" className="form-control" id="email" />
+            </div>
+            <div className="form-group">
               <label htmlFor="password">Password</label>
               <input type="password" className="form-control" id="password" />
             </div>
+            <div className="form-group">
+              <label htmlFor="passwordConfirmation">Confirm Password</label>
+              <input
+                type="password"
+                className="form-control"
+                id="passwordConfirmation"
+              />
+            </div>
             <button type="submit" className="btn btn-success">
-              Login
+              Signup
             </button>
           </form>
         </div>
@@ -25,4 +37,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Signup;
