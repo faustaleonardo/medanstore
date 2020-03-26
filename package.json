@@ -20,11 +20,12 @@
     "koa-session": "^5.13.1",
     "passport-local": "^1.0.0",
     "pg": "^7.18.2",
-    "sequelize": "^5.21.5"
+    "sequelize": "^5.21.5",
+    "uuid": "^7.0.2"
   },
   "devDependencies": {
-    "nodemon": "^2.0.2",
     "faker": "^4.1.0",
-    "koa-logger": "^3.2.1"
+    "koa-logger": "^3.2.1",
+    "nodemon": "^2.0.2"
   }
 }

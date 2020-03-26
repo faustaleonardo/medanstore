@@ -1,6 +1,7 @@
 const models = require('../database/models');
 const { sendSuccessResponse } = require('../utils/response');
 const { filterFields } = require('../utils/filter');
+const { getExpiredTime } = require('../utils/expire');
 
 const acceptedFields = ['code', 'discount'];
 
@@ -23,11 +24,8 @@ exports.createVoucher = async ctx => {
   let voucher = await models.Voucher.findOne({ where: { code } });
   if (voucher) ctx.throw(401, 'The code has existed!');
 
-  const fiveDaysFromToday = 5 * 24 * 60 * 60 * 1000;
-  const expiredTime = new Date(new Date().getTime() + fiveDaysFromToday);
-
   const filteredBody = filterFields(ctx.request.body, acceptedFields);
-  filteredBody.expiredTime = expiredTime;
+  filteredBody.expiredTime = getExpiredTime();
 
   voucher = await models.Voucher.create(filteredBody);
 

@@ -13,6 +13,7 @@ const authRouter = require('./routes/authRoutes');
 const categoryRouter = require('./routes/categoryRoutes');
 const pictureRouter = require('./routes/pictureRoutes');
 const voucherRouter = require('./routes/voucherRoutes');
+const orderRouter = require('./routes/orderRoutes');
 
 require('dotenv').config();
 require('./services/passport');
@@ -32,6 +33,7 @@ app.use(authRouter.routes());
 app.use(categoryRouter.routes());
 app.use(pictureRouter.routes());
 app.use(voucherRouter.routes());
+app.use(orderRouter.routes());
 
 // error handling
 app.use(async (ctx, next) => {

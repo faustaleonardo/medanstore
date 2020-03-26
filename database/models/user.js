@@ -16,6 +16,16 @@ module.exports = (sequelize, DataTypes) => {
       targetKey: 'roleId',
       as: 'role'
     });
+    User.hasMany(models.Order, {
+      foreignKey: 'userId',
+      targetKey: 'id',
+      as: 'orders'
+    });
+    User.hasMany(models.Payment, {
+      foreignKey: 'userId',
+      targetKey: 'id',
+      as: 'payments'
+    });
   };
   return User;
 };

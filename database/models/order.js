@@ -3,13 +3,14 @@ module.exports = (sequelize, DataTypes) => {
   const Order = sequelize.define(
     'Order',
     {
-      orderId: DataTypes.INTEGER,
+      orderId: DataTypes.UUID,
       userId: DataTypes.INTEGER,
       itemId: DataTypes.INTEGER,
       discount: DataTypes.SMALLINT,
       quantity: DataTypes.INTEGER,
       statusPayment: DataTypes.BOOLEAN,
-      expiredTime: DataTypes.DATE
+      expiredTime: DataTypes.DATE,
+      active: DataTypes.BOOLEAN
     },
     {}
   );

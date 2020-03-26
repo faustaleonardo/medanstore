@@ -9,9 +9,8 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       orderId: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        unique: true
+        type: Sequelize.UUID,
+        allowNull: false
       },
       userId: {
         type: Sequelize.INTEGER,
@@ -29,18 +28,8 @@ module.exports = {
           key: 'id'
         }
       },
-      discount: {
-        type: Sequelize.SMALLINT
-      },
       quantity: {
         type: Sequelize.INTEGER
-      },
-      statusPayment: {
-        type: Sequelize.BOOLEAN,
-        defaultValue: false
-      },
-      expiredTime: {
-        type: Sequelize.DATE
       },
       createdAt: {
         allowNull: false,
