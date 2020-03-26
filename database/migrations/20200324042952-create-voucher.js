@@ -17,7 +17,7 @@ module.exports = {
         }
       },
       discount: {
-        type: Sequelize.DECIMAL
+        type: Sequelize.SMALLINT
       },
       expiredTime: {
         type: Sequelize.DATE

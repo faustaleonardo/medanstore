@@ -4,7 +4,7 @@ module.exports = (sequelize, DataTypes) => {
     'Voucher',
     {
       itemId: DataTypes.INTEGER,
-      discount: DataTypes.DECIMAL,
+      discount: DataTypes.SMALLINT,
       expiredTime: DataTypes.DATE
     },
     {}
