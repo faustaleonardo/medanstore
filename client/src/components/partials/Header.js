@@ -34,12 +34,19 @@ const Header = () => {
             </button>
           </li>
           {/* admin only */}
-          <li className="nav-item ml-2">
-            <Link
-              to="/admin/categories"
-              className="btn btn-outline-success my-2 my-sm-0"
-            >
+          <li className="nav-item">
+            <Link to="/admin/categories" className="nav-link">
               Category <span className="sr-only"></span>
+            </Link>
+          </li>
+          <li className="nav-item">
+            <Link to="/admin/items" className="nav-link">
+              Item <span className="sr-only"></span>
+            </Link>
+          </li>
+          <li className="nav-item">
+            <Link to="/logout" className="nav-link">
+              Logout <span className="sr-only"></span>
             </Link>
           </li>
         </ul>

@@ -1,11 +1,12 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
-const Create = () => {
+const ItemForm = ({ title, buttonName }) => {
   return (
     <div className="row mt-5">
       <div className="col-sm-8 offset-sm-2">
         <div className="card">
-          <div className="card-header">Create an Item</div>
+          <div className="card-header">{title}</div>
           <div className="card-body">
             <form>
               <div className="form-row">
@@ -103,8 +104,11 @@ const Create = () => {
                   <option>Oppo</option>
                 </select>
               </div>
-              <button type="submit" className="btn btn-success">
-                Create
+              <Link to="/admin/items" className="btn btn-secondary">
+                Back
+              </Link>
+              <button type="submit" className="btn btn-success ml-2">
+                {buttonName}
               </button>
             </form>
           </div>
@@ -114,4 +118,4 @@ const Create = () => {
   );
 };
 
-export default Create;
+export default ItemForm;

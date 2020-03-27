@@ -1,6 +1,6 @@
 import React from 'react';
 
-const CartModel = () => {
+const CartModal = () => {
   return (
     <div
       className="modal fade"
@@ -42,7 +42,7 @@ const CartModel = () => {
                     </div>
                     <div className="float-right">
                       <div className="text-danger btn-pointer">
-                        <i class="fas fa-trash"></i>
+                        <i className="fas fa-trash"></i>
                       </div>
                     </div>
                   </div>
@@ -57,14 +57,14 @@ const CartModel = () => {
                   <div className="clearfix">
                     <div className="float-left">
                       <div className="btn-pointer">
-                        <i class="fas fa-minus"></i>
+                        <i className="fas fa-minus"></i>
                       </div>
                       <input
                         className="input-quantity ml-2 mr-2"
                         name="quantity"
                       />
                       <div className="btn-pointer">
-                        <i class="fas fa-plus"></i>
+                        <i className="fas fa-plus"></i>
                       </div>
                     </div>
                     <div className="float-right">
@@ -88,7 +88,7 @@ const CartModel = () => {
                     </div>
                     <div className="float-right">
                       <div className="text-danger btn-pointer">
-                        <i class="fas fa-trash"></i>
+                        <i className="fas fa-trash"></i>
                       </div>
                     </div>
                   </div>
@@ -103,14 +103,14 @@ const CartModel = () => {
                   <div className="clearfix">
                     <div className="float-left">
                       <div className="btn-pointer">
-                        <i class="fas fa-minus"></i>
+                        <i className="fas fa-minus"></i>
                       </div>
                       <input
                         className="input-quantity ml-2 mr-2"
                         name="quantity"
                       />
                       <div className="btn-pointer">
-                        <i class="fas fa-plus"></i>
+                        <i className="fas fa-plus"></i>
                       </div>
                     </div>
                     <div className="float-right">
@@ -144,4 +144,4 @@ const CartModel = () => {
   );
 };
 
-export default CartModel;
+export default CartModal;

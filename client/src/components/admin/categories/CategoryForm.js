@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const ManageCategory = ({ title, buttonName }) => {
+const CategoryForm = ({ title, buttonName }) => {
   return (
     <div className="row mt-5">
       <div className="col-sm-8 offset-sm-2">
@@ -27,4 +27,4 @@ const ManageCategory = ({ title, buttonName }) => {
   );
 };
 
-export default ManageCategory;
+export default CategoryForm;

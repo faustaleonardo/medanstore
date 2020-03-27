@@ -19,8 +19,10 @@ import Checkout from './order/Checkout';
 
 // admin manage
 import Category from './admin/categories/Category';
-import ManageCategory from './admin/categories/ManageCategory';
-import Create from './admin/items/Create';
+import CategoryForm from './admin/categories/CategoryForm';
+
+import Item from './admin/items/Item';
+import ItemForm from './admin/items/ItemForm';
 
 const App = () => {
   return (
@@ -45,7 +47,7 @@ const App = () => {
             exact
             path="/admin/categories/create"
             render={props => (
-              <ManageCategory
+              <CategoryForm
                 {...props}
                 title="Create a Category"
                 buttonName="Create"
@@ -56,7 +58,7 @@ const App = () => {
             exact
             path="/admin/categories/1/update"
             render={props => (
-              <ManageCategory
+              <CategoryForm
                 {...props}
                 title="Update the Category"
                 buttonName="Update"
@@ -64,7 +66,25 @@ const App = () => {
             )}
           />
 
-          <Route exact path="/admin/items/create" component={Create} />
+          <Route exact path="/admin/items" component={Item} />
+          <Route
+            exact
+            path="/admin/items/create"
+            render={props => (
+              <ItemForm {...props} title="Create an Item" buttonName="Create" />
+            )}
+          />
+          <Route
+            exact
+            path="/admin/items/1/update"
+            render={props => (
+              <ItemForm
+                {...props}
+                title="Update the Item"
+                buttonName="Update"
+              />
+            )}
+          />
         </div>
       </BrowserRouter>
     </div>

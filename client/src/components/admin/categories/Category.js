@@ -1,9 +1,13 @@
 import React, { Fragment } from 'react';
 import { Link } from 'react-router-dom';
 
+import WarningModal from '../../partials/WarningModal';
+
 const Category = () => {
   return (
     <Fragment>
+      <WarningModal title="Delete a Category" />
+
       <div className="clearfix mt-5 mb-3">
         <div className="float-left">
           <h4>Category</h4>
@@ -14,7 +18,6 @@ const Category = () => {
           </Link>
         </div>
       </div>
-      {/* category */}
       <table className="table table-bordered table-hover">
         <thead>
           <tr className="text-uppercase">
@@ -37,7 +40,13 @@ const Category = () => {
               </Link>
             </td>
             <td className="text-center">
-              <button className="btn btn-outline-danger">Delete</button>
+              <button
+                className="btn btn-outline-danger"
+                data-toggle="modal"
+                data-target="#warningModal"
+              >
+                Delete
+              </button>
             </td>
           </tr>
           <tr>
@@ -52,7 +61,13 @@ const Category = () => {
               </Link>
             </td>
             <td className="text-center">
-              <button className="btn btn-outline-danger">Delete</button>
+              <button
+                className="btn btn-outline-danger"
+                data-toggle="modal"
+                data-target="#warningModal"
+              >
+                Delete
+              </button>
             </td>
           </tr>
           <tr>
@@ -67,7 +82,13 @@ const Category = () => {
               </Link>
             </td>
             <td className="text-center">
-              <button className="btn btn-outline-danger">Delete</button>
+              <button
+                className="btn btn-outline-danger"
+                data-toggle="modal"
+                data-target="#warningModal"
+              >
+                Delete
+              </button>
             </td>
           </tr>
           <tr>
@@ -82,7 +103,13 @@ const Category = () => {
               </Link>
             </td>
             <td className="text-center">
-              <button className="btn btn-outline-danger">Delete</button>
+              <button
+                className="btn btn-outline-danger"
+                data-toggle="modal"
+                data-target="#warningModal"
+              >
+                Delete
+              </button>
             </td>
           </tr>
           <tr>
@@ -97,7 +124,13 @@ const Category = () => {
               </Link>
             </td>
             <td className="text-center">
-              <button className="btn btn-outline-danger">Delete</button>
+              <button
+                className="btn btn-outline-danger"
+                data-toggle="modal"
+                data-target="#warningModal"
+              >
+                Delete
+              </button>
             </td>
           </tr>
         </tbody>
