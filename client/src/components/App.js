@@ -24,6 +24,9 @@ import CategoryForm from './admin/categories/CategoryForm';
 import Item from './admin/items/Item';
 import ItemForm from './admin/items/ItemForm';
 
+import Voucher from './admin/vouchers/Voucher';
+import VoucherForm from './admin/vouchers/VoucherForm';
+
 const App = () => {
   return (
     <div className="container">
@@ -81,6 +84,30 @@ const App = () => {
               <ItemForm
                 {...props}
                 title="Update the Item"
+                buttonName="Update"
+              />
+            )}
+          />
+
+          <Route exact path="/admin/vouchers" component={Voucher} />
+          <Route
+            exact
+            path="/admin/vouchers/create"
+            render={props => (
+              <VoucherForm
+                {...props}
+                title="Create a Voucher"
+                buttonName="Create"
+              />
+            )}
+          />
+          <Route
+            exact
+            path="/admin/vouchers/1/update"
+            render={props => (
+              <VoucherForm
+                {...props}
+                title="Update the Voucher"
                 buttonName="Update"
               />
             )}

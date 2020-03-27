@@ -45,6 +45,11 @@ const Header = () => {
             </Link>
           </li>
           <li className="nav-item">
+            <Link to="/admin/vouchers" className="nav-link">
+              Voucher <span className="sr-only"></span>
+            </Link>
+          </li>
+          <li className="nav-item">
             <Link to="/logout" className="nav-link">
               Logout <span className="sr-only"></span>
             </Link>
