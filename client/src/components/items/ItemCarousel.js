@@ -11,7 +11,7 @@ const ItemCarousel = () => {
         <div className="carousel-item active" data-interval="10000">
           <img
             src="https://images.mobileshop.eu/1554287985/product-large/samsung-galaxy-s10-plus-dual-sim-1tb-12gb-ram-sm-g975f-ds-ceramic-black.jpg"
-            className="d-block w-100  phone-img"
+            className="d-block w-100 phone-img"
             alt="samsung s10 plus"
           />
         </div>
