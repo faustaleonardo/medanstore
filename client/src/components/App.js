@@ -11,8 +11,11 @@ import Login from './auth/Login';
 import Signup from './auth/Signup';
 
 // items
-import ItemList from './items/ItemList';
-import ItemDetails from './items/ItemDetails';
+import ItemList from './item/ItemList';
+import ItemDetails from './item/ItemDetails';
+
+// order
+import Checkout from './order/Checkout';
 
 const App = () => {
   return (
@@ -28,6 +31,8 @@ const App = () => {
 
           <Route exact path="/items" component={ItemList} />
           <Route exact path="/items/1" component={ItemDetails} />
+
+          <Route exact path="/checkout" component={Checkout} />
         </div>
       </BrowserRouter>
     </div>

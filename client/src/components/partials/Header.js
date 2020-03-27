@@ -7,7 +7,7 @@ const Header = () => {
   return (
     <Fragment>
       <CartModal />
-      <nav className="navbar navbar-expand-lg navbar-light bg-light mb-4 pl-0 pr-0">
+      <nav className="navbar navbar-expand-lg navbar-light mb-4 pl-0 pr-0">
         <Link to="/" className="navbar-brand">
           medanstore
         </Link>

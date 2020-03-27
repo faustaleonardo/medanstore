@@ -13,7 +13,7 @@ const ItemDetails = () => {
         <div className="col-sm-5 text-center">
           <h2 className="mt-5 mb-4">Samsung S10 Plus</h2>
           <h1 className="text-success mb-5">Rp. 11.000.000,-</h1>
-          <button className="btn btn-success">Add to basket</button>
+          <button className="btn btn-success">Add to cart</button>
         </div>
       </div>
       <div className="card mt-5">
