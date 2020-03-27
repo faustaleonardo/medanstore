@@ -33,12 +33,13 @@ const Header = () => {
               <i className="fas fa-cart-arrow-down"></i> Cart
             </button>
           </li>
+          {/* admin only */}
           <li className="nav-item ml-2">
             <Link
-              to="/admin/manage"
+              to="/admin/categories"
               className="btn btn-outline-success my-2 my-sm-0"
             >
-              Manage <span className="sr-only"></span>
+              Category <span className="sr-only"></span>
             </Link>
           </li>
         </ul>

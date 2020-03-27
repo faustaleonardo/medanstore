@@ -18,6 +18,8 @@ import ItemDetails from './item/ItemDetails';
 import Checkout from './order/Checkout';
 
 // admin manage
+import Category from './admin/categories/Category';
+import ManageCategory from './admin/categories/ManageCategory';
 import Create from './admin/items/Create';
 
 const App = () => {
@@ -38,6 +40,30 @@ const App = () => {
           <Route exact path="/checkout" component={Checkout} />
 
           {/* admin only */}
+          <Route exact path="/admin/categories" component={Category} />
+          <Route
+            exact
+            path="/admin/categories/create"
+            render={props => (
+              <ManageCategory
+                {...props}
+                title="Create a Category"
+                buttonName="Create"
+              />
+            )}
+          />
+          <Route
+            exact
+            path="/admin/categories/1/update"
+            render={props => (
+              <ManageCategory
+                {...props}
+                title="Update the Category"
+                buttonName="Update"
+              />
+            )}
+          />
+
           <Route exact path="/admin/items/create" component={Create} />
         </div>
       </BrowserRouter>

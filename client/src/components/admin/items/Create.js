@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Manage = () => {
+const Create = () => {
   return (
     <div className="row mt-5">
       <div className="col-sm-8 offset-sm-2">
@@ -114,4 +114,4 @@ const Manage = () => {
   );
 };
 
-export default Manage;
+export default Create;
