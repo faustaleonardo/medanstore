@@ -1,8 +1,10 @@
 import React, { createContext, useReducer } from 'react';
+import axios from 'axios';
+
 import authReducer from './authReducer';
 
 const initialState = {
-  auth: {}
+  auth: null
 };
 
 export const AuthContext = createContext(initialState);
@@ -11,5 +13,13 @@ const { Provider } = AuthContext;
 export const AuthProvider = ({ children }) => {
   const [state, dispatch] = useReducer(authReducer, initialState);
 
-  return <Provider value={{ auth: state.auth }}>{children}</Provider>;
+  // actions
+  const fetchUser = async () => {
+    const response = await axios.get('/api/v1/auth/user');
+    dispatch({ type: 'FETCH_USER', payload: response.data.data.data });
+  };
+
+  return (
+    <Provider value={{ auth: state.auth, fetchUser }}>{children}</Provider>
+  );
 };

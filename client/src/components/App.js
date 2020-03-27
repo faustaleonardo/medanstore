@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useEffect, useContext } from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
+
+import { AuthContext } from '../context/auth/authState';
 
 // partials
 import Header from './partials/Header';
@@ -29,12 +31,17 @@ import Voucher from './admin/vouchers/Voucher';
 import VoucherForm from './admin/vouchers/VoucherForm';
 
 const App = () => {
+  const { fetchUser } = useContext(AuthContext);
+  useEffect(() => {
+    fetchUser();
+  }, []);
+
   return (
     <div className="container">
       <BrowserRouter>
         <div>
           <Header />
-          {true === false ? <SearchBar /> : ''}
+          <SearchBar />
           <Route exact path="/" component={Jumbotron} />
 
           <Route exact path="/login" component={Login} />
