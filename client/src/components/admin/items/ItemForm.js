@@ -20,6 +20,14 @@ const ItemForm = ({ title, buttonName }) => {
                 </div>
               </div>
               <div className="form-group">
+                <label for="phonePictures">Pictures</label>
+                <input
+                  type="file"
+                  className="form-control-file"
+                  id="phonePictures"
+                />
+              </div>
+              <div className="form-group">
                 <label htmlFor="Description">Description</label>
                 <textarea
                   className="form-control"
