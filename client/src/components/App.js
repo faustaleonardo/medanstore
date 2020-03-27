@@ -19,7 +19,7 @@ const App = () => {
       <BrowserRouter>
         <div>
           <Header />
-          <Route exact path="/" component={SearchBar} />
+          <SearchBar />
           <Route exact path="/" component={Jumbotron} />
 
           <Route exact path="/login" component={Login} />
