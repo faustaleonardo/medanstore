@@ -23,6 +23,11 @@ const Header = () => {
               Login <span className="sr-only"></span>
             </Link>
           </li>
+          <li className="nav-item">
+            <Link to="/orders" className="nav-link">
+              Orders <span className="sr-only"></span>
+            </Link>
+          </li>
           <li className="nav-item ml-2">
             <button
               type="button"

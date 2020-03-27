@@ -11,11 +11,12 @@ import Login from './auth/Login';
 import Signup from './auth/Signup';
 
 // items
-import ItemList from './item/ItemList';
-import ItemDetails from './item/ItemDetails';
+import ItemList from './items/ItemList';
+import ItemDetails from './items/ItemDetails';
 
-// order
-import Checkout from './order/Checkout';
+// checkout
+import Checkout from './orders/Checkout';
+import Order from './orders/Order';
 
 // admin manage
 import Category from './admin/categories/Category';
@@ -43,6 +44,7 @@ const App = () => {
           <Route exact path="/items/1" component={ItemDetails} />
 
           <Route exact path="/checkout" component={Checkout} />
+          <Route exact path="/orders" component={Order} />
 
           {/* admin only */}
           <Route exact path="/admin/categories" component={Category} />

@@ -6,8 +6,8 @@ const Jumbotron = () => {
     <div className="jumbotron center-vh">
       <h1 className="display-4">Welcome</h1>
       <p className="lead">
-        You come to the right place. This is where you will find the cheapest,
-        and yet with the highest quality phones ever!
+        You have come to the right place. This is where you will find the
+        cheapest, and yet with the highest quality phones ever!
       </p>
       <hr className="my-4" />
       <p></p>

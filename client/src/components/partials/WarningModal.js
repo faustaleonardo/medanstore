@@ -26,7 +26,7 @@ const WarningModal = ({ title }) => {
             </button>
           </div>
           <div className="modal-body">
-            <p>Are you sure you want to delete this?</p>
+            <p>Are you sure you want to do this?</p>
           </div>
           <div className="modal-footer">
             <button

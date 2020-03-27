@@ -8,8 +8,8 @@ const Checkout = () => {
         <input
           className="form-control mr-sm-2"
           type="search"
-          placeholder="Coupon Code"
-          aria-label="Coupon Code"
+          placeholder="Voucher Code"
+          aria-label="Voucher Code"
         />
         <button className="btn btn-success my-2 my-sm-0" type="submit">
           Apply
@@ -61,7 +61,7 @@ const Checkout = () => {
             <th>Rp. 22.000.000</th>
           </tr>
           <tr className="text-danger">
-            <th>Coupon Code Discount 10%</th>
+            <th>Voucher Code Discount 10%</th>
             <td></td>
             <td></td>
             <th>- Rp. 220.000</th>
