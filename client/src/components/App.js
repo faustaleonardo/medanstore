@@ -17,13 +17,16 @@ import ItemDetails from './item/ItemDetails';
 // order
 import Checkout from './order/Checkout';
 
+// admin manage
+import Create from './admin/items/Create';
+
 const App = () => {
   return (
     <div className="container">
       <BrowserRouter>
         <div>
           <Header />
-          <SearchBar />
+          {true === false ? <SearchBar /> : ''}
           <Route exact path="/" component={Jumbotron} />
 
           <Route exact path="/login" component={Login} />
@@ -33,6 +36,9 @@ const App = () => {
           <Route exact path="/items/1" component={ItemDetails} />
 
           <Route exact path="/checkout" component={Checkout} />
+
+          {/* admin only */}
+          <Route exact path="/admin/items/create" component={Create} />
         </div>
       </BrowserRouter>
     </div>

@@ -33,6 +33,14 @@ const Header = () => {
               <i className="fas fa-cart-arrow-down"></i> Cart
             </button>
           </li>
+          <li className="nav-item ml-2">
+            <Link
+              to="/admin/manage"
+              className="btn btn-outline-success my-2 my-sm-0"
+            >
+              Manage <span className="sr-only"></span>
+            </Link>
+          </li>
         </ul>
       </nav>
     </Fragment>

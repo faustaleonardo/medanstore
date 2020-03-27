@@ -61,16 +61,16 @@ const Checkout = () => {
             <th>Rp. 22.000.000</th>
           </tr>
           <tr className="text-danger">
-            <th>Coupon Code Discount</th>
+            <th>Coupon Code Discount 10%</th>
             <td></td>
             <td></td>
-            <th>- Rp. 200.000</th>
+            <th>- Rp. 220.000</th>
           </tr>
           <tr className="text-success">
             <th>Total</th>
             <td></td>
             <td></td>
-            <th>Rp. 21.800.000</th>
+            <th>Rp. 20.980.000</th>
           </tr>
         </tbody>
       </table>
