@@ -12,6 +12,7 @@ import Signup from './auth/Signup';
 
 // items
 import ItemList from './items/ItemList';
+import ItemDetails from './items/ItemDetails';
 
 const App = () => {
   return (
@@ -26,6 +27,7 @@ const App = () => {
           <Route exact path="/signup" component={Signup} />
 
           <Route exact path="/items" component={ItemList} />
+          <Route exact path="/items/1" component={ItemDetails} />
         </div>
       </BrowserRouter>
     </div>
