@@ -1,5 +1,6 @@
 const models = require('../database/models');
 const { sendSuccessResponse } = require('../utils/response');
+const { upload } = require('../services/upload');
 
 exports.getPictures = async ctx => {
   const itemId = ctx.params.itemId;
@@ -23,7 +24,8 @@ exports.createPicture = async ctx => {
     data.push({ itemId, path });
   }
 
-  // UPLOADING TO DIRECTORY [PENDING]
+  upload.array('phones', paths.length);
+
   const pictures = await models.Picture.bulkCreate(data, { returning: true });
   sendSuccessResponse(ctx, pictures);
 };

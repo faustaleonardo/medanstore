@@ -13,6 +13,7 @@
   "license": "ISC",
   "dependencies": {
     "@koa/cors": "^3.0.0",
+    "aws-sdk": "^2.648.0",
     "bcryptjs": "^2.4.3",
     "concurrently": "^5.1.0",
     "dotenv": "^8.2.0",
@@ -21,6 +22,8 @@
     "koa-passport": "^4.1.3",
     "koa-router": "^8.0.8",
     "koa-session": "^5.13.1",
+    "multer": "^1.4.2",
+    "multer-s3": "^2.9.0",
     "passport-local": "^1.0.0",
     "pg": "^7.18.2",
     "sequelize": "^5.21.5",
