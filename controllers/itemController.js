@@ -21,7 +21,13 @@ const acceptedFields = [
 ];
 
 exports.getItems = async ctx => {
-  const items = await models.Item.findAll();
+  const { page } = ctx.query;
+
+  const items = await models.Item.findAll({
+    order: [['id', 'ASC']],
+    offset: (page - 1) * 9,
+    limit: 9
+  });
   sendSuccessResponse(ctx, items);
 };
 
