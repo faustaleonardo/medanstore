@@ -23,7 +23,15 @@ export const AuthProvider = ({ children }) => {
   const login = async data => {
     const response = await axios.post('/api/v1/auth/login', data);
     const user = response.data.data.data;
+
     dispatch({ type: 'LOGIN', payload: user });
+  };
+
+  const signup = async data => {
+    const response = await axios.post('/api/v1/auth/signup', data);
+    const user = response.data.data.data;
+
+    dispatch({ type: 'SIGNUP', payload: user });
   };
 
   const setError = data => {
@@ -36,8 +44,9 @@ export const AuthProvider = ({ children }) => {
         auth: state.auth,
         error: state.error,
         fetchUser,
-        setError,
-        login
+        login,
+        signup,
+        setError
       }}
     >
       {children}

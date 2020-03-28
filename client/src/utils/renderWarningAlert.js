@@ -1,5 +1,4 @@
 import React from 'react';
-
-import WarningAlert from '../partials/WarningAlert';
+import WarningAlert from '../components/partials/WarningAlert';
 
 export default error => (error ? <WarningAlert content={error} /> : null);
