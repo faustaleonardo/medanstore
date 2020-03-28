@@ -4,7 +4,8 @@ import axios from 'axios';
 import authReducer from './authReducer';
 
 const initialState = {
-  auth: null
+  auth: null,
+  error: null
 };
 
 export const AuthContext = createContext(initialState);
@@ -20,11 +21,30 @@ export const AuthProvider = ({ children }) => {
   };
 
   const login = async data => {
-    const response = await axios.post('/api/v1/auth/login', data);
-    dispatch({ type: 'LOGIN', payload: response.data.data.data });
+    try {
+      const response = await axios.post('/api/v1/auth/login', data);
+      const user = response.data.data.data;
+      dispatch({ type: 'LOGIN', payload: user });
+    } catch (err) {
+      console.log(err);
+      setError(err.response.data);
+    }
   };
+
+  const setError = data => {
+    dispatch({ type: 'AUTH_ERROR', payload: data });
+  };
+
   return (
-    <Provider value={{ auth: state.auth, fetchUser, login }}>
+    <Provider
+      value={{
+        auth: state.auth,
+        error: state.error,
+        fetchUser,
+        setError,
+        login
+      }}
+    >
       {children}
     </Provider>
   );

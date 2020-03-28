@@ -5,6 +5,8 @@ export default (state, action) => {
       return { ...state, auth: payload || false };
     case 'LOGIN':
       return { ...state, auth: payload || false };
+    case 'AUTH_ERROR':
+      return { ...state, error: payload };
     default:
       return state;
   }

@@ -1,23 +1,38 @@
 import React, { useState, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
+import WarningAlert from '../partials/WarningAlert';
 import { AuthContext } from '../../context/auth/authState';
 
 const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const history = useHistory();
-  const { login } = useContext(AuthContext);
+  const { login, setError, error } = useContext(AuthContext);
 
-  const handleSubmit = event => {
+  const handleSubmit = async event => {
     event.preventDefault();
 
-    login({ username, password });
+    if (!username && !password) {
+      return setError('Username and password must be filled!');
+    }
 
-    history.push('/');
+    await login({ username, password });
+    setUsername('');
+    setPassword('');
+
+    // if (error === null) history.push('/');
+  };
+
+  const renderWarning = () => {
+    if (error) {
+      return <WarningAlert content={error} />;
+    }
+    return null;
   };
 
   return (
     <div className="center-vh auth-section">
+      {renderWarning()}
       <div className="card">
         <div className="card-header">Welcome back!</div>
         <div className="card-body">
