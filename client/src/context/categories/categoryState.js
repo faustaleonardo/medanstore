@@ -37,6 +37,12 @@ export const CategoryProvider = ({ children }) => {
     dispatch({ type: 'UPDATE_CATEGORY', payload: category });
   };
 
+  const deleteCategory = async id => {
+    await axios.delete(`/api/v1/categories/${id}`);
+
+    dispatch({ type: 'DELETE_CATEGORY', payload: id });
+  };
+
   const setError = data => {
     dispatch({ type: 'CATEGORY_ERROR', payload: data });
   };
@@ -50,6 +56,7 @@ export const CategoryProvider = ({ children }) => {
         getCategories,
         addCategory,
         updateCategory,
+        deleteCategory,
         setError
       }}
     >

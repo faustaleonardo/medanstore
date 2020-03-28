@@ -1,11 +1,14 @@
-import React, { Fragment, useContext, useEffect } from 'react';
+import React, { Fragment, useState, useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 import { CategoryContext } from '../../../context/categories/categoryState';
 import WarningModal from '../../partials/WarningModal';
 
 const Category = () => {
-  const { categories, getCategories, isLoading } = useContext(CategoryContext);
+  const { categories, getCategories, deleteCategory, isLoading } = useContext(
+    CategoryContext
+  );
+  const [id, setId] = useState(null);
 
   useEffect(() => {
     getCategories();
@@ -30,6 +33,7 @@ const Category = () => {
               className="btn btn-outline-danger"
               data-toggle="modal"
               data-target="#warningModal"
+              onClick={() => setId(category.id)}
             >
               Delete
             </button>
@@ -67,7 +71,8 @@ const Category = () => {
 
   return (
     <Fragment>
-      <WarningModal title="Delete a Category" />
+      <WarningModal title="Delete a Category" id={id} action={deleteCategory} />
+
       <div className="clearfix mt-5 mb-3">
         <div className="float-left">
           <h4>Category</h4>

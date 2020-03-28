@@ -1,6 +1,10 @@
 import React from 'react';
 
-const WarningModal = ({ title }) => {
+const WarningModal = ({ title, id, action }) => {
+  const handleSubmit = async () => {
+    await action(id);
+  };
+
   return (
     <div
       className="modal fade"
@@ -36,9 +40,11 @@ const WarningModal = ({ title }) => {
             >
               Close
             </button>
-            <button type="button" className="btn btn-danger">
-              Confirm
-            </button>
+            <form onSubmit={handleSubmit}>
+              <button type="submit" className="btn btn-danger">
+                Confirm
+              </button>
+            </form>
           </div>
         </div>
       </div>
