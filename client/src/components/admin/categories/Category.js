@@ -14,7 +14,7 @@ const Category = () => {
   const renderContent = () => {
     return categories.map(category => {
       return (
-        <tr>
+        <tr key={category.id}>
           <td>{category.id}</td>
           <td>{category.value}</td>
           <td className="text-center">
@@ -77,8 +77,8 @@ const Category = () => {
             New Category
           </Link>
         </div>
-        {render()}
       </div>
+      {render()}
     </Fragment>
   );
 };

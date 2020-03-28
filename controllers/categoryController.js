@@ -3,7 +3,7 @@ const models = require('../database/models');
 const { sendSuccessResponse } = require('../utils/response');
 
 exports.getCategories = async ctx => {
-  const categories = await models.Category.findAll();
+  const categories = await models.Category.findAll({ order: [['id', 'ASC']] });
   sendSuccessResponse(ctx, categories);
 };
 
@@ -31,7 +31,10 @@ exports.updateCategory = async ctx => {
   const { id } = ctx.params;
   const { value } = ctx.request.body;
 
-  const category = await models.Category.findByPk(id);
+  let category = await models.Category.findOne({ where: { value } });
+  if (category) ctx.throw(401, `The ${value} category has existed!`);
+
+  category = await models.Category.findByPk(id);
   if (!category) ctx.throw(404, `Category not found`);
 
   category.value = value;

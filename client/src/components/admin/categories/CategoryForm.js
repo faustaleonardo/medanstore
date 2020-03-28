@@ -1,19 +1,47 @@
-import React, { useState, useContext } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useContext, useEffect } from 'react';
+import { Link, useHistory, useParams } from 'react-router-dom';
+import axios from 'axios';
 
-// import {CategoryContext} from '../../../context/categories/categoryState';
+import { CategoryContext } from '../../../context/categories/categoryState';
+import renderWarningAlert from '../../../utils/renderWarningAlert';
 
 const CategoryForm = ({ title, buttonName }) => {
   const [value, setValue] = useState('');
-  // const {getCategories} = useContext(CategoryContext);
+  const { addCategory, updateCategory, setError, error } = useContext(
+    CategoryContext
+  );
+  const history = useHistory();
+  const { id } = useParams();
 
-  const handleSubmit = event => {
-    event.PreventDefault();
+  useEffect(() => {
+    setError(null);
+
+    // update category
+    const fetchCategory = async () => {
+      const response = await axios.get(`/api/v1/categories/${id}`);
+      const category = response.data.data.data;
+      setValue(category.value);
+    };
+    if (id) fetchCategory();
+  }, []);
+
+  const handleSubmit = async event => {
+    event.preventDefault();
+    if (!value) return setError('Value must be filled');
+
+    try {
+      if (!id) await addCategory({ value });
+      else await updateCategory(id, { value });
+      history.push('/admin/categories');
+    } catch (err) {
+      setError(err.response.data);
+    }
   };
 
   return (
     <div className="row mt-5">
       <div className="col-sm-8 offset-sm-2">
+        {renderWarningAlert(error)}
         <div className="card">
           <div className="card-header">{title}</div>
           <div className="card-body">

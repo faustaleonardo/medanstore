@@ -23,6 +23,20 @@ export const CategoryProvider = ({ children }) => {
     dispatch({ type: 'GET_CATEGORIES', payload: categories });
   };
 
+  const addCategory = async data => {
+    const response = await axios.post('/api/v1/categories', data);
+    const category = response.data.data.data;
+
+    dispatch({ type: 'ADD_CATEGORY', payload: category });
+  };
+
+  const updateCategory = async (id, data) => {
+    const response = await axios.patch(`/api/v1/categories/${id}`, data);
+    const category = response.data.data.data;
+
+    dispatch({ type: 'UPDATE_CATEGORY', payload: category });
+  };
+
   const setError = data => {
     dispatch({ type: 'CATEGORY_ERROR', payload: data });
   };
@@ -34,6 +48,8 @@ export const CategoryProvider = ({ children }) => {
         error: state.error,
         isLoading: state.isLoading,
         getCategories,
+        addCategory,
+        updateCategory,
         setError
       }}
     >
