@@ -229,7 +229,7 @@ module.exports = {
           description:
             'Xiaomi Poco X2 comes with the protection of Corning Gorilla Glass 5 along with HDR10, 500 nits typ. brightness, and 120Hz. The dimension of the smartphone is 165.3 x 76.6 x 8.8 mm and it weighs 208 grams. The device supports Hybrid Dual SIM and runs on the Android 10.0 + MIUI 11 operating system.',
           stock: 10,
-          condition: 'used',
+          condition: 'Used',
           cpu:
             'Octa-core (2x2.2 GHz Kryo 470 Gold & 6x1.8 GHz Kryo 470 Silver)',
           display: 'IPS LCD capacitive touchscreen, 16M colors',
@@ -251,7 +251,7 @@ module.exports = {
           description:
             "The Oppo Reno 3 Pro emphasizes camera performance over gaming performance, which is good for those who aren't into mobile gaming and instead like to capture and share life's precious moments using their smartphone.",
           stock: 100,
-          condition: 'new',
+          condition: 'New',
           cpu:
             'Octa-core (1x2.4 GHz Kryo 475 Prime & 1x2.2 GHz Kryo 475 Gold & 6x1.8 GHz Kryo 475 Silver)',
           display:
@@ -274,7 +274,7 @@ module.exports = {
           description:
             'Oppo Find X2 smartphone was launched on 6th March 2020. The phone comes with a 6.70-inch touchscreen display with a resolution of 1440x3168 pixels. Oppo Find X2 is powered by a 2.84GHz octa-core Qualcomm Snapdragon 865 processor. The Oppo Find X2 supports Super VOOC fast charging.',
           stock: 10,
-          condition: 'new',
+          condition: 'New',
           cpu:
             'Octa-core (1x2.84 GHz Kryo 585 & 3x2.42 GHz Kryo 585 & 4x1.8 GHz Kryo 585)',
           display:

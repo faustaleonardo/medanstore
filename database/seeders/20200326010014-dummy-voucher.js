@@ -11,21 +11,21 @@ module.exports = {
         {
           discount: 10,
           expiredTime: fiveDaysFromToday,
-          code: 'happy-10',
+          code: 'happy10',
           createdAt: new Date(),
           updatedAt: new Date()
         },
         {
           discount: 20,
           expiredTime: fiveDaysFromToday,
-          code: 'nice-20',
+          code: 'nice20',
           createdAt: new Date(),
           updatedAt: new Date()
         },
         {
           discount: 30,
           expiredTime: fiveDaysFromToday,
-          code: 'huge-30',
+          code: 'huge30',
           createdAt: new Date(),
           updatedAt: new Date()
         }

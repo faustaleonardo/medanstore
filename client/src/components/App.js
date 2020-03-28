@@ -4,6 +4,7 @@ import { BrowserRouter, Route } from 'react-router-dom';
 import { AuthContext } from '../context/auth/authState';
 import { CategoryProvider } from '../context/categories/categoryState';
 import { ItemProvider } from '../context/items/itemState';
+import { VoucherProvider } from '../context/vouchers/voucherState';
 
 // partials
 import Header from './partials/Header';
@@ -108,29 +109,31 @@ const App = () => {
             />
           </ItemProvider>
 
-          <Route exact path="/admin/vouchers" component={Voucher} />
-          <Route
-            exact
-            path="/admin/vouchers/create"
-            render={props => (
-              <VoucherForm
-                {...props}
-                title="Create a Voucher"
-                buttonName="Create"
-              />
-            )}
-          />
-          <Route
-            exact
-            path="/admin/vouchers/1/update"
-            render={props => (
-              <VoucherForm
-                {...props}
-                title="Update the Voucher"
-                buttonName="Update"
-              />
-            )}
-          />
+          <VoucherProvider>
+            <Route exact path="/admin/vouchers" component={Voucher} />
+            <Route
+              exact
+              path="/admin/vouchers/create"
+              render={props => (
+                <VoucherForm
+                  {...props}
+                  title="Create a Voucher"
+                  buttonName="Create"
+                />
+              )}
+            />
+            <Route
+              exact
+              path="/admin/vouchers/1/update"
+              render={props => (
+                <VoucherForm
+                  {...props}
+                  title="Update the Voucher"
+                  buttonName="Update"
+                />
+              )}
+            />
+          </VoucherProvider>
         </div>
       </BrowserRouter>
     </div>
