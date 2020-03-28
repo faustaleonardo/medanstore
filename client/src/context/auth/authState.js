@@ -19,7 +19,13 @@ export const AuthProvider = ({ children }) => {
     dispatch({ type: 'FETCH_USER', payload: response.data.data.data });
   };
 
+  const login = async data => {
+    const response = await axios.post('/api/v1/auth/login', data);
+    dispatch({ type: 'LOGIN', payload: response.data.data.data });
+  };
   return (
-    <Provider value={{ auth: state.auth, fetchUser }}>{children}</Provider>
+    <Provider value={{ auth: state.auth, fetchUser, login }}>
+      {children}
+    </Provider>
   );
 };
