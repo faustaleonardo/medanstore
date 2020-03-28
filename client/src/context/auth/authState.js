@@ -21,14 +21,9 @@ export const AuthProvider = ({ children }) => {
   };
 
   const login = async data => {
-    try {
-      const response = await axios.post('/api/v1/auth/login', data);
-      const user = response.data.data.data;
-      dispatch({ type: 'LOGIN', payload: user });
-    } catch (err) {
-      console.log(err);
-      setError(err.response.data);
-    }
+    const response = await axios.post('/api/v1/auth/login', data);
+    const user = response.data.data.data;
+    dispatch({ type: 'LOGIN', payload: user });
   };
 
   const setError = data => {
