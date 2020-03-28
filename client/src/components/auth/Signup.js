@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { AuthContext } from '../../context/auth/authState';
 
@@ -13,6 +13,10 @@ const Signup = () => {
 
   const history = useHistory();
   const { signup, setError, error } = useContext(AuthContext);
+
+  useEffect(() => {
+    setError(null);
+  }, []);
 
   const resetField = () => {
     setUsername('');

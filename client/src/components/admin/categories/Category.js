@@ -1,23 +1,56 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
+import { CategoryContext } from '../../../context/categories/categoryState';
 import WarningModal from '../../partials/WarningModal';
 
 const Category = () => {
-  return (
-    <Fragment>
-      <WarningModal title="Delete a Category" />
+  const { categories, getCategories, isLoading } = useContext(CategoryContext);
 
-      <div className="clearfix mt-5 mb-3">
-        <div className="float-left">
-          <h4>Category</h4>
+  useEffect(() => {
+    getCategories();
+  }, []);
+
+  const renderContent = () => {
+    return categories.map(category => {
+      return (
+        <tr>
+          <td>{category.id}</td>
+          <td>{category.value}</td>
+          <td className="text-center">
+            <Link
+              to={'/admin/categories/' + category.id + '/update'}
+              className="btn btn-outline-success"
+            >
+              Update
+            </Link>
+          </td>
+          <td className="text-center">
+            <button
+              className="btn btn-outline-danger"
+              data-toggle="modal"
+              data-target="#warningModal"
+            >
+              Delete
+            </button>
+          </td>
+        </tr>
+      );
+    });
+  };
+
+  const render = () => {
+    if (isLoading) return null;
+
+    if (!categories.length) {
+      return (
+        <div className="center-vh">
+          <h3>No record yet :(</h3>
         </div>
-        <div className="float-right">
-          <Link to="/admin/categories/create" className="btn btn-success">
-            New Category
-          </Link>
-        </div>
-      </div>
+      );
+    }
+
+    return (
       <table className="table table-bordered table-hover">
         <thead>
           <tr className="text-uppercase">
@@ -27,114 +60,25 @@ const Category = () => {
             <th className="text-center">Delete</th>
           </tr>
         </thead>
-        <tbody>
-          <tr>
-            <td>1</td>
-            <td>Samsung</td>
-            <td className="text-center">
-              <Link
-                to="/admin/categories/1/update"
-                className="btn btn-outline-success"
-              >
-                Update
-              </Link>
-            </td>
-            <td className="text-center">
-              <button
-                className="btn btn-outline-danger"
-                data-toggle="modal"
-                data-target="#warningModal"
-              >
-                Delete
-              </button>
-            </td>
-          </tr>
-          <tr>
-            <td>2</td>
-            <td>Huawei</td>
-            <td className="text-center">
-              <Link
-                to="/admin/categories/1/update"
-                className="btn btn-outline-success"
-              >
-                Update
-              </Link>
-            </td>
-            <td className="text-center">
-              <button
-                className="btn btn-outline-danger"
-                data-toggle="modal"
-                data-target="#warningModal"
-              >
-                Delete
-              </button>
-            </td>
-          </tr>
-          <tr>
-            <td>3</td>
-            <td>Apple</td>
-            <td className="text-center">
-              <Link
-                to="/admin/categories/1/update"
-                className="btn btn-outline-success"
-              >
-                Update
-              </Link>
-            </td>
-            <td className="text-center">
-              <button
-                className="btn btn-outline-danger"
-                data-toggle="modal"
-                data-target="#warningModal"
-              >
-                Delete
-              </button>
-            </td>
-          </tr>
-          <tr>
-            <td>4</td>
-            <td>Xiaomi</td>
-            <td className="text-center">
-              <Link
-                to="/admin/categories/1/update"
-                className="btn btn-outline-success"
-              >
-                Update
-              </Link>
-            </td>
-            <td className="text-center">
-              <button
-                className="btn btn-outline-danger"
-                data-toggle="modal"
-                data-target="#warningModal"
-              >
-                Delete
-              </button>
-            </td>
-          </tr>
-          <tr>
-            <td>5</td>
-            <td>Oppo</td>
-            <td className="text-center">
-              <Link
-                to="/admin/categories/1/update"
-                className="btn btn-outline-success"
-              >
-                Update
-              </Link>
-            </td>
-            <td className="text-center">
-              <button
-                className="btn btn-outline-danger"
-                data-toggle="modal"
-                data-target="#warningModal"
-              >
-                Delete
-              </button>
-            </td>
-          </tr>
-        </tbody>
+        <tbody>{renderContent()}</tbody>
       </table>
+    );
+  };
+
+  return (
+    <Fragment>
+      <WarningModal title="Delete a Category" />
+      <div className="clearfix mt-5 mb-3">
+        <div className="float-left">
+          <h4>Category</h4>
+        </div>
+        <div className="float-right">
+          <Link to="/admin/categories/create" className="btn btn-success">
+            New Category
+          </Link>
+        </div>
+        {render()}
+      </div>
     </Fragment>
   );
 };

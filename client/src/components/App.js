@@ -2,6 +2,7 @@ import React, { useEffect, useContext } from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
 
 import { AuthContext } from '../context/auth/authState';
+import { CategoryProvider } from '../context/categories/categoryState';
 
 // partials
 import Header from './partials/Header';
@@ -54,29 +55,31 @@ const App = () => {
           <Route exact path="/orders" component={Order} />
 
           {/* admin only */}
-          <Route exact path="/admin/categories" component={Category} />
-          <Route
-            exact
-            path="/admin/categories/create"
-            render={props => (
-              <CategoryForm
-                {...props}
-                title="Create a Category"
-                buttonName="Create"
-              />
-            )}
-          />
-          <Route
-            exact
-            path="/admin/categories/1/update"
-            render={props => (
-              <CategoryForm
-                {...props}
-                title="Update the Category"
-                buttonName="Update"
-              />
-            )}
-          />
+          <CategoryProvider>
+            <Route exact path="/admin/categories" component={Category} />
+            <Route
+              exact
+              path="/admin/categories/create"
+              render={props => (
+                <CategoryForm
+                  {...props}
+                  title="Create a Category"
+                  buttonName="Create"
+                />
+              )}
+            />
+            <Route
+              exact
+              path="/admin/categories/:id/update"
+              render={props => (
+                <CategoryForm
+                  {...props}
+                  title="Update the Category"
+                  buttonName="Update"
+                />
+              )}
+            />
+          </CategoryProvider>
 
           <Route exact path="/admin/items" component={Item} />
           <Route

@@ -1,16 +1,21 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { AuthContext } from '../../context/auth/authState';
 
-const Header = () => {
-  return (
-    <form>
-      <input
-        className="form-control"
-        type="search"
-        placeholder="Search"
-        aria-label="Search"
-      />
-    </form>
-  );
+const SearchBar = () => {
+  const { auth } = useContext(AuthContext);
+  if (auth === false || (auth && auth.roleId === 2)) {
+    return (
+      <form>
+        <input
+          className="form-control"
+          type="search"
+          placeholder="Search"
+          aria-label="Search"
+        />
+      </form>
+    );
+  }
+  return null;
 };
 
-export default Header;
+export default SearchBar;
