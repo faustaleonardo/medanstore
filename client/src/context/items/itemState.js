@@ -16,8 +16,8 @@ export const ItemProvider = ({ children }) => {
   const [state, dispatch] = useReducer(itemReducer, initialState);
 
   // actions
-  const getItems = async () => {
-    const response = await axios.get('/api/v1/items');
+  const getItems = async page => {
+    const response = await axios.get(`/api/v1/items?page=${page}`);
     const items = response.data.data.data;
 
     dispatch({ type: 'GET_ITEMS', payload: items });
