@@ -9,6 +9,7 @@ module.exports = (sequelize, DataTypes) => {
       stock: DataTypes.INTEGER,
       condition: DataTypes.STRING,
       cpu: DataTypes.STRING,
+      storage: DataTypes.STRING,
       display: DataTypes.TEXT,
       ram: DataTypes.STRING,
       battery: DataTypes.STRING,

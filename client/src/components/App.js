@@ -3,6 +3,7 @@ import { BrowserRouter, Route } from 'react-router-dom';
 
 import { AuthContext } from '../context/auth/authState';
 import { CategoryProvider } from '../context/categories/categoryState';
+import { ItemProvider } from '../context/items/itemState';
 
 // partials
 import Header from './partials/Header';
@@ -81,25 +82,31 @@ const App = () => {
             />
           </CategoryProvider>
 
-          <Route exact path="/admin/items" component={Item} />
-          <Route
-            exact
-            path="/admin/items/create"
-            render={props => (
-              <ItemForm {...props} title="Create an Item" buttonName="Create" />
-            )}
-          />
-          <Route
-            exact
-            path="/admin/items/1/update"
-            render={props => (
-              <ItemForm
-                {...props}
-                title="Update the Item"
-                buttonName="Update"
-              />
-            )}
-          />
+          <ItemProvider>
+            <Route exact path="/admin/items" component={Item} />
+            <Route
+              exact
+              path="/admin/items/create"
+              render={props => (
+                <ItemForm
+                  {...props}
+                  title="Create an Item"
+                  buttonName="Create"
+                />
+              )}
+            />
+            <Route
+              exact
+              path="/admin/items/1/update"
+              render={props => (
+                <ItemForm
+                  {...props}
+                  title="Update the Item"
+                  buttonName="Update"
+                />
+              )}
+            />
+          </ItemProvider>
 
           <Route exact path="/admin/vouchers" component={Voucher} />
           <Route

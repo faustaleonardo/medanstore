@@ -1,41 +1,52 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useState, useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
+import { ItemContext } from '../../../context/items/itemState';
 import Pagination from '../../partials/Pagination';
 import WarningModal from '../../partials/WarningModal';
-
-const renderContent = () => {
-  return [...new Array(10)].map(_ => {
-    return (
-      <tr>
-        <td>1</td>
-        <td>Samsung</td>
-        <td>Rp. 9.000.000</td>
-        <td>100</td>
-        <td>New</td>
-        <td>8GB</td>
-        <td>128GB</td>
-        <td>Samsung</td>
-        <td className="text-center">
-          <Link to="/admin/items/1/update" className="btn btn-outline-success">
-            Update
-          </Link>
-        </td>
-        <td className="text-center">
-          <button
-            className="btn btn-outline-danger"
-            data-toggle="modal"
-            data-target="#warningModal"
-          >
-            Delete
-          </button>
-        </td>
-      </tr>
-    );
-  });
-};
+import formatCurrency from '../../../utils/formatCurrency';
 
 const Item = () => {
+  const { items, getItems, deleteItem, isLoading } = useContext(ItemContext);
+  const [id, setId] = useState(null);
+
+  useEffect(() => {
+    getItems();
+  }, []);
+
+  const renderContent = () => {
+    return items.map(item => {
+      return (
+        <tr key={item.id}>
+          <td>{item.id}</td>
+          <td>{item.name}</td>
+          <td>{formatCurrency(item.price)}</td>
+          <td>{item.stock}</td>
+          <td>{item.condition}</td>
+          <td>{item.ram}</td>
+          <td>{item.storage}</td>
+          <td className="text-center">
+            <Link
+              to={'/admin/items/' + item.id + '/update'}
+              className="btn btn-outline-success"
+            >
+              Update
+            </Link>
+          </td>
+          <td className="text-center">
+            <button
+              className="btn btn-outline-danger"
+              data-toggle="modal"
+              data-target="#warningModal"
+            >
+              Delete
+            </button>
+          </td>
+        </tr>
+      );
+    });
+  };
+
   return (
     <Fragment>
       <WarningModal title="Delete an Item" />
@@ -60,7 +71,6 @@ const Item = () => {
             <th>Condition</th>
             <th>RAM</th>
             <th>Storage</th>
-            <th>Category</th>
             <th className="text-center">Update</th>
             <th className="text-center">Delete</th>
           </tr>
