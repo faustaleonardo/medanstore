@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 
 import { VoucherContext } from '../../../context/vouchers/voucherState';
 import WarningModal from '../../partials/WarningModal';
+import formatDate from '../../../utils/formatDate';
 
 const Voucher = () => {
   const { vouchers, getVouchers, deleteVoucher, isLoading } = useContext(
@@ -17,14 +18,14 @@ const Voucher = () => {
   const renderContent = () => {
     return vouchers.map(voucher => {
       return (
-        <tr>
+        <tr key={voucher.id}>
           <td>{voucher.id}</td>
           <td>{voucher.code}</td>
           <td className="text-center">{voucher.discount}%</td>
-          <td>{voucher.expiredTime}</td>
+          <td>{formatDate(voucher.expiredTime)}</td>
           <td className="text-center">
             <Link
-              to="/admin/vouchers/1/update"
+              to={'/admin/vouchers/' + voucher.id + '/update'}
               className="btn btn-outline-success"
             >
               Update
@@ -35,6 +36,9 @@ const Voucher = () => {
               className="btn btn-outline-danger"
               data-toggle="modal"
               data-target="#warningModal"
+              onClick={() => {
+                setId(voucher.id);
+              }}
             >
               Delete
             </button>
@@ -44,20 +48,18 @@ const Voucher = () => {
     });
   };
 
-  return (
-    <Fragment>
-      <WarningModal title="Delete a Voucher" />
+  const render = () => {
+    if (isLoading) return null;
 
-      <div className="clearfix mt-5 mb-3">
-        <div className="float-left">
-          <h4>Voucher</h4>
+    if (!vouchers.length) {
+      return (
+        <div className="center-vh">
+          <h3>No record yet :(</h3>
         </div>
-        <div className="float-right">
-          <Link to="/admin/vouchers/create" className="btn btn-success">
-            New Voucher
-          </Link>
-        </div>
-      </div>
+      );
+    }
+
+    return (
       <table className="table table-bordered table-hover">
         <thead>
           <tr className="text-uppercase">
@@ -71,6 +73,24 @@ const Voucher = () => {
         </thead>
         <tbody>{renderContent()}</tbody>
       </table>
+    );
+  };
+
+  return (
+    <Fragment>
+      <WarningModal title="Delete a Voucher" id={id} action={deleteVoucher} />
+
+      <div className="clearfix mt-5 mb-3">
+        <div className="float-left">
+          <h4>Voucher</h4>
+        </div>
+        <div className="float-right">
+          <Link to="/admin/vouchers/create" className="btn btn-success">
+            New Voucher
+          </Link>
+        </div>
+      </div>
+      {render()}
     </Fragment>
   );
 };

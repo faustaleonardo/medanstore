@@ -34,7 +34,14 @@ exports.createVoucher = async ctx => {
 
 exports.updateVoucher = async ctx => {
   const { id } = ctx.params;
+  const { code } = ctx.request.body;
+
+  const voucherByCode = await models.Voucher.findOne({ where: { code } });
   const voucher = await models.Voucher.findByPk(id);
+  if (voucherByCode && voucher.code !== code) {
+    ctx.throw(401, `The ${code} voucher has existed!`);
+  }
+
   if (!voucher) ctx.throw(404, `Voucher not found`);
 
   const filteredBody = filterFields(ctx.request.body, acceptedFields);

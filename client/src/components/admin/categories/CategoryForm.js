@@ -42,6 +42,7 @@ const CategoryForm = ({ title, buttonName }) => {
     <div className="row mt-5">
       <div className="col-sm-8 offset-sm-2">
         {renderWarningAlert(error)}
+
         <div className="card">
           <div className="card-header">{title}</div>
           <div className="card-body">

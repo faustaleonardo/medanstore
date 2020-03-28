@@ -124,7 +124,7 @@ const App = () => {
             />
             <Route
               exact
-              path="/admin/vouchers/1/update"
+              path="/admin/vouchers/:id/update"
               render={props => (
                 <VoucherForm
                   {...props}
