@@ -16,6 +16,7 @@ module.exports = (sequelize, DataTypes) => {
       rearCamera: DataTypes.TEXT,
       frontCamera: DataTypes.STRING,
       os: DataTypes.STRING,
+      network: DataTypes.STRING,
       categoryId: DataTypes.INTEGER
     },
     {}

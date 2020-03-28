@@ -98,7 +98,7 @@ const App = () => {
             />
             <Route
               exact
-              path="/admin/items/1/update"
+              path="/admin/items/:id/update"
               render={props => (
                 <ItemForm
                   {...props}

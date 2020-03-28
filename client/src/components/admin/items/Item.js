@@ -114,7 +114,6 @@ const Item = () => {
         <tbody>{renderContent()}</tbody>
       </table>
       {renderPaginate()}
-      {/* <Pagination page={page} /> */}
     </Fragment>
   );
 };

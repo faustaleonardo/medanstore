@@ -31,7 +31,7 @@ const VoucherForm = ({ title, buttonName }) => {
 
   const handleSubmit = async event => {
     event.preventDefault();
-    if (discount <= 0) return setError('Discount must be greater than 0');
+    if (discount <= 0) return setError('Discount must be greater than zero');
     if (discount > 100)
       return setError('Discount must not be greater than 100');
 
