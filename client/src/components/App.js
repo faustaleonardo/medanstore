@@ -52,7 +52,7 @@ const App = () => {
 
           <ItemProvider>
             <Route exact path="/items" component={ItemList} />
-            <Route exact path="/items/1" component={ItemDetails} />
+            <Route exact path="/items/:id" component={ItemDetails} />
           </ItemProvider>
 
           <Route exact path="/checkout" component={Checkout} />

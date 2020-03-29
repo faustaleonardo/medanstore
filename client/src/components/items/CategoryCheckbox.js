@@ -1,17 +1,29 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
 const CategoryCheckbox = () => {
-  return [...new Array(4)].map(_ => {
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      const response = await axios.get('/api/v1/categories');
+      const result = response.data.data.data;
+      setCategories(result);
+    };
+    fetchCategories();
+  }, []);
+
+  return categories.map(category => {
     return (
-      <div className="form-check form-check-inline">
+      <div className="form-check form-check-inline" key={category.id}>
         <input
           className="form-check-input"
           type="checkbox"
           id="category"
-          defaultValue="1"
+          value={category.id}
         />
         <label className="form-check-label" htmlFor="Category">
-          Samsung
+          {category.value}
         </label>
       </div>
     );

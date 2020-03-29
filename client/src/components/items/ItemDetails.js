@@ -1,17 +1,51 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import formatCurrency from '../../utils/formatCurrency';
+
+import axios from 'axios';
 
 import ItemCarousel from './ItemCarousel';
 
 const ItemDetails = () => {
+  const [item, setItem] = useState(null);
+  const [category, setCategory] = useState('');
+  const [pictures, setPictures] = useState([]);
+
+  const { id } = useParams();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      // fetch item
+      let response = await axios.get(`/api/v1/items/${id}`);
+      const fetchedItem = response.data.data.data;
+      setItem(fetchedItem);
+
+      // fetch category
+      response = await axios.get(
+        `/api/v1/categories/${fetchedItem.categoryId}`
+      );
+      const fetchedCategory = response.data.data.data;
+      setCategory(fetchedCategory.value);
+
+      // fetch pictures
+      response = await axios.get(`/api/v1/pictures/items/${fetchedItem.id}`);
+      const fetchedPictures = response.data.data.data;
+      setPictures(fetchedPictures);
+    };
+    fetchData();
+  }, []);
+
+  if (!item || !category || !pictures.length) return null;
+
   return (
     <div className="mt-5">
       <div className="row">
         <div className="col-sm-5 offset-sm-1">
-          <ItemCarousel />
+          <ItemCarousel pictures={pictures} />
         </div>
         <div className="col-sm-5 text-center">
-          <h2 className="mt-5 mb-4">Samsung S10 Plus</h2>
-          <h1 className="text-success mb-5">Rp. 11.000.000,-</h1>
+          <h2 className="mt-5 mb-4">{item.name}</h2>
+          <h1 className="text-success mb-5">{formatCurrency(item.price)}</h1>
           <button className="btn btn-success">Add to cart</button>
         </div>
       </div>
@@ -22,19 +56,15 @@ const ItemDetails = () => {
             <tbody>
               <tr>
                 <th>Category</th>
-                <td>Samsung</td>
+                <td>{category}</td>
               </tr>
               <tr>
                 <th>Description</th>
-                <td>
-                  1 New Samsung S10 Plus 128 GB / 256 GB / 1 TB. Phone comes in
-                  box Charging Adapter, headphones and charging cable. Also
-                  included is remaining warranty from Samsung.
-                </td>
+                <td>{item.description}</td>
               </tr>
               <tr>
                 <th>Stock</th>
-                <td>100</td>
+                <td>{item.stock}</td>
               </tr>
               <tr>
                 <th>Condition</th>
@@ -42,48 +72,39 @@ const ItemDetails = () => {
               </tr>
               <tr>
                 <th>CPU</th>
-                <td>
-                  Exynos: Octa-core (2x2.73 GHz Mongoose-M4, 2x2.31 GHz
-                  Cortex-A75 and 4x1.95 GHz Cortex-A55)
-                </td>
+                <td>{item.cpu}</td>
               </tr>
               <tr>
                 <th>Display</th>
-                <td>
-                  3040×1440 (2280×1080 for S10e) 1440p Dynamic AMOLED capacitive
-                  touchscreen Gorilla Glass 6
-                </td>
+                <td>{item.display}</td>
               </tr>
               <tr>
                 <th>RAM</th>
-                <td>8GB</td>
+                <td>{item.ram}</td>
               </tr>
               <tr>
                 <th>Storage</th>
-                <td>128GB</td>
+                <td>{item.storage}</td>
               </tr>
               <tr>
                 <th>Battery</th>
-                <td>4100 mAh</td>
+                <td>{item.battery}</td>
               </tr>
               <tr>
                 <th>Rear Camera</th>
-                <td>
-                  12MP Telephoto Camera OIS + 12MP Wide-angle Camera OIS + 16MP
-                  Ultra Wide Camera
-                </td>
+                <td>{item.rearCamera}</td>
               </tr>
               <tr>
                 <th>Front Camera</th>
-                <td>10MP Front + 8MP Depth Camera</td>
+                <td>{item.frontCamera}</td>
               </tr>
               <tr>
                 <th>Operating System</th>
-                <td>Android 10.0 with One UI 2</td>
+                <td>{item.os}</td>
               </tr>
               <tr>
                 <th>Network</th>
-                <td>2G, 3G, 4G, 4G LTE, 5G</td>
+                <td>{item.network}</td>
               </tr>
             </tbody>
           </table>

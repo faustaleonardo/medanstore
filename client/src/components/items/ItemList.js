@@ -29,7 +29,7 @@ const ItemList = () => {
   const renderContent = () => {
     return items.map(item => {
       return (
-        <div className="col mb-5 text-center">
+        <div className="col mb-5 text-center" key={item.id}>
           <div className="card item-card">
             <Link to={'/items/' + item.id}>
               <img
@@ -40,7 +40,7 @@ const ItemList = () => {
             </Link>
             <div className="card-body">
               <h5 className="card-title">{item.name}</h5>
-              <p className="card-text item-price">
+              <p className="card-text text-success item-price">
                 {formatCurrency(item.price)}
               </p>
               <button className="btn btn-success">Add to cart</button>
@@ -89,7 +89,7 @@ const ItemList = () => {
       <div>
         <CategoryCheckbox />
       </div>
-      <div className="row row-cols-1 row-cols-md-3 mt-3">{renderContent()}</div>
+      <div className="row row-cols-1 row-cols-md-3 mt-5">{renderContent()}</div>
       {renderPaginate()}
     </div>
   );

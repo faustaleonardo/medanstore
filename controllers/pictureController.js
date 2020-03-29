@@ -24,7 +24,10 @@ exports.getPictures = async ctx => {
   const item = await models.Item.findByPk(itemId);
   if (!item) ctx.throw(404, `Item not found`);
 
-  const pictures = await models.Picture.findAll({ where: { itemId } });
+  const pictures = await models.Picture.findAll({
+    where: { itemId },
+    order: [['path', 'DESC']]
+  });
 
   sendSuccessResponse(ctx, pictures);
 };
