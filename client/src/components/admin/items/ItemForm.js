@@ -7,7 +7,7 @@ import renderWarningAlert from '../../../utils/renderWarningAlert';
 import WarningModal from '../../partials/WarningModal';
 
 const ItemForm = ({ title, buttonName }) => {
-  /** ---------------------------------------------- */
+  /** -----------start: set local state--------- */
   const [name, setName] = useState('');
   const [price, setPrice] = useState(0);
   const [images, setImages] = useState('');
@@ -28,7 +28,7 @@ const ItemForm = ({ title, buttonName }) => {
 
   const [categories, setCategories] = useState([]);
   const [pictures, setPictures] = useState([]);
-  /** ---------------------------------------------- */
+  /** -----------end: set local state--------- */
 
   const { addItem, updateItem, setError, error } = useContext(ItemContext);
   const history = useHistory();
@@ -44,7 +44,7 @@ const ItemForm = ({ title, buttonName }) => {
     };
     fetchCategories();
 
-    // update item
+    /** -----------start: fetching data for updating item--------- */
     const fetchPictures = async () => {
       const response = await axios.get(`/api/v1/pictures/items/${id}`);
       const result = response.data.data.data;
@@ -55,7 +55,6 @@ const ItemForm = ({ title, buttonName }) => {
       const response = await axios.get(`/api/v1/items/${id}`);
       const item = response.data.data.data;
 
-      /** ---------------------------------------------- */
       setName(item.name);
       setPrice(item.price);
       setDescription(item.description);
@@ -71,14 +70,20 @@ const ItemForm = ({ title, buttonName }) => {
       setOs(item.os);
       setNetwork(item.network);
       setCategoryId(item.categoryId);
-      /** ---------------------------------------------- */
     };
     if (id) {
       fetchItem();
       fetchPictures();
     }
   }, []);
+  /** -----------end: fetching data for updating item--------- */
 
+  const deletePicture = async id => {
+    await axios.delete(`/api/v1/pictures/${id}`);
+    window.location.reload();
+  };
+
+  /** -----------start: for rendering separate component--------- */
   const renderSelect = () => {
     return categories.map(category => {
       return (
@@ -92,7 +97,7 @@ const ItemForm = ({ title, buttonName }) => {
   const renderPictures = () => {
     return pictures.map(picture => {
       return (
-        <div className="border phone-picture-container">
+        <div className="border phone-picture-container" key={picture.id}>
           <img src={picture.path} className="phone-picture" />
           <button
             type="button"
@@ -107,15 +112,24 @@ const ItemForm = ({ title, buttonName }) => {
       );
     });
   };
+  /** -----------end: for rendering separate component--------- */
+
+  const uploadFileToServer = async id => {
+    const formData = new FormData();
+    for (const key of Object.keys(images)) {
+      formData.append('images', images[key]);
+    }
+    await axios.post(`/api/v1/pictures/items/${id}`, formData);
+  };
 
   const handleSubmit = async event => {
     event.preventDefault();
-    /** ---------------------------------------------- */
+
+    /** -----------start: validation--------- */
     if (
       !name ||
       !price ||
       !description ||
-      !images ||
       !stock ||
       !cpu ||
       !display ||
@@ -132,7 +146,7 @@ const ItemForm = ({ title, buttonName }) => {
     }
     if (stock <= 0) return setError('Stock must be greater than zero');
     if (price <= 0) return setError('Price must be greater than zero');
-    /** ---------------------------------------------- */
+    /** -----------end: validation--------- */
 
     try {
       const data = {
@@ -153,19 +167,21 @@ const ItemForm = ({ title, buttonName }) => {
         categoryId
       };
 
+      /** -----------start: run axios and set global state--------- */
+      let item;
       if (!id) {
         const response = await axios.post('/api/v1/items', data);
-        const item = response.data.data.data;
-
+        item = response.data.data.data;
         addItem(data);
+      } else {
+        const response = await axios.patch(`/api/v1/items/${id}`, data);
+        item = response.data.data.data;
+        updateItem(data);
+      }
+      /** -----------end: run axios and set global state--------- */
 
-        // send the uploaded images to the server
-        const formData = new FormData();
-        for (const key of Object.keys(images)) {
-          formData.append('images', images[key]);
-        }
-        await axios.post(`/api/v1/pictures/items/${item.id}`, formData);
-      } else await updateItem(id, data);
+      // upload to server
+      await uploadFileToServer(item.id);
       history.push('/admin/items');
     } catch (err) {
       setError(err.response.data);
@@ -174,7 +190,11 @@ const ItemForm = ({ title, buttonName }) => {
 
   return (
     <Fragment>
-      <WarningModal title="Delete a Picture" id={pictureId} />
+      <WarningModal
+        title="Delete a Picture"
+        id={pictureId}
+        action={deletePicture}
+      />
 
       <div className="row mt-5">
         <div className="col-sm-8 offset-sm-2">

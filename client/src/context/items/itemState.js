@@ -27,10 +27,7 @@ export const ItemProvider = ({ children }) => {
     dispatch({ type: 'ADD_ITEM', payload: item });
   };
 
-  const updateItem = async (id, data) => {
-    const response = await axios.patch(`/api/v1/items/${id}`, data);
-    const item = response.data.data.data;
-
+  const updateItem = item => {
     dispatch({ type: 'UPDATE_ITEM', payload: item });
   };
 
