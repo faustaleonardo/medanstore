@@ -1,5 +1,5 @@
 const AWS = require('aws-sdk');
-const multer = require('multer');
+const multer = require('@koa/multer');
 const multerS3 = require('multer-s3');
 
 const s3Config = new AWS.S3({
@@ -21,12 +21,11 @@ const multerS3Config = multerS3({
     cb(null, { fieldName: file.fieldname });
   },
   key(req, file, cb) {
-    console.log(file);
-    cb(null, new Date().toISOString() + '-' + file.originalname);
+    cb(null, new Date().getTime() + '-' + file.originalname);
   }
 });
 
-exports.upload = multer({
+module.exports = multer({
   storage: multerS3Config,
   fileFilter,
   limits: {

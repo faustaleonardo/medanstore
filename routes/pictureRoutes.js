@@ -1,4 +1,5 @@
-const Router = require('koa-router');
+const Router = require('@koa/router');
+const upload = require('../services/upload');
 
 const { requireLogin, requireAdmin } = require('../middlewares/require');
 
@@ -14,7 +15,13 @@ const router = new Router();
 const BASE_URL = '/api/v1/pictures';
 
 router.get(`${BASE_URL}/:itemId`, getPictures);
-router.post(`${BASE_URL}/:itemId`, requireLogin, requireAdmin, createPicture);
+router.post(
+  `${BASE_URL}/:itemId`,
+  requireLogin,
+  requireAdmin,
+  upload.array('phones'),
+  createPicture
+);
 router.delete(
   `${BASE_URL}/:itemId`,
   requireLogin,
