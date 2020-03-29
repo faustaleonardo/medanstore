@@ -5,7 +5,7 @@ import { AuthContext } from '../../context/auth/authState';
 import UserNavbar from './navbars/UserNavbar';
 import GuestNavbar from './navbars/GuestNavbar';
 import AdminNavbar from './navbars/AdminNavbar';
-import CartNavbar from './navbars/CartNavbar';
+import GuestAndUserNavbar from './navbars/GuestAndUserNavbar';
 import CartModal from './CartModal';
 
 const Header = () => {
@@ -32,7 +32,7 @@ const Header = () => {
         </Link>
         <ul className="navbar-nav mr-auto"></ul>
         <ul className="navbar-nav">
-          <CartNavbar />
+          <GuestAndUserNavbar />
           {renderContent()}
         </ul>
       </nav>

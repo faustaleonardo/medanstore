@@ -10,20 +10,25 @@ import CategoryCheckbox from './CategoryCheckbox';
 import SortDropdown from './SortDropdown';
 
 const ItemList = () => {
+  // MAKE DEDICATED API FOR QUERY THAT RETURNS EACH ITEMS WITH PICTURE PATH
   const { items, getItems, isLoading } = useContext(ItemContext);
   const [page, setPage] = useState(1);
   const [nextPage, setNextPage] = useState(true);
 
   useEffect(() => {
-    getItems(page);
-
     const hasNextPage = async () => {
       const response = await axios.get(`/api/v1/items/?page=${page + 1}`);
       const data = response.data.data.data;
       if (data.length === 0) setNextPage(false);
       else setNextPage(true);
     };
-    hasNextPage();
+
+    const fetchData = async () => {
+      await getItems(page);
+      await hasNextPage();
+    };
+
+    fetchData();
   }, [page]);
 
   const renderContent = () => {
@@ -32,11 +37,7 @@ const ItemList = () => {
         <div className="col mb-5 text-center" key={item.id}>
           <div className="card item-card">
             <Link to={'/items/' + item.id}>
-              <img
-                src="https://images.mobileshop.eu/1554287985/product-large/samsung-galaxy-s10-plus-dual-sim-1tb-12gb-ram-sm-g975f-ds-ceramic-black.jpg"
-                className="card-img-top item-img"
-                alt={item.name}
-              />
+              <img src="" className="card-img-top item-img" alt={item.name} />
             </Link>
             <div className="card-body">
               <h5 className="card-title">{item.name}</h5>
