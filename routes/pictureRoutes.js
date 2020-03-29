@@ -19,7 +19,7 @@ router.post(
   `${BASE_URL}/items/:id`,
   requireLogin,
   requireAdmin,
-  upload.array('phones'),
+  upload.array('images'),
   createPicture
 );
 router.delete(

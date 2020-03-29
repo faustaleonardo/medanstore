@@ -23,10 +23,7 @@ export const ItemProvider = ({ children }) => {
     dispatch({ type: 'GET_ITEMS', payload: items });
   };
 
-  const addItem = async data => {
-    const response = await axios.post('/api/v1/items', data);
-    const item = response.data.data.data;
-
+  const addItem = item => {
     dispatch({ type: 'ADD_ITEM', payload: item });
   };
 

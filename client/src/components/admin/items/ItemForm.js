@@ -9,6 +9,7 @@ const ItemForm = ({ title, buttonName }) => {
   /** ---------------------------------------------- */
   const [name, setName] = useState('');
   const [price, setPrice] = useState(0);
+  const [images, setImages] = useState('');
   const [description, setDescription] = useState('');
   const [stock, setStock] = useState(0);
   const [condition, setCondition] = useState('New');
@@ -25,7 +26,9 @@ const ItemForm = ({ title, buttonName }) => {
   const [categories, setCategories] = useState([]);
   /** ---------------------------------------------- */
 
-  const { addItem, updateItem, setError, error } = useContext(ItemContext);
+  const { addItem, updateItem, setError, error, items } = useContext(
+    ItemContext
+  );
   const history = useHistory();
   const { id } = useParams();
 
@@ -82,6 +85,7 @@ const ItemForm = ({ title, buttonName }) => {
       !name ||
       !price ||
       !description ||
+      !images ||
       !stock ||
       !cpu ||
       !display ||
@@ -119,8 +123,19 @@ const ItemForm = ({ title, buttonName }) => {
         categoryId
       };
 
-      if (!id) await addItem(data);
-      else await updateItem(id, data);
+      if (!id) {
+        const response = await axios.post('/api/v1/items', data);
+        const item = response.data.data.data;
+
+        addItem(data);
+
+        // send the uploaded images to the server
+        const formData = new FormData();
+        for (const key of Object.keys(images)) {
+          formData.append('images', images[key]);
+        }
+        await axios.post(`/api/v1/pictures/items/${item.id}`, formData);
+      } else await updateItem(id, data);
       history.push('/admin/items');
     } catch (err) {
       setError(err.response.data);
@@ -135,7 +150,7 @@ const ItemForm = ({ title, buttonName }) => {
         <div className="card">
           <div className="card-header">{title}</div>
           <div className="card-body">
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} encType="multipart/form-data">
               <div className="form-row">
                 <div className="form-group col-sm-6">
                   <label htmlFor="name">Name</label>
@@ -159,11 +174,14 @@ const ItemForm = ({ title, buttonName }) => {
                 </div>
               </div>
               <div className="form-group">
-                <label htmlFor="phonePictures">Pictures</label>
+                <label htmlFor="images">Pictures</label>
                 <input
                   type="file"
                   className="form-control-file"
-                  id="phonePictures"
+                  id="images"
+                  name="images"
+                  onChange={event => setImages(event.target.files)}
+                  multiple
                 />
               </div>
               <div className="form-group">
