@@ -74,3 +74,17 @@
 .create-product-section {
   width: 50rem;
 }
+
+.phone-picture-container {
+  display: inline-block;
+  margin-right: 1rem;
+  padding: 0.5rem;
+}
+
+.phone-picture {
+  display: block;
+  width: auto;
+  max-height: 7rem;
+  margin: 0 auto;
+  margin-bottom: 1rem;
+}
