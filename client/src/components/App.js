@@ -50,8 +50,10 @@ const App = () => {
           <Route exact path="/login" component={Login} />
           <Route exact path="/signup" component={Signup} />
 
-          <Route exact path="/items" component={ItemList} />
-          <Route exact path="/items/1" component={ItemDetails} />
+          <ItemProvider>
+            <Route exact path="/items" component={ItemList} />
+            <Route exact path="/items/1" component={ItemDetails} />
+          </ItemProvider>
 
           <Route exact path="/checkout" component={Checkout} />
           <Route exact path="/orders" component={Order} />

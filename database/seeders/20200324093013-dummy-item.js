@@ -96,7 +96,7 @@ module.exports = {
           updatedAt: new Date()
         },
         {
-          name: 'Huawei P20 Pro',
+          name: 'Huawei Nova 5T',
           price: 6000000,
           description:
             "The new Leica Triple Camera powered by AI reveals life's drama, texture, colour and beauty in every photograph that will take your breath away. Designed for different scenarios, the 40 MP main RGB lens captures great details in everyday photos, while the 8 MP telephoto lens will focus on your distant shots and the whole new 20 MP Leica Ultra Wide Angle Lens is perfect for the landscape photos and macro shots. Life is about exploring. Take your HUAWEI Mate 20 Pro for fun to the beach or through the rain. The IP68 rated water and dust resistance1 means no worry of taking spills, splashes, and dunks.",
@@ -224,10 +224,10 @@ module.exports = {
           updatedAt: new Date()
         },
         {
-          name: 'Xiaomi Poco X2',
+          name: 'Xiaomi Pocophone F1',
           price: 6000000,
           description:
-            'Xiaomi Poco X2 comes with the protection of Corning Gorilla Glass 5 along with HDR10, 500 nits typ. brightness, and 120Hz. The dimension of the smartphone is 165.3 x 76.6 x 8.8 mm and it weighs 208 grams. The device supports Hybrid Dual SIM and runs on the Android 10.0 + MIUI 11 operating system.',
+            'Xiaomi Pocophone comes with the protection of Corning Gorilla Glass 5 along with HDR10, 500 nits typ. brightness, and 120Hz. The dimension of the smartphone is 165.3 x 76.6 x 8.8 mm and it weighs 208 grams. The device supports Hybrid Dual SIM and runs on the Android 10.0 + MIUI 11 operating system.',
           stock: 10,
           condition: 'Used',
           cpu:
@@ -246,10 +246,10 @@ module.exports = {
           updatedAt: new Date()
         },
         {
-          name: 'Oppo Reno 3 Pro',
-          price: 11000000,
+          name: 'Oppo Reno 2 Z',
+          price: 4000000,
           description:
-            "The Oppo Reno 3 Pro emphasizes camera performance over gaming performance, which is good for those who aren't into mobile gaming and instead like to capture and share life's precious moments using their smartphone.",
+            "The Oppo Reno 2 Z emphasizes camera performance over gaming performance, which is good for those who aren't into mobile gaming and instead like to capture and share life's precious moments using their smartphone.",
           stock: 100,
           condition: 'New',
           cpu:
@@ -269,10 +269,10 @@ module.exports = {
           updatedAt: new Date()
         },
         {
-          name: 'Oppo Find X2 865',
-          price: 18000000,
+          name: 'Oppo A5',
+          price: 1800000,
           description:
-            'Oppo Find X2 smartphone was launched on 6th March 2020. The phone comes with a 6.70-inch touchscreen display with a resolution of 1440x3168 pixels. Oppo Find X2 is powered by a 2.84GHz octa-core Qualcomm Snapdragon 865 processor. The Oppo Find X2 supports Super VOOC fast charging.',
+            'Oppo A5 smartphone was launched on 6th March 2020. The phone comes with a 6.70-inch touchscreen display with a resolution of 1440x3168 pixels. Oppo Find X2 is powered by a 2.84GHz octa-core Qualcomm Snapdragon 865 processor. The Oppo Find X2 supports Super VOOC fast charging.',
           stock: 10,
           condition: 'New',
           cpu:
