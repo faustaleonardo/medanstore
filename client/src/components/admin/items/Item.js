@@ -48,6 +48,9 @@ const Item = () => {
               className="btn btn-outline-danger"
               data-toggle="modal"
               data-target="#warningModal"
+              onClick={() => {
+                setId(item.id);
+              }}
             >
               Delete
             </button>
@@ -84,19 +87,18 @@ const Item = () => {
     );
   };
 
-  return (
-    <Fragment>
-      <WarningModal title="Delete an Item" />
-      <div className="clearfix mt-5 mb-3">
-        <div className="float-left">
-          <h4>Item</h4>
+  const render = () => {
+    if (isLoading) return null;
+
+    if (!items.length) {
+      return (
+        <div className="center-vh">
+          <h3>No record yet :(</h3>
         </div>
-        <div className="float-right">
-          <Link to="/admin/items/create" className="btn btn-success">
-            New Item
-          </Link>
-        </div>
-      </div>
+      );
+    }
+
+    return (
       <table className="table table-bordered table-hover mb-5">
         <thead>
           <tr className="text-uppercase">
@@ -113,6 +115,23 @@ const Item = () => {
         </thead>
         <tbody>{renderContent()}</tbody>
       </table>
+    );
+  };
+
+  return (
+    <Fragment>
+      <WarningModal title="Delete an Item" id={id} action={deleteItem} />
+      <div className="clearfix mt-5 mb-3">
+        <div className="float-left">
+          <h4>Item</h4>
+        </div>
+        <div className="float-right">
+          <Link to="/admin/items/create" className="btn btn-success">
+            New Item
+          </Link>
+        </div>
+      </div>
+      {render()}
       {renderPaginate()}
     </Fragment>
   );

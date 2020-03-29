@@ -1,8 +1,10 @@
 import React from 'react';
 
 const WarningModal = ({ title, id, action }) => {
-  const handleSubmit = async () => {
+  const handleSubmit = async event => {
+    event.preventDefault();
     await action(id);
+    window.location.reload();
   };
 
   return (

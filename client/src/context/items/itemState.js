@@ -32,6 +32,7 @@ export const ItemProvider = ({ children }) => {
   };
 
   const deleteItem = async id => {
+    await axios.delete(`/api/v1/pictures/items/${id}`);
     await axios.delete(`/api/v1/items/${id}`);
 
     dispatch({ type: 'DELETE_ITEM', payload: id });
