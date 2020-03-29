@@ -9,8 +9,17 @@ const S3 = new AWS.S3({
   secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
 });
 
+const deleteFile = params => {
+  return new Promise((resolve, reject) => {
+    S3.deleteObject(params, (err, data) => {
+      if (err) reject(err);
+      resolve(data);
+    });
+  });
+};
+
 exports.getPictures = async ctx => {
-  const itemId = ctx.params.itemId;
+  const itemId = ctx.params.id;
 
   const item = await models.Item.findByPk(itemId);
   if (!item) ctx.throw(404, `Item not found`);
@@ -21,7 +30,7 @@ exports.getPictures = async ctx => {
 };
 
 exports.createPicture = async ctx => {
-  const itemId = ctx.params.itemId;
+  const itemId = ctx.params.id;
   const paths = ctx.request.files.map(file => file.location);
   const data = [];
 
@@ -33,17 +42,17 @@ exports.createPicture = async ctx => {
 };
 
 exports.deletePictures = async ctx => {
-  const { itemId } = ctx.params;
+  const itemId = ctx.params.id;
   const item = await models.Item.findByPk(itemId);
   if (!item) ctx.throw(404, `Item not found`);
 
   const pictures = await models.Picture.findAll({ where: { itemId } });
   try {
-    // deleting pictures in S3
+    // delete all pictures in S3
     for (picture of pictures) {
       const key = picture.path.slice(37);
       const params = { Bucket: process.env.S3_BUCKET, Key: key };
-      await promisify(S3.deleteObject)(params);
+      await deleteFile(params);
     }
 
     await models.Picture.destroy({ where: { itemId } });
@@ -54,11 +63,15 @@ exports.deletePictures = async ctx => {
 };
 
 exports.deletePicture = async ctx => {
-  const { id } = ctx.request.body;
+  const { id } = ctx.params;
 
-  const item = await models.Picture.findByPk(id);
-  if (!item) ctx.throw(404, `Picture not found`);
-  // REMOVE FROM DIRECTORY [PENDING]
+  const picture = await models.Picture.findByPk(id);
+  if (!picture) ctx.throw(404, `Picture not found`);
+
+  // delete one picture in S3
+  const key = picture.path.slice(37);
+  const params = { Bucket: process.env.S3_BUCKET, Key: key };
+  await deleteFile(params);
 
   await models.Picture.destroy({ where: { id } });
   sendSuccessResponse(ctx, null, 204);

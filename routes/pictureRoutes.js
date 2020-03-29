@@ -14,20 +14,20 @@ const router = new Router();
 
 const BASE_URL = '/api/v1/pictures';
 
-router.get(`${BASE_URL}/:itemId`, getPictures);
+router.get(`${BASE_URL}/items/:id`, getPictures);
 router.post(
-  `${BASE_URL}/:itemId`,
+  `${BASE_URL}/items/:id`,
   requireLogin,
   requireAdmin,
   upload.array('phones'),
   createPicture
 );
 router.delete(
-  `${BASE_URL}/:itemId`,
+  `${BASE_URL}/items/:id`,
   requireLogin,
   requireAdmin,
   deletePictures
 );
-router.delete(`${BASE_URL}`, requireLogin, requireAdmin, deletePicture);
+router.delete(`${BASE_URL}/:id`, requireLogin, requireAdmin, deletePicture);
 
 module.exports = router;
