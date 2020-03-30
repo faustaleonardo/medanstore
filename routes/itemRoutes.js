@@ -6,6 +6,7 @@ const {
   getItems,
   getItemAndPictures,
   getItemsAndPictures,
+  getItemCategoryAndPictures,
   getItem,
   createItem,
   updateItem,
@@ -20,6 +21,7 @@ router.get(`${BASE_URL}`, getItems);
 router.get(`${BASE_URL}/pictures`, getItemsAndPictures);
 router.get(`${BASE_URL}/:id`, getItem);
 router.get(`${BASE_URL}/:id/pictures`, getItemAndPictures);
+router.get(`${BASE_URL}/:id/category&pictures`, getItemCategoryAndPictures);
 router.post(`${BASE_URL}`, requireLogin, requireAdmin, createItem);
 router.patch(`${BASE_URL}/:id`, requireLogin, requireAdmin, updateItem);
 router.delete(`${BASE_URL}/:id`, requireLogin, requireAdmin, deleteItem);

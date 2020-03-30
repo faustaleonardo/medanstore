@@ -5,7 +5,7 @@ const ItemCarousel = ({ pictures }) => {
     return pictures.map((picture, index) => {
       return (
         <div
-          className={'carousel-item ' + (index === 0 ? 'active' : ' ')}
+          className={'carousel-item ' + (index === 0 ? '' : 'active')}
           data-interval="10000"
           key={picture.id}
         >

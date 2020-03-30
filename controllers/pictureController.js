@@ -26,7 +26,7 @@ exports.getPictures = async ctx => {
 
   const pictures = await models.Picture.findAll({
     where: { itemId },
-    order: [['path', 'DESC']]
+    order: [['path', 'ASC']]
   });
 
   sendSuccessResponse(ctx, pictures);

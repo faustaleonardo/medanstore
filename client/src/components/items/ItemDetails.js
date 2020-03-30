@@ -8,40 +8,24 @@ import ItemCarousel from './ItemCarousel';
 
 const ItemDetails = () => {
   const [item, setItem] = useState(null);
-  const [category, setCategory] = useState('');
-  const [pictures, setPictures] = useState([]);
-
   const { id } = useParams();
 
   useEffect(() => {
-    const fetchData = async () => {
-      // fetch item
-      let response = await axios.get(`/api/v1/items/${id}`);
-      const fetchedItem = response.data.data.data;
-      setItem(fetchedItem);
-
-      // fetch category
-      response = await axios.get(
-        `/api/v1/categories/${fetchedItem.categoryId}`
-      );
-      const fetchedCategory = response.data.data.data;
-      setCategory(fetchedCategory.value);
-
-      // fetch pictures
-      response = await axios.get(`/api/v1/pictures/items/${fetchedItem.id}`);
-      const fetchedPictures = response.data.data.data;
-      setPictures(fetchedPictures);
+    const fetchItem = async () => {
+      let response = await axios.get(`/api/v1/items/${id}/category&pictures`);
+      const result = response.data.data.data;
+      setItem(result);
     };
-    fetchData();
+    fetchItem();
   }, []);
 
-  if (!item || !category || !pictures.length) return null;
+  if (!item) return null;
 
   return (
     <div className="mt-5">
       <div className="row">
         <div className="col-sm-5 offset-sm-1">
-          <ItemCarousel pictures={pictures} />
+          <ItemCarousel pictures={item.pictures} />
         </div>
         <div className="col-sm-5 text-center">
           <h2 className="mt-5 mb-4">{item.name}</h2>
@@ -56,7 +40,7 @@ const ItemDetails = () => {
             <tbody>
               <tr>
                 <th>Category</th>
-                <td>{category}</td>
+                <td>{item.category.value}</td>
               </tr>
               <tr>
                 <th>Description</th>

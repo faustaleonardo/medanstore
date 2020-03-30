@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
@@ -11,20 +11,28 @@ import SortDropdown from './SortDropdown';
 
 const ItemList = () => {
   // MAKE DEDICATED API FOR QUERY THAT RETURNS EACH ITEMS WITH PICTURE PATH
-  const { items, getItems, isLoading } = useContext(ItemContext);
+  const [items, setItems] = useState([]);
   const [page, setPage] = useState(1);
-  const [nextPage, setNextPage] = useState(true);
+  const [nextPage, setNextPage] = useState(null);
 
   useEffect(() => {
+    const fetchItem = async () => {
+      const response = await axios.get(`/api/v1/items/pictures/?page=${page}`);
+      const result = response.data.data.data;
+      setItems(result);
+    };
+
     const hasNextPage = async () => {
-      const response = await axios.get(`/api/v1/items/?page=${page + 1}`);
-      const data = response.data.data.data;
-      if (data.length === 0) setNextPage(false);
+      const response = await axios.get(
+        `/api/v1/items/pictures/?page=${page + 1}`
+      );
+      const result = response.data.data.data;
+      if (result.length === 0) setNextPage(false);
       else setNextPage(true);
     };
 
     const fetchData = async () => {
-      await getItems(page);
+      await fetchItem();
       await hasNextPage();
     };
 
@@ -37,7 +45,11 @@ const ItemList = () => {
         <div className="col mb-5 text-center" key={item.id}>
           <div className="card item-card">
             <Link to={'/items/' + item.id}>
-              <img src="" className="card-img-top item-img" alt={item.name} />
+              <img
+                src={item.pictures[0].path}
+                className="card-img-top item-img"
+                alt={item.name}
+              />
             </Link>
             <div className="card-body">
               <h5 className="card-title">{item.name}</h5>
@@ -79,7 +91,7 @@ const ItemList = () => {
     );
   };
 
-  if (isLoading) return null;
+  if (!items.length || nextPage === null) return null;
 
   return (
     <div className="mt-5">

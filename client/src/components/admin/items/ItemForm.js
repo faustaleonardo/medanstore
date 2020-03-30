@@ -45,14 +45,8 @@ const ItemForm = ({ title, buttonName }) => {
     fetchCategories();
 
     /** -----------start: fetching data for updating item--------- */
-    const fetchPictures = async () => {
-      const response = await axios.get(`/api/v1/pictures/items/${id}`);
-      const result = response.data.data.data;
-      setPictures(result);
-    };
-
     const fetchItem = async () => {
-      const response = await axios.get(`/api/v1/items/${id}`);
+      const response = await axios.get(`/api/v1/items/${id}/category&pictures`);
       const item = response.data.data.data;
 
       setName(item.name);
@@ -70,11 +64,9 @@ const ItemForm = ({ title, buttonName }) => {
       setOs(item.os);
       setNetwork(item.network);
       setCategoryId(item.categoryId);
+      setPictures(item.pictures);
     };
-    if (id) {
-      fetchItem();
-      fetchPictures();
-    }
+    if (id) fetchItem();
   }, []);
   /** -----------end: fetching data for updating item--------- */
 

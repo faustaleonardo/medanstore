@@ -22,9 +22,9 @@ module.exports = (sequelize, DataTypes) => {
     {}
   );
   Item.associate = function(models) {
-    Item.hasOne(models.Category, {
-      foreignKey: 'id',
-      targetKey: 'categoryId',
+    Item.belongsTo(models.Category, {
+      foreignKey: 'categoryId',
+      targetKey: 'id',
       as: 'category'
     });
     Item.hasMany(models.Picture, {

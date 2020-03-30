@@ -20,6 +20,7 @@ const acceptedFields = [
   'categoryId'
 ];
 
+/**-------start: get all items------- */
 exports.getItems = async ctx => {
   const { page } = ctx.query;
 
@@ -31,27 +32,27 @@ exports.getItems = async ctx => {
   sendSuccessResponse(ctx, items);
 };
 
-exports.getItemAndPictures = async ctx => {
-  const { id } = ctx.params;
-
-  const item = await models.Item.findOne({
-    where: { id },
-    include: [{ model: models.Picture, as: 'pictures', sort: ['path', 'DESC'] }]
-  });
-  if (!item) ctx.throw(404, 'Item not found');
-
-  sendSuccessResponse(ctx, item);
-};
-
 exports.getItemsAndPictures = async ctx => {
+  const { page } = ctx.query;
+
   const item = await models.Item.findAll({
-    include: [{ model: models.Picture, as: 'pictures', sort: ['path', 'DESC'] }]
+    include: [
+      {
+        model: models.Picture,
+        as: 'pictures'
+      }
+    ],
+    order: [['id', 'ASC']],
+    offset: (page - 1) * 9,
+    limit: 9
   });
   if (!item) ctx.throw(404, 'Item not found');
 
   sendSuccessResponse(ctx, item);
 };
+/**-------end: get all items------- */
 
+/**-------start: get one item------- */
 exports.getItem = async ctx => {
   const { id } = ctx.params;
 
@@ -60,6 +61,35 @@ exports.getItem = async ctx => {
 
   sendSuccessResponse(ctx, item);
 };
+
+exports.getItemAndPictures = async ctx => {
+  const { id } = ctx.params;
+
+  const item = await models.Item.findOne({
+    where: { id },
+    include: [{ model: models.Picture, as: 'pictures' }]
+  });
+  if (!item) ctx.throw(404, 'Item not found');
+
+  sendSuccessResponse(ctx, item);
+};
+
+exports.getItemCategoryAndPictures = async ctx => {
+  const { id } = ctx.params;
+
+  const item = await models.Item.findOne({
+    where: { id },
+    include: [
+      { model: models.Category, as: 'category' },
+      { model: models.Picture, as: 'pictures' }
+    ]
+  });
+  if (!item) ctx.throw(404, 'Item not found');
+
+  sendSuccessResponse(ctx, item);
+};
+
+/**-------end: get one item------- */
 
 exports.createItem = async ctx => {
   const filteredBody = filterFields(ctx.request.body, acceptedFields);
