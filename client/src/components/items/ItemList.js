@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import queryString from 'query-string';
 
 import { ItemContext } from '../../context/items/itemState';
 import formatCurrency from '../../utils/formatCurrency';
@@ -10,14 +11,18 @@ import CategoryCheckbox from './CategoryCheckbox';
 import SortDropdown from './SortDropdown';
 
 const ItemList = () => {
-  // MAKE DEDICATED API FOR QUERY THAT RETURNS EACH ITEMS WITH PICTURE PATH
-  const [items, setItems] = useState([]);
+  const { items, setItems } = useContext(ItemContext);
   const [page, setPage] = useState(1);
   const [nextPage, setNextPage] = useState(null);
+  const [query] = useState(window.location.search);
 
   useEffect(() => {
     const fetchItem = async () => {
-      const response = await axios.get(`/api/v1/items/pictures/?page=${page}`);
+      const queryStr = query ? query.replace(/[?]/, '') + '&' : '';
+
+      const response = await axios.get(
+        `/api/v1/items/pictures?${queryStr}page=${page}`
+      );
       const result = response.data.data.data;
       setItems(result);
     };
@@ -31,12 +36,8 @@ const ItemList = () => {
       else setNextPage(true);
     };
 
-    const fetchData = async () => {
-      await fetchItem();
-      await hasNextPage();
-    };
-
-    fetchData();
+    fetchItem();
+    hasNextPage();
   }, [page]);
 
   const renderContent = () => {
@@ -97,7 +98,7 @@ const ItemList = () => {
     <div className="mt-5">
       <div className="clearfix">
         <ConditionCheckbox />
-        <SortDropdown />
+        <SortDropdown setPage={setPage} />
       </div>
       <div>
         <CategoryCheckbox />

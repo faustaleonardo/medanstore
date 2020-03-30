@@ -5,8 +5,7 @@ import itemReducer from './itemReducer.js';
 
 const initialState = {
   items: [],
-  error: null,
-  isLoading: true
+  error: null
 };
 
 export const ItemContext = createContext(initialState);
@@ -16,11 +15,8 @@ export const ItemProvider = ({ children }) => {
   const [state, dispatch] = useReducer(itemReducer, initialState);
 
   // actions
-  const getItems = async page => {
-    const response = await axios.get(`/api/v1/items?page=${page}`);
-    const items = response.data.data.data;
-
-    dispatch({ type: 'GET_ITEMS', payload: items });
+  const setItems = items => {
+    dispatch({ type: 'SET_ITEMS', payload: items });
   };
 
   const addItem = item => {
@@ -47,8 +43,7 @@ export const ItemProvider = ({ children }) => {
       value={{
         items: state.items,
         error: state.error,
-        isLoading: state.isLoading,
-        getItems,
+        setItems,
         addItem,
         updateItem,
         deleteItem,

@@ -14,16 +14,16 @@ const SortDropdown = () => {
         Sort
       </button>
       <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-        <a className="dropdown-item" href="#">
+        <a href="/items?sort_by=price&sort=asc" className="dropdown-item">
           Sort by price ascending
         </a>
-        <a className="dropdown-item" href="#">
+        <a href="/items?sort_by=price&sort=desc" className="dropdown-item">
           Sort by price descending
         </a>
-        <a className="dropdown-item" href="#">
+        <a href="/items?sort_by=name" className="dropdown-item">
           Sort by name
         </a>
-        <a className="dropdown-item" href="#">
+        <a href="/items?latest" className="dropdown-item">
           Sort by the latest
         </a>
       </div>

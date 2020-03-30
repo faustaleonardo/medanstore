@@ -7,20 +7,26 @@ import WarningModal from '../../partials/WarningModal';
 import formatCurrency from '../../../utils/formatCurrency';
 
 const Item = () => {
-  const { items, getItems, deleteItem, isLoading } = useContext(ItemContext);
+  const { items, setItems, deleteItem } = useContext(ItemContext);
   const [page, setPage] = useState(1);
   const [nextPage, setNextPage] = useState(true);
   const [id, setId] = useState(null);
 
   useEffect(() => {
-    getItems(page);
+    const fetchItem = async () => {
+      const response = await axios.get(`/api/v1/items?page=${page}`);
+      const result = response.data.data.data;
+      setItems(result);
+    };
 
     const hasNextPage = async () => {
       const response = await axios.get(`/api/v1/items/?page=${page + 1}`);
-      const data = response.data.data.data;
-      if (data.length === 0) setNextPage(false);
+      const result = response.data.data.data;
+      if (result.length === 0) setNextPage(false);
       else setNextPage(true);
     };
+
+    fetchItem();
     hasNextPage();
   }, [page]);
 
@@ -87,18 +93,21 @@ const Item = () => {
     );
   };
 
-  const render = () => {
-    if (isLoading) return null;
+  if (!items.length) return null;
 
-    if (!items.length) {
-      return (
-        <div className="center-vh">
-          <h3>No record yet :(</h3>
+  return (
+    <Fragment>
+      <WarningModal title="Delete an Item" id={id} action={deleteItem} />
+      <div className="clearfix mt-5 mb-3">
+        <div className="float-left">
+          <h4>Item</h4>
         </div>
-      );
-    }
-
-    return (
+        <div className="float-right">
+          <Link to="/admin/items/create" className="btn btn-success">
+            New Item
+          </Link>
+        </div>
+      </div>
       <table className="table table-bordered table-hover mb-5">
         <thead>
           <tr className="text-uppercase">
@@ -115,23 +124,6 @@ const Item = () => {
         </thead>
         <tbody>{renderContent()}</tbody>
       </table>
-    );
-  };
-
-  return (
-    <Fragment>
-      <WarningModal title="Delete an Item" id={id} action={deleteItem} />
-      <div className="clearfix mt-5 mb-3">
-        <div className="float-left">
-          <h4>Item</h4>
-        </div>
-        <div className="float-right">
-          <Link to="/admin/items/create" className="btn btn-success">
-            New Item
-          </Link>
-        </div>
-      </div>
-      {render()}
       {renderPaginate()}
     </Fragment>
   );

@@ -33,7 +33,15 @@ exports.getItems = async ctx => {
 };
 
 exports.getItemsAndPictures = async ctx => {
-  const { page } = ctx.query;
+  const { sort_by, sort, latest, page } = ctx.query;
+
+  let sortByValue = sort_by || 'id';
+  let sortValue = sort || 'ASC';
+
+  if (latest) {
+    sortByValue = 'createdAt';
+    sortValue = 'DESC';
+  }
 
   const item = await models.Item.findAll({
     include: [
@@ -42,7 +50,7 @@ exports.getItemsAndPictures = async ctx => {
         as: 'pictures'
       }
     ],
-    order: [['id', 'ASC']],
+    order: [[sortByValue, sortValue]],
     offset: (page - 1) * 9,
     limit: 9
   });

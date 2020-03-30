@@ -1,8 +1,8 @@
 export default (state, action) => {
   const { type, payload } = action;
   switch (type) {
-    case 'GET_ITEMS':
-      return { ...state, isLoading: false, items: payload };
+    case 'SET_ITEMS':
+      return { ...state, items: payload };
     case 'ADD_ITEM':
       return { ...state, items: [...state.items, payload] };
     case 'UPDATE_ITEM':
