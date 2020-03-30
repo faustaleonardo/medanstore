@@ -27,6 +27,11 @@ module.exports = (sequelize, DataTypes) => {
       targetKey: 'categoryId',
       as: 'category'
     });
+    Item.hasMany(models.Picture, {
+      foreignKey: 'itemId',
+      targetKey: 'id',
+      as: 'pictures'
+    });
   };
   return Item;
 };

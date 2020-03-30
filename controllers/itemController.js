@@ -31,6 +31,27 @@ exports.getItems = async ctx => {
   sendSuccessResponse(ctx, items);
 };
 
+exports.getItemAndPictures = async ctx => {
+  const { id } = ctx.params;
+
+  const item = await models.Item.findOne({
+    where: { id },
+    include: [{ model: models.Picture, as: 'pictures', sort: ['path', 'DESC'] }]
+  });
+  if (!item) ctx.throw(404, 'Item not found');
+
+  sendSuccessResponse(ctx, item);
+};
+
+exports.getItemsAndPictures = async ctx => {
+  const item = await models.Item.findAll({
+    include: [{ model: models.Picture, as: 'pictures', sort: ['path', 'DESC'] }]
+  });
+  if (!item) ctx.throw(404, 'Item not found');
+
+  sendSuccessResponse(ctx, item);
+};
+
 exports.getItem = async ctx => {
   const { id } = ctx.params;
 
