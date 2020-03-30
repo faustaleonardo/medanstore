@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import queryString from 'query-string';
 
 import { ItemContext } from '../../context/items/itemState';
 import formatCurrency from '../../utils/formatCurrency';
@@ -17,9 +16,8 @@ const ItemList = () => {
   const [query] = useState(window.location.search);
 
   useEffect(() => {
+    const queryStr = query ? query.replace(/[?]/, '') + '&' : '';
     const fetchItem = async () => {
-      const queryStr = query ? query.replace(/[?]/, '') + '&' : '';
-
       const response = await axios.get(
         `/api/v1/items/pictures?${queryStr}page=${page}`
       );
@@ -29,7 +27,7 @@ const ItemList = () => {
 
     const hasNextPage = async () => {
       const response = await axios.get(
-        `/api/v1/items/pictures/?page=${page + 1}`
+        `/api/v1/items/pictures?${queryStr}page=${page + 1}`
       );
       const result = response.data.data.data;
       if (result.length === 0) setNextPage(false);

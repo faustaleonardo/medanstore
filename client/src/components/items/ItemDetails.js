@@ -52,7 +52,7 @@ const ItemDetails = () => {
               </tr>
               <tr>
                 <th>Condition</th>
-                <td>New</td>
+                <td>{item.condition}</td>
               </tr>
               <tr>
                 <th>CPU</th>

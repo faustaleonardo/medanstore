@@ -1,4 +1,5 @@
 const models = require('../database/models');
+const { Sequelize } = require('../database/models');
 const { sendSuccessResponse } = require('../utils/response');
 const { filterFields } = require('../utils/filter');
 
@@ -20,6 +21,8 @@ const acceptedFields = [
   'categoryId'
 ];
 
+const convertToArray = data => (data instanceof Array ? [...data] : [data]);
+
 /**-------start: get all items------- */
 exports.getItems = async ctx => {
   const { page } = ctx.query;
@@ -33,17 +36,36 @@ exports.getItems = async ctx => {
 };
 
 exports.getItemsAndPictures = async ctx => {
-  const { sort_by, sort, latest, page } = ctx.query;
+  const { sort_by, sort, latest, condition, categoryId, page } = ctx.query;
 
+  const arrCondition = convertToArray(condition);
+  const arrCategoryId = convertToArray(categoryId);
+
+  // querying
+  const whereQuery = { where: {} };
+  if (condition) {
+    whereQuery.where.condition = { [Sequelize.Op.in]: arrCondition };
+  }
+  if (categoryId) {
+    whereQuery.where.categoryId = { [Sequelize.Op.in]: arrCategoryId };
+  }
+
+  // sorting
   let sortByValue = sort_by || 'id';
   let sortValue = sort || 'ASC';
-
   if (latest) {
     sortByValue = 'createdAt';
     sortValue = 'DESC';
   }
 
+  // pagination
+  const paginate = {
+    offset: (page - 1) * 9,
+    limit: 9
+  };
+
   const item = await models.Item.findAll({
+    ...whereQuery,
     include: [
       {
         model: models.Picture,
@@ -51,11 +73,10 @@ exports.getItemsAndPictures = async ctx => {
       }
     ],
     order: [[sortByValue, sortValue]],
-    offset: (page - 1) * 9,
-    limit: 9
+    ...paginate
   });
-  if (!item) ctx.throw(404, 'Item not found');
 
+  if (!item) ctx.throw(404, 'Item not found');
   sendSuccessResponse(ctx, item);
 };
 /**-------end: get all items------- */
