@@ -8,6 +8,7 @@ import formatCurrency from '../../utils/formatCurrency';
 import ConditionCheckbox from './ConditionCheckbox';
 import CategoryCheckbox from './CategoryCheckbox';
 import SortDropdown from './SortDropdown';
+import { addItemToCart } from '../../utils/cart';
 
 const ItemList = () => {
   const { items, setItems } = useContext(ItemContext);
@@ -56,7 +57,12 @@ const ItemList = () => {
               <p className="card-text text-success item-price">
                 {formatCurrency(item.price)}
               </p>
-              <button className="btn btn-success">Add to cart</button>
+              <button
+                className="btn btn-success"
+                onClick={() => addItemToCart(item)}
+              >
+                Add to cart
+              </button>
             </div>
           </div>
         </div>
