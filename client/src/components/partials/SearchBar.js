@@ -5,10 +5,11 @@ const SearchBar = () => {
   const { auth } = useContext(AuthContext);
   if (auth === false || (auth && auth.roleId === 2)) {
     return (
-      <form>
+      <form action="/items">
         <input
           className="form-control"
           type="search"
+          name="search"
           placeholder="Search"
           aria-label="Search"
         />

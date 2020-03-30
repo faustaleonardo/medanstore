@@ -36,7 +36,7 @@ exports.getItems = async ctx => {
 };
 
 exports.getItemsAndPictures = async ctx => {
-  const { sort_by, sort, condition, categoryId, page } = ctx.query;
+  const { sort_by, sort, condition, categoryId, search, page } = ctx.query;
 
   const arrCondition = convertToArray(condition);
   const arrCategoryId = convertToArray(categoryId);
@@ -48,6 +48,13 @@ exports.getItemsAndPictures = async ctx => {
   }
   if (categoryId) {
     whereQuery.where.categoryId = { [Sequelize.Op.in]: arrCategoryId };
+  }
+
+  // searching
+  if (search) {
+    whereQuery.where.name = {
+      [Sequelize.Op.like]: `%${search}%`
+    };
   }
 
   // sorting
@@ -76,9 +83,9 @@ exports.getItemsAndPictures = async ctx => {
     ...paginate
   });
 
-  if (!item) ctx.throw(404, 'Item not found');
   sendSuccessResponse(ctx, item);
 };
+
 /**-------end: get all items------- */
 
 /**-------start: get one item------- */

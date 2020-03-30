@@ -65,6 +65,8 @@ const ItemList = () => {
   };
 
   const renderPaginate = () => {
+    if (page === 1 && nextPage === false) return null;
+
     return (
       <nav aria-label="Page navigation" className="item-pagination">
         <ul className="pagination justify-content-center">

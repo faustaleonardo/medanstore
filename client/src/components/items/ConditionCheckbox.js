@@ -17,7 +17,6 @@ const ConditionCheckbox = () => {
     const checked = event.target.checked;
 
     const parsed = queryString.parse(window.location.search);
-
     if (checked) {
       if (parsed.condition) {
         parsed.condition = [parsed.condition];
