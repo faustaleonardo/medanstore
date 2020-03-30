@@ -36,7 +36,7 @@ exports.getItems = async ctx => {
 };
 
 exports.getItemsAndPictures = async ctx => {
-  const { sort_by, sort, latest, condition, categoryId, page } = ctx.query;
+  const { sort_by, sort, condition, categoryId, page } = ctx.query;
 
   const arrCondition = convertToArray(condition);
   const arrCategoryId = convertToArray(categoryId);
@@ -53,7 +53,7 @@ exports.getItemsAndPictures = async ctx => {
   // sorting
   let sortByValue = sort_by || 'id';
   let sortValue = sort || 'ASC';
-  if (latest) {
+  if (sortByValue === 'latest') {
     sortByValue = 'createdAt';
     sortValue = 'DESC';
   }

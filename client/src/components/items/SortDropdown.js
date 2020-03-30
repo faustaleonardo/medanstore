@@ -1,34 +1,14 @@
 import React from 'react';
+import queryString from 'query-string';
 
 const SortDropdown = () => {
-  const getQueryString = sort => {
-    let oldQueryString = window.location.search;
+  const parsed = queryString.parse(window.location.search);
 
-    oldQueryString = oldQueryString.replace(
-      /(\?sort_by=price\&sort=asc|\&sort_by=price\&sort=asc|\?sort_by=price\&sort=desc|\&sort_by=price\&sort=desc|\?sort_by=name|\&sort_by=name|\?sort_by=latest|\&sort_by=latest)/,
-      ''
-    );
+  const getUrlDestination = queryObj => {
+    if (parsed.sort_by) delete parsed.sort_by;
+    if (parsed.sort) delete parsed.sort;
 
-    let queryString = oldQueryString ? `&` : '?';
-    switch (sort) {
-      case 'price-asc':
-        queryString += 'sort_by=price&sort=asc';
-        break;
-      case 'price-desc':
-        queryString += 'sort_by=price&sort=desc';
-        break;
-      case 'name':
-        queryString += 'sort_by=name';
-        break;
-      case 'latest':
-        queryString += 'sort_by=latest';
-        break;
-      default:
-        break;
-    }
-
-    const result = `/items${oldQueryString}${queryString}`;
-    return result;
+    return `/items?${queryString.stringify({ ...parsed, ...queryObj })}`;
   };
 
   return (
@@ -44,16 +24,28 @@ const SortDropdown = () => {
         Sort
       </button>
       <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-        <a href={getQueryString('price-asc')} className="dropdown-item">
-          Sort by price ascending
+        <a
+          href={getUrlDestination({ sort_by: 'price', sort: 'asc' })}
+          className="dropdown-item"
+        >
+          Sort by the lowest price
         </a>
-        <a href={getQueryString('price-desc')} className="dropdown-item">
-          Sort by price descending
+        <a
+          href={getUrlDestination({ sort_by: 'price', sort: 'desc' })}
+          className="dropdown-item"
+        >
+          Sort by the highest price
         </a>
-        <a href={getQueryString('name')} className="dropdown-item">
-          Sort by name
+        <a
+          href={getUrlDestination({ sort_by: 'name' })}
+          className="dropdown-item"
+        >
+          Sort by the name
         </a>
-        <a href={getQueryString('latest')} className="dropdown-item">
+        <a
+          href={getUrlDestination({ sort_by: 'latest' })}
+          className="dropdown-item"
+        >
           Sort by latest
         </a>
       </div>

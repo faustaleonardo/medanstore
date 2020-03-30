@@ -13,10 +13,11 @@ const ItemList = () => {
   const { items, setItems } = useContext(ItemContext);
   const [page, setPage] = useState(1);
   const [nextPage, setNextPage] = useState(null);
-  const [query] = useState(window.location.search);
+
+  const query = window.location.search;
 
   useEffect(() => {
-    const queryStr = query ? query.replace(/[?]/, '') + '&' : '';
+    let queryStr = query ? query.replace(/[?]/, '') + '&' : '';
     const fetchItem = async () => {
       const response = await axios.get(
         `/api/v1/items/pictures?${queryStr}page=${page}`

@@ -1,32 +1,42 @@
 import React from 'react';
+import queryString from 'query-string';
 
 const ConditionCheckbox = () => {
-  let currentUrlAddress = window.location.href;
+  //http://lorem.com?foo=bar
+  let fullUrlAddress = window.location.href;
+
+  //http://lorem.com
+  let baseUrlAddress = fullUrlAddress.split('?')[0];
 
   const isChecked = condition => {
-    return currentUrlAddress.includes(`condition=${condition}`) ? true : false;
+    return fullUrlAddress.includes(`condition=${condition}`) ? true : false;
   };
 
   const handleChange = event => {
     const value = event.target.value;
     const checked = event.target.checked;
 
-    const oldQueryString = window.location.search;
+    const parsed = queryString.parse(window.location.search);
 
     if (checked) {
-      let queryString;
-      queryString = oldQueryString ? `&` : '?';
-      queryString += `condition=${value}`;
-
-      currentUrlAddress = currentUrlAddress + queryString;
+      if (parsed.condition) {
+        parsed.condition = [parsed.condition];
+        parsed.condition.push(value);
+      } else parsed.condition = value;
     } else {
-      currentUrlAddress = currentUrlAddress.replace(
-        /(\?condition=New|\&condition=New|\?condition=Used|\&condition=Used)/,
-        ''
-      );
+      if (parsed.condition instanceof Array) {
+        parsed.condition = parsed.condition.filter(el => el !== value);
+      } else {
+        delete parsed.condition;
+      }
     }
 
-    window.location.href = currentUrlAddress;
+    const urlDestination = queryString.stringifyUrl({
+      url: baseUrlAddress,
+      query: parsed
+    });
+
+    window.location.href = urlDestination;
   };
 
   return (
