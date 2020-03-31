@@ -1,17 +1,24 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext, useEffect, Fragment } from 'react';
 import { Redirect } from 'react-router-dom';
-// import Select from 'react-select';
+import Select from 'react-select';
 import axios from 'axios';
 
 import { CartContext } from '../../context/carts/cartState';
 import formatCurrency from '../../utils/formatCurrency';
 import renderWarningAlert from '../../utils/renderWarningAlert.js';
-import { RAJA_ONGKIR_API_KEY } from '../../config/index';
+import CourierModal from '../partials/CourierModal';
 
 const Checkout = () => {
-  const { carts, updateCart, countTotalPrice, setError, error } = useContext(
-    CartContext
-  );
+  const {
+    carts,
+    courier,
+    error,
+    updateCart,
+    countTotalPrice,
+    setCourier,
+    setError
+  } = useContext(CartContext);
+
   const [voucher, setVoucher] = useState('');
   const [address, setAddress] = useState('');
   const [city, setCity] = useState('');
@@ -24,7 +31,12 @@ const Checkout = () => {
   useEffect(() => {
     const fetchCities = async () => {
       const response = await axios.get('/api/v1/raja-ongkir/cities');
-      console.log(response);
+      const cities = response.data.data.data.rajaongkir.results;
+      const filteredCities = cities.map(city => ({
+        value: city.city_id,
+        label: city.city_name
+      }));
+      setCities(filteredCities);
     };
     fetchCities();
   }, []);
@@ -34,11 +46,11 @@ const Checkout = () => {
     setDiscountPrice(discountPriceValue);
 
     setFinalPrice(countTotalPrice() - discountPriceValue);
-  }, [carts, discount]);
+  }, [carts, discount, courier]);
 
   const handleVoucherSubmit = async event => {
     event.preventDefault();
-    if (!voucher) setError('Voucher code must not be empty!');
+    if (!voucher) return setError('Voucher code must not be empty!');
 
     try {
       const response = await axios.get(`/api/v1/vouchers/${voucher}`);
@@ -97,89 +109,101 @@ const Checkout = () => {
   // if (!carts.length) return <Redirect to="/items" />;
 
   return (
-    <div className="mt-5">
-      <h1 className="mb-5">My Shopping Cart</h1>
-      <div className="clearfix mb-5">
-        <form className="form-inline float-left">
-          <input
-            className="form-control mr-sm-2"
-            type="text"
-            placeholder="Destination Address"
-            aria-label="Destination Address"
-            value={address}
-            onChange={event => setAddress(event.target.value)}
-          />
-          <input
-            className="form-control mr-sm-2"
-            type="text"
-            placeholder="Destination City"
-            aria-label="Destination City"
-            value={city}
-            onChange={event => setCity(event.target.value)}
-          />
-        </form>
-        <form
-          className="form-inline float-right"
-          onSubmit={handleVoucherSubmit}
-        >
-          <input
-            className="form-control mr-sm-2"
-            type="text"
-            placeholder="Voucher Code"
-            aria-label="Voucher Code"
-            value={voucher}
-            onChange={event => setVoucher(event.target.value)}
-          />
-          <button className="btn btn-success my-2 my-sm-0" type="submit">
-            Apply
-          </button>
-        </form>
-      </div>
-      {renderWarningAlert(error)}
-      {discount ? (
-        <div className="alert alert-success" role="alert">
-          Congratulations! You have got {discount}% discount :)
+    <Fragment>
+      <CourierModal city={city} />
+
+      <div className="mt-5">
+        <h1 className="mb-5">My Shopping Cart</h1>
+        <div className="clearfix mb-5">
+          <form className="form-inline float-left">
+            <Select
+              value={city}
+              onChange={selectedOption => setCity(selectedOption)}
+              options={cities}
+              placeholder={'City'}
+            />
+            <input
+              id="destination-address-input"
+              className="form-control mr-sm-2"
+              type="text"
+              placeholder="Address"
+              aria-label="Address"
+              value={address}
+              onChange={event => setAddress(event.target.value)}
+            />
+            <button
+              type="submit"
+              className="btn btn-success"
+              data-toggle="modal"
+              data-target="#courierModal"
+              {...(city ? '' : 'disabled')}
+            >
+              Check
+            </button>
+          </form>
+          <form
+            className="form-inline float-right"
+            onSubmit={handleVoucherSubmit}
+          >
+            <input
+              className="form-control mr-sm-2"
+              type="text"
+              placeholder="Voucher Code"
+              aria-label="Voucher Code"
+              value={voucher}
+              onChange={event => setVoucher(event.target.value)}
+            />
+            <button className="btn btn-success my-2 my-sm-0" type="submit">
+              Apply
+            </button>
+          </form>
         </div>
-      ) : (
-        ''
-      )}
-      <table className="table mb-5">
-        <thead>
-          <tr>
-            <th scope="col">Item</th>
-            <th scope="col">Quantity</th>
-            <th scope="col">Price</th>
-            <th scope="col">Total</th>
-          </tr>
-        </thead>
-        <tbody>
-          {renderContent()}
-          <tr>
-            <th>Subtotal</th>
-            <td></td>
-            <td></td>
-            <th>{formatCurrency(countTotalPrice())}</th>
-          </tr>
-          {discount ? (
-            <tr className="text-danger">
-              <th>Voucher Code Discount {discount}%</th>
-              <td></td>
-              <td></td>
-              <th>- {formatCurrency(discountPrice)}</th>
+        {renderWarningAlert(error)}
+        {discount ? (
+          <div className="alert alert-success" role="alert">
+            Congratulations! You have got {discount}% discount :)
+          </div>
+        ) : (
+          ''
+        )}
+        <table className="table mb-5">
+          <thead>
+            <tr>
+              <th scope="col">Item</th>
+              <th scope="col">Quantity</th>
+              <th scope="col">Price</th>
+              <th scope="col">Total</th>
             </tr>
-          ) : null}
-          <tr className="text-success">
-            <th>Total</th>
-            <td></td>
-            <td></td>
-            <th>{formatCurrency(finalPrice)}</th>
-          </tr>
-        </tbody>
-      </table>
-      <div className="text-right mb-5">
-        <button className="btn btn-success">Finish Order</button>
+          </thead>
+          <tbody>
+            {renderContent()}
+            <tr>
+              <th>Subtotal</th>
+              <td></td>
+              <td></td>
+              <th>{formatCurrency(countTotalPrice())}</th>
+            </tr>
+            {discount ? (
+              <tr className="text-danger">
+                <th>Voucher Code Discount {discount}%</th>
+                <td></td>
+                <td></td>
+                <th>- {formatCurrency(discountPrice)}</th>
+              </tr>
+            ) : null}
+            <tr className="text-success">
+              <th>Total</th>
+              <td></td>
+              <td></td>
+              <th>{formatCurrency(finalPrice)}</th>
+            </tr>
+          </tbody>
+        </table>
+        <div className="text-right mb-5">
+          <button className="btn btn-success">Finish Order</button>
+        </div>
       </div>
-    </div>
+    </Fragment>
   );
 };
 

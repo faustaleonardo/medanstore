@@ -103,3 +103,13 @@
   width: 2rem;
   margin: 0 10px;
 }
+
+/* react-select class */
+.css-2b097c-container {
+  width: 13rem;
+}
+
+#destination-address-input {
+  margin-left: 5px;
+  width: 18rem;
+}

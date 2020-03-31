@@ -4,6 +4,7 @@ import cartReducer from './cartReducer';
 
 const initialState = {
   carts: [],
+  courier: null,
   error: null
 };
 
@@ -45,6 +46,10 @@ export const CartProvider = ({ children }) => {
     dispatch({ type: 'DELETE_CART', payload: id });
   };
 
+  const setCourier = data => {
+    dispatch({ type: 'SET_COURIER', payload: data });
+  };
+
   const setError = data => {
     dispatch({ type: 'CART_ERROR', payload: data });
   };
@@ -54,11 +59,13 @@ export const CartProvider = ({ children }) => {
       value={{
         carts: state.carts,
         error: state.error,
+        courier: state.courier,
         countQuantity,
         countTotalPrice,
         addCart,
         updateCart,
         deleteCart,
+        setCourier,
         setError
       }}
     >
