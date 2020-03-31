@@ -1,5 +1,5 @@
-import React, { useState, useContext } from 'react';
-import { Link, Redirect } from 'react-router-dom';
+import React, { useState, useContext, useEffect } from 'react';
+import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 
 import { CartContext } from '../../context/carts/cartState';
@@ -7,11 +7,20 @@ import formatCurrency from '../../utils/formatCurrency';
 import renderWarningAlert from '../../utils/renderWarningAlert.js';
 
 const Checkout = () => {
-  // if (!carts.length) return <Redirect to="/items" />;
-
-  const { carts, setError, error } = useContext(CartContext);
+  const { carts, updateCart, countTotalPrice, setError, error } = useContext(
+    CartContext
+  );
   const [voucher, setVoucher] = useState('');
   const [discount, setDiscount] = useState(0);
+  const [discountPrice, setDiscountPrice] = useState(0);
+  const [finalPrice, setFinalPrice] = useState(0);
+
+  useEffect(() => {
+    const discountPriceValue = countTotalPrice() * (discount / 100);
+    setDiscountPrice(discountPriceValue);
+
+    setFinalPrice(countTotalPrice() - discountPriceValue);
+  }, [carts, discount]);
 
   const handleVoucherSubmit = async event => {
     event.preventDefault();
@@ -28,6 +37,50 @@ const Checkout = () => {
     }
     setVoucher('');
   };
+
+  const handleUpdateCart = (id, operator) => {
+    const cart = carts.find(cart => cart.id === id);
+    if (operator === 'subtract' && cart.quantity <= 1) return;
+
+    return updateCart({
+      id,
+      operator
+    });
+  };
+
+  const renderContent = () => {
+    return carts.map(cart => {
+      return (
+        <tr key={cart.id}>
+          <th>{cart.name}</th>
+          <td>
+            <div
+              className="btn-pointer text-danger"
+              onClick={() => handleUpdateCart(cart.id, 'subtract')}
+            >
+              <i className="fas fa-minus"></i>
+            </div>
+            <input
+              className="input-quantity ml-2 mr-2"
+              name="quantity"
+              disabled
+              value={cart.quantity}
+            />
+            <div
+              className="btn-pointer text-success"
+              onClick={() => handleUpdateCart(cart.id, 'add')}
+            >
+              <i className="fas fa-plus"></i>
+            </div>
+          </td>
+          <td>{formatCurrency(cart.price)}</td>
+          <td>{formatCurrency(cart.price * cart.quantity)}</td>
+        </tr>
+      );
+    });
+  };
+
+  if (!carts.length) return <Redirect to="/items" />;
 
   return (
     <div className="mt-5">
@@ -67,51 +120,26 @@ const Checkout = () => {
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <th>1. Samsung S10 Plus</th>
-            <td>
-              <div className="btn-pointer">
-                <i className="fas fa-minus"></i>
-              </div>
-              <input className="input-quantity ml-2 mr-2" name="quantity" />
-              <div className="btn-pointer">
-                <i className="fas fa-plus"></i>
-              </div>
-            </td>
-            <td>Rp. 11.000.000</td>
-            <td>Rp. 11.000.000</td>
-          </tr>
-          <tr>
-            <th>2. Samsung S10 Plus</th>
-            <td>
-              <div className="btn-pointer">
-                <i className="fas fa-minus"></i>
-              </div>
-              <input className="input-quantity ml-2 mr-2" name="quantity" />
-              <div className="btn-pointer">
-                <i className="fas fa-plus"></i>
-              </div>
-            </td>
-            <td>Rp. 11.000.000</td>
-            <td>Rp. 11.000.000</td>
-          </tr>
+          {renderContent()}
           <tr>
             <th>Subtotal</th>
             <td></td>
             <td></td>
-            <th>Rp. 22.000.000</th>
+            <th>{formatCurrency(countTotalPrice())}</th>
           </tr>
-          <tr className="text-danger">
-            <th>Voucher Code Discount 10%</th>
-            <td></td>
-            <td></td>
-            <th>- Rp. 220.000</th>
-          </tr>
+          {discount ? (
+            <tr className="text-danger">
+              <th>Voucher Code Discount {discount}%</th>
+              <td></td>
+              <td></td>
+              <th>- {formatCurrency(discountPrice)}</th>
+            </tr>
+          ) : null}
           <tr className="text-success">
             <th>Total</th>
             <td></td>
             <td></td>
-            <th>Rp. 20.980.000</th>
+            <th>{formatCurrency(finalPrice)}</th>
           </tr>
         </tbody>
       </table>
