@@ -3,7 +3,8 @@ import React, { createContext, useReducer } from 'react';
 import cartReducer from './cartReducer';
 
 const initialState = {
-  carts: []
+  carts: [],
+  error: null
 };
 
 export const CartContext = createContext(initialState);
@@ -44,15 +45,21 @@ export const CartProvider = ({ children }) => {
     dispatch({ type: 'DELETE_CART', payload: id });
   };
 
+  const setError = data => {
+    dispatch({ type: 'CART_ERROR', payload: data });
+  };
+
   return (
     <Provider
       value={{
         carts: state.carts,
+        error: state.error,
         countQuantity,
         countTotalPrice,
         addCart,
         updateCart,
-        deleteCart
+        deleteCart,
+        setError
       }}
     >
       {children}

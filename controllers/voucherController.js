@@ -11,10 +11,14 @@ exports.getVouchers = async ctx => {
 };
 
 exports.getVoucher = async ctx => {
-  const { id } = ctx.params;
+  const { code } = ctx.params;
 
-  const voucher = await models.Voucher.findByPk(id);
+  const voucher = await models.Voucher.findOne({ where: { code } });
   if (!voucher) ctx.throw(404, `Voucher not found`);
+
+  if (voucher && voucher.expiredTime < Date.now()) {
+    ctx.throw(401, 'Voucher has expired');
+  }
 
   sendSuccessResponse(ctx, voucher);
 };

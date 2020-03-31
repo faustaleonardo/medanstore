@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import $ from 'jquery';
 import { useHistory } from 'react-router-dom';
 
 import { CartContext } from '../../context/carts/cartState';
@@ -6,17 +7,12 @@ import { CartContext } from '../../context/carts/cartState';
 import formatCurrency from '../../utils/formatCurrency';
 
 const CartModal = () => {
-  const {
-    carts,
-    countQuantity,
-    countTotalPrice,
-    updateCart,
-    deleteCart
-  } = useContext(CartContext);
+  const { carts, countTotalPrice, updateCart, deleteCart } = useContext(
+    CartContext
+  );
+  const history = useHistory();
 
-  const handleDeleteCart = id => {
-    deleteCart(id);
-  };
+  const handleDeleteCart = id => deleteCart(id);
 
   const handleUpdateCart = (id, operator) => {
     const cart = carts.find(cart => cart.id === id);
@@ -26,6 +22,11 @@ const CartModal = () => {
       id,
       operator
     });
+  };
+
+  const handleCheckout = () => {
+    $('#cartModal').modal('toggle');
+    history.push('/checkout');
   };
 
   const renderContent = () => {
@@ -129,7 +130,11 @@ const CartModal = () => {
                 Close
               </button>
               {carts.length ? (
-                <button type="button" className="btn btn-success">
+                <button
+                  type="button"
+                  className="btn btn-success"
+                  onClick={handleCheckout}
+                >
                   Checkout
                 </button>
               ) : (

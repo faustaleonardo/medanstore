@@ -22,6 +22,11 @@ export default (state, action) => {
         ...state,
         carts: state.carts.filter(cart => cart.id !== payload)
       };
+    case 'CART_ERROR':
+      return {
+        ...state,
+        error: payload
+      };
     default:
       return state;
   }
