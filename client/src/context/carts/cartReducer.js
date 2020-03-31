@@ -4,12 +4,13 @@ export default (state, action) => {
     case 'ADD_CART':
       return { ...state, carts: [...state.carts, payload] };
     case 'UPDATE_CART':
-      const { id, newQuantity, operator } = payload;
+      const { id, operator } = payload;
       const carts = [...state.carts];
       const index = carts.findIndex(cart => cart.id === id);
 
-      if (operator === '+') carts[index].quantity += newQuantity;
-      else carts[index].quantity -= newQuantity;
+      if (operator === 'add') carts[index].quantity++;
+      else carts[index].quantity--;
+
       carts[index].totalPrice = carts[index].price * carts[index].quantity;
 
       return {

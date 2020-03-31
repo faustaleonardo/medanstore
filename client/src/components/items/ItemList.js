@@ -15,7 +15,7 @@ const ItemList = () => {
   const [page, setPage] = useState(1);
   const [nextPage, setNextPage] = useState(null);
 
-  const { carts, addCart } = useContext(CartContext);
+  const { addCart } = useContext(CartContext);
 
   const query = window.location.search;
   useEffect(() => {
@@ -60,7 +60,7 @@ const ItemList = () => {
               </p>
               <button
                 className="btn btn-success"
-                onClick={() => addCart(item, 1, '+')}
+                onClick={() => addCart(item, 'add')}
               >
                 Add to cart
               </button>

@@ -12,17 +12,25 @@ const { Provider } = CartContext;
 export const CartProvider = ({ children }) => {
   const [state, dispatch] = useReducer(cartReducer, initialState);
 
-  const addCart = ({ id, name, price, pictures }, newQuantity, operator) => {
+  const countQuantity = () => {
+    return state.carts.reduce((acc, cart) => acc + cart.quantity, 0);
+  };
+
+  const countTotalPrice = () => {
+    return state.carts.reduce((acc, cart) => acc + cart.totalPrice, 0);
+  };
+
+  const addCart = ({ id, name, price, pictures }, operator) => {
     const existingItem = state.carts.find(cart => cart.id === id);
-    if (existingItem) return updateCart({ id, newQuantity, operator });
+    if (existingItem) return updateCart({ id, operator });
 
     const cart = {
       id,
       name,
       price,
       picturePath: pictures[0].path,
-      quantity: newQuantity,
-      totalPrice: price
+      quantity: 1,
+      totalPrice: price * 1
     };
 
     dispatch({ type: 'ADD_CART', payload: cart });
@@ -40,6 +48,8 @@ export const CartProvider = ({ children }) => {
     <Provider
       value={{
         carts: state.carts,
+        countQuantity,
+        countTotalPrice,
         addCart,
         updateCart,
         deleteCart

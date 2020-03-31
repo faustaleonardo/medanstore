@@ -1,17 +1,37 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
+import { useHistory } from 'react-router-dom';
+
 import { CartContext } from '../../context/carts/cartState';
 
-const CartModal = () => {
-  const { carts, updateCart, deleteCart } = useContext(CartContext);
+import formatCurrency from '../../utils/formatCurrency';
 
-  const countQuantity = () => {
-    return carts.reduce((acc, cart) => acc + cart.quantity, 0);
+const CartModal = () => {
+  const {
+    carts,
+    countQuantity,
+    countTotalPrice,
+    updateCart,
+    deleteCart
+  } = useContext(CartContext);
+
+  const handleDeleteCart = id => {
+    deleteCart(id);
+  };
+
+  const handleUpdateCart = (id, operator) => {
+    const cart = carts.find(cart => cart.id === id);
+    if (operator === 'subtract' && cart.quantity <= 1) return;
+
+    return updateCart({
+      id,
+      operator
+    });
   };
 
   const renderContent = () => {
     return carts.map(cart => {
       return (
-        <div className="row mb-4">
+        <div className="row mb-4" key={cart.id}>
           <div className="col-md-2">
             <img
               src={cart.picturePath}
@@ -25,7 +45,10 @@ const CartModal = () => {
                 <p>{cart.name}</p>
               </div>
               <div className="float-right">
-                <div className="text-danger btn-pointer">
+                <div
+                  className="text-danger btn-pointer"
+                  onClick={() => handleDeleteCart(cart.id)}
+                >
                   <i className="fas fa-trash"></i>
                 </div>
               </div>
@@ -40,16 +63,29 @@ const CartModal = () => {
             </div>
             <div className="clearfix">
               <div className="float-left">
-                <div className="btn-pointer">
+                <div
+                  className="btn-pointer text-danger"
+                  onClick={() => handleUpdateCart(cart.id, 'subtract')}
+                >
                   <i className="fas fa-minus"></i>
                 </div>
-                <input className="input-quantity ml-2 mr-2" name="quantity" />
-                <div className="btn-pointer">
+                <input
+                  type="text"
+                  className="input-quantity"
+                  disabled
+                  value={cart.quantity}
+                />
+                <div
+                  className="btn-pointer text-success"
+                  onClick={() => handleUpdateCart(cart.id, 'add')}
+                >
                   <i className="fas fa-plus"></i>
                 </div>
               </div>
               <div className="float-right">
-                <span>{cart.price}</span>
+                <span className="text-success font-weight-bold">
+                  {formatCurrency(cart.totalPrice)}
+                </span>
               </div>
             </div>
           </div>
@@ -58,56 +94,71 @@ const CartModal = () => {
     });
   };
 
-  if (!carts.length) return null;
-
-  return (
-    <div
-      className="modal fade"
-      id="cartModal"
-      tabIndex={-1}
-      role="dialog"
-      aria-labelledby="cartTitle"
-      aria-hidden="true"
-    >
-      <div className="modal-dialog modal-dialog-centered" role="document">
-        <div className="modal-content">
-          <div className="modal-header">
-            <p className="modal-title" id="cartTitle">
-              You have {countQuantity()} item in your cart
-            </p>
-            <button
-              type="button"
-              className="close"
-              data-dismiss="modal"
-              aria-label="Close"
-            >
-              <span aria-hidden="true">×</span>
-            </button>
-          </div>
-          <div className="modal-body">
-            <div className="container-fluid">{renderContent()}</div>
-            <div className="clearfix">
-              <div className="border-top mb-3"></div>
-              <h4 className="float-left text-uppercase">Total</h4>
-              <h5 className="float-right">Rp. 22.000.000,-</h5>
+  const renderModal = body => {
+    return (
+      <div
+        className="modal fade"
+        id="cartModal"
+        tabIndex={-1}
+        role="dialog"
+        aria-labelledby="cartTitle"
+        aria-hidden="true"
+      >
+        <div className="modal-dialog modal-dialog-centered" role="document">
+          <div className="modal-content">
+            <div className="modal-header">
+              <p className="modal-title" id="cartTitle">
+                You have {carts.length} item in your cart
+              </p>
+              <button
+                type="button"
+                className="close"
+                data-dismiss="modal"
+                aria-label="Close"
+              >
+                <span aria-hidden="true">×</span>
+              </button>
             </div>
-          </div>
-          <div className="modal-footer">
-            <button
-              type="button"
-              className="btn btn-secondary"
-              data-dismiss="modal"
-            >
-              Close
-            </button>
-            <button type="button" className="btn btn-success">
-              Checkout
-            </button>
+            {body}
+            <div className="modal-footer">
+              <button
+                type="button"
+                className="btn btn-secondary"
+                data-dismiss="modal"
+              >
+                Close
+              </button>
+              {carts.length ? (
+                <button type="button" className="btn btn-success">
+                  Checkout
+                </button>
+              ) : (
+                ''
+              )}
+            </div>
           </div>
         </div>
       </div>
+    );
+  };
+
+  if (!carts.length) {
+    return renderModal(<div className="modal-body">Empty :(</div>);
+  }
+
+  const cartBody = (
+    <div className="modal-body">
+      <div className="container-fluid">{renderContent()}</div>
+      <div className="clearfix">
+        <div className="border-top mb-3"></div>
+        <h4 className="float-left text-uppercase">Total</h4>
+        <h5 className="float-right text-success font-weight-bold">
+          {formatCurrency(countTotalPrice())}
+        </h5>
+      </div>
     </div>
   );
+  return renderModal(cartBody);
 };
 
 export default CartModal;
