@@ -3,20 +3,21 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 import { ItemContext } from '../../context/items/itemState';
+import { CartContext } from '../../context/carts/cartState';
 import formatCurrency from '../../utils/formatCurrency';
 
 import ConditionCheckbox from './ConditionCheckbox';
 import CategoryCheckbox from './CategoryCheckbox';
 import SortDropdown from './SortDropdown';
-import { addItemToCart } from '../../utils/cart';
 
 const ItemList = () => {
   const { items, setItems } = useContext(ItemContext);
   const [page, setPage] = useState(1);
   const [nextPage, setNextPage] = useState(null);
 
-  const query = window.location.search;
+  const { carts, addCart } = useContext(CartContext);
 
+  const query = window.location.search;
   useEffect(() => {
     let queryStr = query ? query.replace(/[?]/, '') + '&' : '';
     const fetchItem = async () => {
@@ -59,7 +60,7 @@ const ItemList = () => {
               </p>
               <button
                 className="btn btn-success"
-                onClick={() => addItemToCart(item)}
+                onClick={() => addCart(item, 1, '+')}
               >
                 Add to cart
               </button>

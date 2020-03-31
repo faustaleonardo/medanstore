@@ -5,6 +5,7 @@ import { AuthContext } from '../context/auth/authState';
 import { CategoryProvider } from '../context/categories/categoryState';
 import { ItemProvider } from '../context/items/itemState';
 import { VoucherProvider } from '../context/vouchers/voucherState';
+import { CartProvider } from '../context/carts/cartState';
 
 // partials
 import Header from './partials/Header';
@@ -43,20 +44,22 @@ const App = () => {
     <div className="container">
       <BrowserRouter>
         <div>
-          <Header />
-          <SearchBar />
-          <Route exact path="/" component={Jumbotron} />
+          <CartProvider>
+            <Header />
+            <SearchBar />
+            <Route exact path="/" component={Jumbotron} />
 
-          <Route exact path="/login" component={Login} />
-          <Route exact path="/signup" component={Signup} />
+            <Route exact path="/login" component={Login} />
+            <Route exact path="/signup" component={Signup} />
 
-          <ItemProvider>
-            <Route exact path="/items" component={ItemList} />
-            <Route exact path="/items/:id" component={ItemDetails} />
-          </ItemProvider>
+            <ItemProvider>
+              <Route exact path="/items" component={ItemList} />
+              <Route exact path="/items/:id" component={ItemDetails} />
+            </ItemProvider>
 
-          <Route exact path="/checkout" component={Checkout} />
-          <Route exact path="/orders" component={Order} />
+            <Route exact path="/checkout" component={Checkout} />
+            <Route exact path="/orders" component={Order} />
+          </CartProvider>
 
           {/* admin only */}
           <CategoryProvider>
