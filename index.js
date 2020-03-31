@@ -15,6 +15,7 @@ const pictureRouter = require('./routes/pictureRoutes');
 const voucherRouter = require('./routes/voucherRoutes');
 const orderRouter = require('./routes/orderRoutes');
 const paymentRouter = require('./routes/paymentRoutes');
+const rajaOngkirRouter = require('./routes/rajaOngkirRoutes');
 
 require('dotenv').config();
 require('./services/passport');
@@ -36,6 +37,7 @@ app.use(pictureRouter.routes());
 app.use(voucherRouter.routes());
 app.use(orderRouter.routes());
 app.use(paymentRouter.routes());
+app.use(rajaOngkirRouter.routes());
 
 // error handling
 app.use(async (ctx, next) => {

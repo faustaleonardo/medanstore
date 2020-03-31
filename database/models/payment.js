@@ -10,6 +10,7 @@ module.exports = (sequelize, DataTypes) => {
         defaultValue: 1
       },
       deliveryCost: DataTypes.DECIMAL,
+      deliveryAddress: DataTypes.STRING,
       statusPayment: {
         type: DataTypes.BOOLEAN,
         defaultValue: false

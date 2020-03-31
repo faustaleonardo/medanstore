@@ -1,19 +1,33 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { Redirect } from 'react-router-dom';
+// import Select from 'react-select';
 import axios from 'axios';
 
 import { CartContext } from '../../context/carts/cartState';
 import formatCurrency from '../../utils/formatCurrency';
 import renderWarningAlert from '../../utils/renderWarningAlert.js';
+import { RAJA_ONGKIR_API_KEY } from '../../config/index';
 
 const Checkout = () => {
   const { carts, updateCart, countTotalPrice, setError, error } = useContext(
     CartContext
   );
   const [voucher, setVoucher] = useState('');
+  const [address, setAddress] = useState('');
+  const [city, setCity] = useState('');
   const [discount, setDiscount] = useState(0);
   const [discountPrice, setDiscountPrice] = useState(0);
   const [finalPrice, setFinalPrice] = useState(0);
+
+  const [cities, setCities] = useState([]);
+
+  useEffect(() => {
+    const fetchCities = async () => {
+      const response = await axios.get('/api/v1/raja-ongkir/cities');
+      console.log(response);
+    };
+    fetchCities();
+  }, []);
 
   useEffect(() => {
     const discountPriceValue = countTotalPrice() * (discount / 100);
@@ -80,28 +94,47 @@ const Checkout = () => {
     });
   };
 
-  if (!carts.length) return <Redirect to="/items" />;
+  // if (!carts.length) return <Redirect to="/items" />;
 
   return (
     <div className="mt-5">
       <h1 className="mb-5">My Shopping Cart</h1>
-      <form
-        className="form-inline float-right mb-5"
-        onSubmit={handleVoucherSubmit}
-      >
-        <input
-          className="form-control mr-sm-2"
-          type="search"
-          placeholder="Voucher Code"
-          aria-label="Voucher Code"
-          value={voucher}
-          onChange={event => setVoucher(event.target.value)}
-        />
-        <button className="btn btn-success my-2 my-sm-0" type="submit">
-          Apply
-        </button>
-      </form>
-      <div className="clearfix"></div>
+      <div className="clearfix mb-5">
+        <form className="form-inline float-left">
+          <input
+            className="form-control mr-sm-2"
+            type="text"
+            placeholder="Destination Address"
+            aria-label="Destination Address"
+            value={address}
+            onChange={event => setAddress(event.target.value)}
+          />
+          <input
+            className="form-control mr-sm-2"
+            type="text"
+            placeholder="Destination City"
+            aria-label="Destination City"
+            value={city}
+            onChange={event => setCity(event.target.value)}
+          />
+        </form>
+        <form
+          className="form-inline float-right"
+          onSubmit={handleVoucherSubmit}
+        >
+          <input
+            className="form-control mr-sm-2"
+            type="text"
+            placeholder="Voucher Code"
+            aria-label="Voucher Code"
+            value={voucher}
+            onChange={event => setVoucher(event.target.value)}
+          />
+          <button className="btn btn-success my-2 my-sm-0" type="submit">
+            Apply
+          </button>
+        </form>
+      </div>
       {renderWarningAlert(error)}
       {discount ? (
         <div className="alert alert-success" role="alert">
