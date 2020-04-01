@@ -21,7 +21,7 @@ exports.getOrdersAndItems = async ctx => {
     include: [
       {
         model: models.Item,
-        attributes: ['id', 'name', 'price'],
+        attributes: ['id', 'name'],
         as: 'item'
       }
     ],

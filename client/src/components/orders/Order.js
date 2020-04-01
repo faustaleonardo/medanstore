@@ -1,15 +1,20 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import axios from 'axios';
+
 import formatDate from '../../utils/formatDate';
 import formatCurrency from '../../utils/formatCurrency';
 
 import WarningModal from '../partials/WarningModal';
-import Pagination from '../partials/Pagination';
 
 const Order = () => {
   const [payments, setPayments] = useState([]);
   const [page, setPage] = useState(1);
   const [nextPage, setNextPage] = useState(null);
+  const [id, setId] = useState(null);
+
+  const cancelPayment = async orderId => {
+    await axios.patch(`/api/v1/payments/${orderId}`, { active: false });
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -40,10 +45,27 @@ const Order = () => {
     hasNextPage();
   }, [page]);
 
+  let subTotal;
+  const renderSubContent = payment => {
+    subTotal = 0;
+    const orderContent = payment.orders.map(order => {
+      subTotal += order.totalPrice * 1;
+      return (
+        <tr key={order.id}>
+          <td>{order.item.name}</td>
+          <td className="text-center">{order.quantity}</td>
+          <td>{formatCurrency(order.totalPrice)}</td>
+        </tr>
+      );
+    });
+
+    return orderContent;
+  };
+
   const renderContent = () => {
     return payments.map(payment => {
       return (
-        <div className="order-section">
+        <div className="order-section" key={payment.id}>
           {payment.active ? (
             <div className="alert alert-info">
               Please pay your order before {formatDate(payment.expiredTime)}
@@ -54,13 +76,13 @@ const Order = () => {
               <h4>
                 Status:
                 {!payment.active && payment.statusPayment ? (
-                  <span className="text-succes">Paid</span>
+                  <span className="text-succes"> Paid</span>
                 ) : null}
                 {payment.active && !payment.statusPayment ? (
-                  <span className="text-secondary">Waiting for Payment</span>
+                  <span className="text-secondary"> Waiting for Payment</span>
                 ) : null}
                 {!payment.active && !payment.statusPayment ? (
-                  <span className="text-danger">Cancelled</span>
+                  <span className="text-danger"> Cancelled</span>
                 ) : null}
               </h4>
             </div>
@@ -68,23 +90,27 @@ const Order = () => {
             {payment.active ? (
               <div className="float-right">
                 <button type="button" className="btn btn-success">
-                  Pay Now
+                  Pay now
                 </button>
                 <button
                   type="button"
                   className="btn btn-danger ml-2"
                   data-toggle="modal"
                   data-target="#warningModal"
+                  onClick={() => setId(payment.orderId)}
                 >
-                  Cancel the order
+                  Cancel
                 </button>
               </div>
             ) : null}
           </div>
 
-          <p className="text-secondary mb-1">
-            Ordered on {formatDate(payment.createdAt)} delivered by{' '}
+          <p className="text-secondary mb-0">
+            Ordered on {formatDate(payment.createdAt)}
             {payment.courier}
+          </p>
+          <p className="text-secondary mb-1">
+            Sent to {payment.deliveryAddress} by {payment.courier}
           </p>
           <table className="table mb-5">
             <thead>
@@ -97,30 +123,30 @@ const Order = () => {
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <th>1. Samsung S10 Plus</th>
-                <td className="text-center">2</td>
-                <td>Rp. 11.000.000</td>
-              </tr>
+              {renderSubContent(payment)}
               <tr>
                 <th>Subtotal</th>
                 <td></td>
-                <th>Rp. 22.000.000</th>
+                <th>{formatCurrency(subTotal)}</th>
               </tr>
+              {payment.discount !== 0 ? (
+                <tr className="text-danger">
+                  <th>Voucher Code Discount {payment.discount}%</th>
+                  <td></td>
+                  <th>
+                    - {formatCurrency((subTotal * payment.discount * 1) / 100)}
+                  </th>
+                </tr>
+              ) : null}
               <tr className="text-success">
                 <th>Delivery Cost</th>
                 <td></td>
-                <th>+ Rp. 50.000</th>
-              </tr>
-              <tr className="text-danger">
-                <th>Voucher Code Discount 10%</th>
-                <td></td>
-                <th>- Rp. 220.000</th>
+                <th>+ {formatCurrency(payment.deliveryCost)}</th>
               </tr>
               <tr className="text-success">
                 <th>Total</th>
                 <td></td>
-                <th>Rp. 20.980.000</th>
+                <th>{formatCurrency(payment.finalPrice)}</th>
               </tr>
             </tbody>
           </table>
@@ -130,17 +156,46 @@ const Order = () => {
     });
   };
 
-  if (!payments.length) return null;
+  const renderPaginate = () => {
+    if (page === 1 && nextPage === false) return null;
+
+    return (
+      <nav aria-label="Page navigation" className="item-pagination">
+        <ul className="pagination justify-content-center">
+          <li className={`page-item ${page === 1 ? 'disabled' : ''}`}>
+            <button
+              type="button"
+              className="page-link"
+              onClick={() => setPage(page - 1)}
+            >
+              Previous
+            </button>
+          </li>
+          <li className={`page-item ${nextPage === false ? 'disabled' : ''}`}>
+            <button
+              type="button"
+              className="page-link"
+              onClick={() => setPage(page + 1)}
+            >
+              Next
+            </button>
+          </li>
+        </ul>
+      </nav>
+    );
+  };
+
+  if (!payments.length || nextPage === null) return null;
 
   return (
     <Fragment>
-      <WarningModal title="Cancel the Order" />
+      <WarningModal title="Cancel the Order" id={id} action={cancelPayment} />
 
       <div className="mt-5">
         <h1 className="mb-5">My Orders</h1>
         <div className="orders-contaienr">{renderContent()}</div>
       </div>
-      <Pagination />
+      {renderPaginate()}
     </Fragment>
   );
 };

@@ -112,7 +112,7 @@ const Checkout = () => {
       data = {
         discount,
         deliveryCost: courier.cost[0].value,
-        deliveryAddress: address,
+        deliveryAddress: `${address}, ${city.label}`,
         courier: courier.name,
         finalPrice
       };
@@ -247,20 +247,20 @@ const Checkout = () => {
               <td></td>
               <th>{formatCurrency(countTotalPrice())}</th>
             </tr>
-            {courier ? (
-              <tr className="text-success">
-                <th>{courier.name}</th>
-                <td></td>
-                <td></td>
-                <th>+ {formatCurrency(courier.cost[0].value)}</th>
-              </tr>
-            ) : null}
             {discount ? (
               <tr className="text-danger">
                 <th>Voucher Code Discount {discount}%</th>
                 <td></td>
                 <td></td>
                 <th>- {formatCurrency(discountPrice)}</th>
+              </tr>
+            ) : null}
+            {courier ? (
+              <tr className="text-success">
+                <th>{courier.name}</th>
+                <td></td>
+                <td></td>
+                <th>+ {formatCurrency(courier.cost[0].value)}</th>
               </tr>
             ) : null}
             <tr className="text-success">
