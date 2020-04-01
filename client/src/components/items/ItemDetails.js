@@ -1,5 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { useParams } from 'react-router-dom';
+
+import { CartContext } from '../../context/carts/cartState';
 import formatCurrency from '../../utils/formatCurrency';
 
 import axios from 'axios';
@@ -7,7 +9,9 @@ import axios from 'axios';
 import ItemCarousel from './ItemCarousel';
 
 const ItemDetails = () => {
+  const { addCart } = useContext(CartContext);
   const [item, setItem] = useState(null);
+
   const { id } = useParams();
 
   useEffect(() => {
@@ -30,7 +34,12 @@ const ItemDetails = () => {
         <div className="col-sm-5 text-center">
           <h2 className="mt-5 mb-4">{item.name}</h2>
           <h1 className="text-success mb-5">{formatCurrency(item.price)}</h1>
-          <button className="btn btn-success">Add to cart</button>
+          <button
+            className="btn btn-success"
+            onClick={() => addCart(item, 'add')}
+          >
+            Add to cart
+          </button>
         </div>
       </div>
       <div className="card mt-5">

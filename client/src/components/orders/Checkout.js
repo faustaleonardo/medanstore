@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect, Fragment } from 'react';
-import { Redirect } from 'react-router-dom';
+import { Redirect, useHistory } from 'react-router-dom';
 import Select from 'react-select';
 import axios from 'axios';
 
@@ -12,11 +12,11 @@ const Checkout = () => {
   const {
     carts,
     courier,
+    setCourier,
     error,
     updateCart,
     countTotalPrice,
     countQuantity,
-    setCourier,
     setError
   } = useContext(CartContext);
 
@@ -26,8 +26,9 @@ const Checkout = () => {
   const [discount, setDiscount] = useState(0);
   const [discountPrice, setDiscountPrice] = useState(0);
   const [finalPrice, setFinalPrice] = useState(0);
-
   const [cities, setCities] = useState([]);
+
+  const history = useHistory();
 
   useEffect(() => {
     const fetchCities = async () => {
@@ -46,7 +47,9 @@ const Checkout = () => {
     const discountPriceValue = countTotalPrice() * (discount / 100);
     setDiscountPrice(discountPriceValue);
 
-    setFinalPrice(countTotalPrice() - discountPriceValue);
+    let result = countTotalPrice() - discountPriceValue;
+    if (!courier) setFinalPrice(result);
+    else setFinalPrice(result + courier.cost[0].value);
   }, [carts, discount, courier]);
 
   const handleVoucherSubmit = async event => {
@@ -73,6 +76,43 @@ const Checkout = () => {
       id,
       operator
     });
+  };
+
+  const handleSelectChange = selectedOption => {
+    setCity(selectedOption);
+
+    if (courier) setCourier(null);
+  };
+
+  const handleFinishOder = async () => {
+    let response, data;
+    try {
+      // create order
+      const items = carts.map(cart => ({
+        id: cart.id,
+        quantity: cart.quantity
+      }));
+      data = {
+        items
+      };
+      response = await axios.post('/api/v1/orders', data);
+      const order = response.data.data.data;
+
+      // create payment
+      const orderId = order[0].orderId;
+      data = {
+        discount,
+        deliveryCost: courier.cost[0].value,
+        deliveryAddress: address,
+        courier: courier.name,
+        finalPrice
+      };
+      await axios.post(`/api/v1/payments/${orderId}`, data);
+
+      history.push('/orders');
+    } catch (err) {
+      setError(err.response.data);
+    }
   };
 
   const renderContent = () => {
@@ -107,7 +147,9 @@ const Checkout = () => {
     });
   };
 
-  // if (!carts.length) return <Redirect to="/items" />;
+  if (!carts.length) return <Redirect to="/items" />;
+
+  if (!cities.length) return null;
 
   return (
     <Fragment>
@@ -116,10 +158,11 @@ const Checkout = () => {
       <div className="mt-5">
         <h1 className="mb-5">My Shopping Cart</h1>
         <div className="clearfix mb-5">
+          <p className="mb-1">Choose a courier</p>
           <form className="form-inline float-left">
             <Select
               value={city}
-              onChange={selectedOption => setCity(selectedOption)}
+              onChange={selectedOption => handleSelectChange(selectedOption)}
               options={cities}
               placeholder={'City'}
             />
@@ -139,7 +182,7 @@ const Checkout = () => {
                 data-toggle="modal"
                 data-target="#courierModal"
               >
-                Check
+                Open
               </button>
             ) : (
               <button
@@ -149,7 +192,7 @@ const Checkout = () => {
                 data-target="#courierModal"
                 disabled
               >
-                Check
+                Open
               </button>
             )}
           </form>
@@ -195,6 +238,14 @@ const Checkout = () => {
               <td></td>
               <th>{formatCurrency(countTotalPrice())}</th>
             </tr>
+            {courier ? (
+              <tr className="text-success">
+                <th>{courier.name}</th>
+                <td></td>
+                <td></td>
+                <th>+ {formatCurrency(courier.cost[0].value)}</th>
+              </tr>
+            ) : null}
             {discount ? (
               <tr className="text-danger">
                 <th>Voucher Code Discount {discount}%</th>
@@ -212,7 +263,19 @@ const Checkout = () => {
           </tbody>
         </table>
         <div className="text-right mb-5">
-          <button className="btn btn-success">Finish Order</button>
+          {city && address && courier ? (
+            <button
+              type="button"
+              className="btn btn-success"
+              onClick={() => handleFinishOder()}
+            >
+              Finish Order
+            </button>
+          ) : (
+            <button type="button" className="btn btn-success" disabled>
+              Finish Order
+            </button>
+          )}
         </div>
       </div>
     </Fragment>

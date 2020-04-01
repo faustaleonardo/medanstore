@@ -1,22 +1,27 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { CartContext } from '../../context/carts/cartState';
 import axios from 'axios';
+import $ from 'jquery';
 
 import formatCurrency from '../../utils/formatCurrency';
 
 const CourierModal = ({ city, quantity }) => {
-  const { courier, setCourier, error, setError } = useContext(CartContext);
+  const { setCourier, error, setError } = useContext(CartContext);
+  const [couriers, setCouriers] = useState([]);
+
+  const handleChooseCourier = courier => {
+    setCourier(courier);
+    $('#courierModal').modal('toggle');
+  };
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         let response = await axios.get(
-          `/api/v1/raja-ongkir/${city.value}/costs/jne?quantity=${quantity}`,
-          {
-            quantity
-          }
+          `/api/v1/raja-ongkir/${city.value}/costs?quantity=${quantity}`
         );
-        const jne = response.data.data.data.rajaongkir.results;
+        const results = response.data.data.data;
+        setCouriers(results);
 
         if (error) setError(null);
       } catch (err) {
@@ -25,6 +30,31 @@ const CourierModal = ({ city, quantity }) => {
     };
     if (city) fetchData();
   }, [city]);
+
+  const renderContent = () => {
+    if (!couriers) return null;
+
+    return couriers.map((courier, index) => {
+      return (
+        <tr key={index}>
+          <th scope="row">{courier.name}</th>
+          <td>
+            200g x {quantity} items = {200 * quantity}g
+          </td>
+          <td>{formatCurrency(courier.cost[0].value)}</td>
+          <td className="text-center text-lowercase">{courier.cost[0].etd}</td>
+          <td className="text-center">
+            <button
+              className="btn btn-outline-success btn-sm"
+              onClick={() => handleChooseCourier(courier)}
+            >
+              Choose
+            </button>
+          </td>
+        </tr>
+      );
+    });
+  };
 
   if (!city) return null;
 
@@ -77,19 +107,7 @@ const CourierModal = ({ city, quantity }) => {
                   </th>
                 </tr>
               </thead>
-              <tbody>
-                <tr>
-                  <th scope="row">tiki-REG</th>
-                  <td>170g x 5 items = 850g</td>
-                  <td>{formatCurrency(112000)}</td>
-                  <td className="text-center">3</td>
-                  <td className="text-center">
-                    <button className="btn btn-outline-success btn-sm">
-                      Choose
-                    </button>
-                  </td>
-                </tr>
-              </tbody>
+              <tbody>{renderContent()}</tbody>
             </table>
           </div>
         </div>

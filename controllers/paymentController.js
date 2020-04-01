@@ -3,7 +3,13 @@ const { sendSuccessResponse } = require('../utils/response');
 const { getExpiredTime } = require('../utils/expire');
 const { filterFields } = require('../utils/filter');
 
-const acceptedFields = ['discount', 'deliveryCost', 'deliveryAddress'];
+const acceptedFields = [
+  'discount',
+  'deliveryCost',
+  'deliveryAddress',
+  'courier',
+  'finalPrice'
+];
 
 exports.getPayments = async ctx => {
   const { id } = ctx.state.user;

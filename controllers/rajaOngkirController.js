@@ -30,7 +30,7 @@ const getData = async (id, quantity, courier) => {
 
   result = response.rajaongkir.results[0];
   result.costs.forEach(el => {
-    data.push({ courier: result.code + '-' + el.service, cost: el.cost });
+    data.push({ name: result.code + '-' + el.service, cost: el.cost });
   });
 
   return data;

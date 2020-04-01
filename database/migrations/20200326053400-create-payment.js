@@ -29,6 +29,12 @@ module.exports = {
       deliveryAddress: {
         type: Sequelize.STRING
       },
+      courier: {
+        type: Sequelize.STRING
+      },
+      finalPrice: {
+        type: Sequelize.DECIMAL
+      },
       statusPayment: {
         type: Sequelize.BOOLEAN
       },

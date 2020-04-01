@@ -11,6 +11,8 @@ module.exports = (sequelize, DataTypes) => {
       },
       deliveryCost: DataTypes.DECIMAL,
       deliveryAddress: DataTypes.STRING,
+      courier: DataTypes.STRING,
+      finalPrice: DataTypes.DECIMAL,
       statusPayment: {
         type: DataTypes.BOOLEAN,
         defaultValue: false
