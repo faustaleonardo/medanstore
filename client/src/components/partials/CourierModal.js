@@ -4,20 +4,19 @@ import axios from 'axios';
 
 import formatCurrency from '../../utils/formatCurrency';
 
-const CourierModal = ({ city }) => {
+const CourierModal = ({ city, quantity }) => {
   const { courier, setCourier, error, setError } = useContext(CartContext);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        let response = await axios.get(`/api/v1/raja-ongkir/${city}/costs/jne`);
-        const jne = response.data.data.rajaongkir.results;
-
-        response = await axios.get(`/api/v1/raja-ongkir/${city}/costs/pos`);
-        const pos = response.data.data.rajaongkir.results;
-
-        response = await axios.get(`/api/v1/raja-ongkir/${city}/costs/tiki`);
-        const tiki = response.data.data.rajaongkir.results;
+        let response = await axios.get(
+          `/api/v1/raja-ongkir/${city.value}/costs/jne?quantity=${quantity}`,
+          {
+            quantity
+          }
+        );
+        const jne = response.data.data.data.rajaongkir.results;
 
         if (error) setError(null);
       } catch (err) {
@@ -32,17 +31,20 @@ const CourierModal = ({ city }) => {
   return (
     <div
       className="modal fade"
-      id="cartModal"
+      id="courierModal"
       tabIndex={-1}
       role="dialog"
       aria-labelledby="courierTitle"
       aria-hidden="true"
     >
-      <div className="modal-dialog modal-dialog-centered" role="document">
+      <div
+        className="modal-dialog modal-dialog-centered modal-lg"
+        role="document"
+      >
         <div className="modal-content">
           <div className="modal-header">
             <p className="modal-title" id="cartTitle">
-              Choose your courier
+              Choose a courier
             </p>
             <button
               type="button"
@@ -54,17 +56,41 @@ const CourierModal = ({ city }) => {
             </button>
           </div>
 
-          <div className="modal-body">body</div>
-          <div className="modal-footer">
-            <button
-              type="button"
-              className="btn btn-secondary"
-              data-dismiss="modal"
-            >
-              Close
-            </button>
-            <button type="button" className="btn btn-success"></button>
-            )}
+          <div className="modal-body">
+            <table className="table">
+              <thead>
+                <tr>
+                  <th scope="col" className="text-uppercase">
+                    Service
+                  </th>
+                  <th scope="col" className="text-uppercase">
+                    Weight
+                  </th>
+                  <th scope="col" className="text-uppercase">
+                    Cost
+                  </th>
+                  <th scope="col" className="text-uppercase text-center">
+                    Est. Days
+                  </th>
+                  <th scope="col" className="text-uppercase text-center">
+                    Choose
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">tiki-REG</th>
+                  <td>170g x 5 items = 850g</td>
+                  <td>{formatCurrency(112000)}</td>
+                  <td className="text-center">3</td>
+                  <td className="text-center">
+                    <button className="btn btn-outline-success btn-sm">
+                      Choose
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
       </div>

@@ -4,10 +4,36 @@ const rajaOngkir = require('rajaongkir-nodejs').Starter(
   process.env.RAJA_ONGKIR_API_KEY
 );
 
-const params = {
-  // Jakarta Pusat
-  origin: 152,
-  weight: 1700
+const getData = async (id, quantity, courier) => {
+  const data = [];
+  let response, result;
+
+  const params = {
+    origin: 152,
+    destination: id,
+    weight: 200 * quantity
+  };
+
+  switch (courier) {
+    case 'jne':
+      response = await rajaOngkir.getJNECost(params);
+      break;
+    case 'pos':
+      response = await rajaOngkir.getPOSCost(params);
+      break;
+    case 'tiki':
+      response = await rajaOngkir.getTIKICost(params);
+      break;
+    default:
+      break;
+  }
+
+  result = response.rajaongkir.results[0];
+  result.costs.forEach(el => {
+    data.push({ courier: result.code + '-' + el.service, cost: el.cost });
+  });
+
+  return data;
 };
 
 exports.getCities = async ctx => {
@@ -18,37 +44,18 @@ exports.getCities = async ctx => {
     ctx.throw(500, err);
   }
 };
-
-exports.getJNECost = async ctx => {
+exports.getCosts = async ctx => {
   try {
     const { id } = ctx.params;
-    params.destination = id;
+    const { quantity } = ctx.query;
 
-    const costs = await rajaOngkir.getJNECost(params);
-    sendSuccessResponse(ctx, costs);
-  } catch (err) {
-    ctx.throw(500, err);
-  }
-};
+    let costs = [];
 
-exports.getPOSCost = async ctx => {
-  try {
-    const { id } = ctx.params;
-    params.destination = id;
+    costs.push(await getData(id, quantity, 'jne'));
+    costs.push(await getData(id, quantity, 'pos'));
+    costs.push(await getData(id, quantity, 'tiki'));
 
-    const costs = await rajaOngkir.getPOSCost(params);
-    sendSuccessResponse(ctx, costs);
-  } catch (err) {
-    ctx.throw(500, err);
-  }
-};
-
-exports.getTIKICost = async ctx => {
-  try {
-    const { id } = ctx.params;
-    params.destination = id;
-
-    const costs = await rajaOngkir.getTIKICost(params);
+    costs = costs.flat();
     sendSuccessResponse(ctx, costs);
   } catch (err) {
     ctx.throw(500, err);

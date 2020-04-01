@@ -15,6 +15,7 @@ const Checkout = () => {
     error,
     updateCart,
     countTotalPrice,
+    countQuantity,
     setCourier,
     setError
   } = useContext(CartContext);
@@ -110,7 +111,7 @@ const Checkout = () => {
 
   return (
     <Fragment>
-      <CourierModal city={city} />
+      <CourierModal city={city} quantity={countQuantity()} />
 
       <div className="mt-5">
         <h1 className="mb-5">My Shopping Cart</h1>
@@ -131,15 +132,26 @@ const Checkout = () => {
               value={address}
               onChange={event => setAddress(event.target.value)}
             />
-            <button
-              type="submit"
-              className="btn btn-success"
-              data-toggle="modal"
-              data-target="#courierModal"
-              {...(city ? '' : 'disabled')}
-            >
-              Check
-            </button>
+            {city && address ? (
+              <button
+                type="button"
+                className="btn btn-success"
+                data-toggle="modal"
+                data-target="#courierModal"
+              >
+                Check
+              </button>
+            ) : (
+              <button
+                type="button"
+                className="btn btn-success"
+                data-toggle="modal"
+                data-target="#courierModal"
+                disabled
+              >
+                Check
+              </button>
+            )}
           </form>
           <form
             className="form-inline float-right"
