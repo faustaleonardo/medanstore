@@ -1,6 +1,8 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useState, useContext } from 'react';
 import axios from 'axios';
+import StripeCheckout from 'react-stripe-checkout';
 
+import { AuthContext } from '../../context/auth/authState';
 import formatDate from '../../utils/formatDate';
 import formatCurrency from '../../utils/formatCurrency';
 
@@ -12,8 +14,17 @@ const Order = () => {
   const [nextPage, setNextPage] = useState(null);
   const [id, setId] = useState(null);
 
+  const { auth } = useContext(AuthContext);
+
   const cancelPayment = async orderId => {
     await axios.patch(`/api/v1/payments/${orderId}`, { active: false });
+  };
+
+  const handleStripeToken = async (orderId, token) => {
+    await axios.patch(`api/v1/payments/${orderId}/stripe`, {
+      token: token.id
+    });
+    window.location.reload();
   };
 
   useEffect(() => {
@@ -76,7 +87,7 @@ const Order = () => {
               <h4>
                 Status:
                 {!payment.active && payment.statusPayment ? (
-                  <span className="text-succes"> Paid</span>
+                  <span className="text-success"> Paid</span>
                 ) : null}
                 {payment.active && !payment.statusPayment ? (
                   <span className="text-secondary"> Waiting for Payment</span>
@@ -89,9 +100,20 @@ const Order = () => {
 
             {payment.active ? (
               <div className="float-right">
-                <button type="button" className="btn btn-success">
-                  Pay now
-                </button>
+                <StripeCheckout
+                  name="MEDANSTORE Co."
+                  description="Get your dream phones now :)"
+                  amount={payment.finalPrice * 100}
+                  currency="IDR"
+                  stripeKey={process.env.REACT_APP_PUBLISHABLE_KEY}
+                  email={auth.email}
+                  token={token => handleStripeToken(payment.orderId, token)}
+                >
+                  <button type="button" className="btn btn-success">
+                    Pay now
+                  </button>
+                </StripeCheckout>
+
                 <button
                   type="button"
                   className="btn btn-danger ml-2"

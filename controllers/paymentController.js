@@ -1,3 +1,6 @@
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+const axios = require('axios');
+
 const models = require('../database/models');
 const { sendSuccessResponse } = require('../utils/response');
 const { getExpiredTime } = require('../utils/expire');
@@ -47,6 +50,38 @@ exports.createPayment = async ctx => {
   const data = { ...filteredBody, orderId, userId, expiredTime };
 
   const payment = await models.Payment.create(data);
+
+  sendSuccessResponse(ctx, payment);
+};
+
+exports.finishPayment = async ctx => {
+  const { orderId } = ctx.params;
+
+  const payment = await models.Payment.findOne({ where: { orderId } });
+  if (!payment) ctx.throw('Payment not found');
+
+  // convert IDR to USD
+  const response = await axios.get(
+    'https://api.exchangeratesapi.io/latest?base=USD&symbols=USD,IDR'
+  );
+  const finalPrice = payment.finalPrice * 1;
+  // stripe store cents. 1 * 100 cents = 1 dollar
+  const amount = (finalPrice / response.data.rates.IDR).toFixed(0) * 100;
+
+  ctx.body = amount;
+
+  const { token } = ctx.request.body;
+  // charge the payment
+  await stripe.charges.create({
+    amount: amount,
+    currency: 'USD',
+    description: `MEDANSTORE CO. Pay for the payment ID: ${payment.id}`,
+    source: token
+  });
+
+  payment.active = false;
+  payment.statusPayment = true;
+  await payment.save();
 
   sendSuccessResponse(ctx, payment);
 };
