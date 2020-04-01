@@ -7,7 +7,7 @@ module.exports = (sequelize, DataTypes) => {
       userId: DataTypes.INTEGER,
       discount: {
         type: DataTypes.SMALLINT,
-        defaultValue: 1
+        defaultValue: 0
       },
       deliveryCost: DataTypes.DECIMAL,
       deliveryAddress: DataTypes.STRING,

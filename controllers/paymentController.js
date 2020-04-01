@@ -13,7 +13,16 @@ const acceptedFields = [
 
 exports.getPayments = async ctx => {
   const { id } = ctx.state.user;
-  const payments = await models.Payment.findAll({ where: { userId: id } });
+  const { page } = ctx.query;
+
+  const payments = await models.Payment.findAll({
+    where: {
+      userId: id
+    },
+    order: [['createdAt', 'DESC']],
+    offset: (page - 1) * 3,
+    limit: 3
+  });
 
   sendSuccessResponse(ctx, payments);
 };

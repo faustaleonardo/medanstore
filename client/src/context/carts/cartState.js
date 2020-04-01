@@ -46,6 +46,10 @@ export const CartProvider = ({ children }) => {
     dispatch({ type: 'DELETE_CART', payload: id });
   };
 
+  const resetCart = () => {
+    dispatch({ type: 'RESET_CART', payload: [] });
+  };
+
   const setCourier = data => {
     dispatch({ type: 'SET_COURIER', payload: data });
   };
@@ -65,6 +69,7 @@ export const CartProvider = ({ children }) => {
         addCart,
         updateCart,
         deleteCart,
+        resetCart,
         setCourier,
         setError
       }}

@@ -71,7 +71,7 @@ exports.getItemsAndPictures = async ctx => {
     limit: 9
   };
 
-  const item = await models.Item.findAll({
+  const items = await models.Item.findAll({
     ...whereQuery,
     include: [
       {
@@ -83,7 +83,7 @@ exports.getItemsAndPictures = async ctx => {
     ...paginate
   });
 
-  sendSuccessResponse(ctx, item);
+  sendSuccessResponse(ctx, items);
 };
 
 /**-------end: get all items------- */

@@ -6,7 +6,8 @@ module.exports = (sequelize, DataTypes) => {
       orderId: DataTypes.UUID,
       userId: DataTypes.INTEGER,
       itemId: DataTypes.INTEGER,
-      quantity: DataTypes.INTEGER
+      quantity: DataTypes.INTEGER,
+      totalPrice: DataTypes.DECIMAL
     },
     {}
   );

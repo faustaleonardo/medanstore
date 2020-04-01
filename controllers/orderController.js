@@ -12,13 +12,32 @@ exports.getOrders = async ctx => {
   sendSuccessResponse(ctx, orders);
 };
 
+exports.getOrdersAndItems = async ctx => {
+  const user = ctx.state.user;
+  const orderId = ctx.params.orderId;
+
+  const orders = await models.Order.findAll({
+    where: { userId: user.id, orderId },
+    include: [
+      {
+        model: models.Item,
+        attributes: ['id', 'name', 'price'],
+        as: 'item'
+      }
+    ],
+    order: [['createdAt', 'DESC']]
+  });
+
+  sendSuccessResponse(ctx, orders);
+};
+
 exports.getOrder = async ctx => {
   const orderId = ctx.params.orderId;
 
   try {
     const order = await models.Order.findAll({ where: { orderId } });
     sendSuccessResponse(ctx, order);
-  } catch (er) {
+  } catch (err) {
     ctx.throw(404, `Order not found`);
   }
 };
@@ -29,12 +48,13 @@ exports.createOrder = async ctx => {
   const orderId = uuidv4();
 
   const data = [];
-  for (let { id, quantity } of filteredBody.items) {
+  for (let { id, quantity, totalPrice } of filteredBody.items) {
     data.push({
       orderId,
       userId,
       itemId: id,
-      quantity
+      quantity,
+      totalPrice
     });
   }
 

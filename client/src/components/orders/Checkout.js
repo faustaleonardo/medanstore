@@ -17,7 +17,8 @@ const Checkout = () => {
     updateCart,
     countTotalPrice,
     countQuantity,
-    setError
+    setError,
+    resetCart
   } = useContext(CartContext);
 
   const [voucher, setVoucher] = useState('');
@@ -51,6 +52,13 @@ const Checkout = () => {
     if (!courier) setFinalPrice(result);
     else setFinalPrice(result + courier.cost[0].value);
   }, [carts, discount, courier]);
+
+  // will unmount
+  useEffect(() => {
+    return () => {
+      resetCart();
+    };
+  }, []);
 
   const handleVoucherSubmit = async event => {
     event.preventDefault();
@@ -90,7 +98,8 @@ const Checkout = () => {
       // create order
       const items = carts.map(cart => ({
         id: cart.id,
-        quantity: cart.quantity
+        quantity: cart.quantity,
+        totalPrice: cart.totalPrice
       }));
       data = {
         items
