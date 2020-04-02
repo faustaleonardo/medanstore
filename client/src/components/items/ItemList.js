@@ -1,9 +1,10 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import axios from 'axios';
 
 import { ItemContext } from '../../context/items/itemState';
 import { CartContext } from '../../context/carts/cartState';
+import { AuthContext } from '../../context/auth/authState';
 import formatCurrency from '../../utils/formatCurrency';
 
 import ConditionCheckbox from './ConditionCheckbox';
@@ -16,6 +17,8 @@ const ItemList = () => {
   const [nextPage, setNextPage] = useState(null);
 
   const { addCart } = useContext(CartContext);
+  const { auth } = useContext(AuthContext);
+  const history = useHistory();
 
   const query = window.location.search;
   useEffect(() => {
@@ -41,6 +44,12 @@ const ItemList = () => {
     hasNextPage();
   }, [page]);
 
+  const handleAddCart = item => {
+    if (auth === false) return history.push('/login');
+
+    addCart(item, 'add');
+  };
+
   const renderContent = () => {
     return items.map(item => {
       return (
@@ -60,7 +69,7 @@ const ItemList = () => {
               </p>
               <button
                 className="btn btn-success"
-                onClick={() => addCart(item, 'add')}
+                onClick={() => handleAddCart(item)}
               >
                 Add to cart
               </button>
