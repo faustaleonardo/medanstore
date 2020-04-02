@@ -57,16 +57,15 @@ app.on('error', (err, ctx) => {
   console.log(err);
 });
 
-if (process.env.NODE_ENV === 'production') {
-  const path = require('path');
-  app.use(async ctx => {
-    await send(ctx, path.resolve(__dirname, 'client', 'build', 'index.html'), {
-      root: 'client/build'
-    });
+// if (process.env.NODE_ENV === 'production') {
+app.use(async ctx => {
+  await send(ctx, `/index.html`, {
+    root: `${__dirname}/client/build`
   });
-}
+});
+// }
 
-const port = 4000;
+const port = process.env.PORT || 4000;
 sequelize.sync().then(() => {
   app.listen(port, () => {
     console.log(`Server is listening on port ${port}`);
