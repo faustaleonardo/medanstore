@@ -1,6 +1,7 @@
 const Koa = require('koa');
 const send = require('koa-send');
 const bodyParser = require('koa-body');
+const logger = require('koa-logger');
 const cors = require('@koa/cors');
 const passport = require('koa-passport');
 const session = require('koa-session');
@@ -22,7 +23,7 @@ require('./services/passport');
 
 app.use(cors());
 if (process.env.NODE_ENV === 'development') {
-  app.use(require('koa-logger')());
+  app.use(logger());
 }
 
 app.use(bodyParser());

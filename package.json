@@ -26,6 +26,7 @@
     "html-to-text": "^5.1.1",
     "koa": "^2.11.0",
     "koa-body": "^4.1.1",
+    "koa-logger": "^3.2.1",
     "koa-multer": "^1.0.2",
     "koa-passport": "^4.1.3",
     "koa-router": "^8.0.8",
@@ -45,7 +46,6 @@
   },
   "devDependencies": {
     "faker": "^4.1.0",
-    "koa-logger": "^3.2.1",
     "nodemon": "^2.0.2"
   }
 }
