@@ -4,6 +4,7 @@ import Select from 'react-select';
 import axios from 'axios';
 
 import { CartContext } from '../../context/carts/cartState';
+import { AuthContext } from '../../context/auth/authState';
 import formatCurrency from '../../utils/formatCurrency';
 import renderWarningAlert from '../../utils/renderWarningAlert.js';
 import CourierModal from '../partials/CourierModal';
@@ -21,6 +22,8 @@ const Checkout = () => {
     setError,
     resetCart
   } = useContext(CartContext);
+
+  const { auth } = useContext(AuthContext);
 
   const [voucher, setVoucher] = useState('');
   const [address, setAddress] = useState('');
@@ -167,7 +170,10 @@ const Checkout = () => {
     });
   };
 
-  if (!carts.length) return <Redirect to="/items" />;
+  if (auth === false) return <Redirect to="/login" />;
+
+  if (!carts.length && auth && Object.keys(auth).length)
+    return <Redirect to="/items" />;
 
   if (!cities.length || loading) return <Loader />;
 

@@ -1,6 +1,7 @@
 import React, { Fragment, useEffect, useState, useContext } from 'react';
 import axios from 'axios';
 import StripeCheckout from 'react-stripe-checkout';
+import { Redirect } from 'react-router-dom';
 
 import { AuthContext } from '../../context/auth/authState';
 import formatDate from '../../utils/formatDate';
@@ -213,6 +214,8 @@ const Order = () => {
       </nav>
     );
   };
+
+  if (auth === false) return <Redirect to="/login" />;
 
   if (!payments.length || nextPage === null) return null;
 
