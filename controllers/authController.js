@@ -35,7 +35,7 @@ exports.login = async ctx => {
 
 exports.logout = async ctx => {
   ctx.logout();
-  sendSuccessResponse(ctx, null);
+  ctx.redirect('/');
 };
 
 exports.user = async ctx => {
