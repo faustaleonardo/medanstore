@@ -26,10 +26,11 @@ const CategoryCheckbox = () => {
 
     const parsed = queryString.parse(window.location.search);
     if (checked) {
-      if (parsed.categoryId) {
-        parsed.categoryId = [parsed.categoryId];
+      if (parsed.categoryId instanceof Array) {
         parsed.categoryId.push(value);
-      } else parsed.categoryId = value;
+      } else {
+        parsed.categoryId = [parsed.categoryId, value];
+      }
     } else {
       if (parsed.categoryId instanceof Array) {
         parsed.categoryId = parsed.categoryId.filter(el => el !== value);
