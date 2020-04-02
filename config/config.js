@@ -18,11 +18,6 @@ module.exports = {
     operatorsAliases: false
   },
   production: {
-    username: process.env.USERNAME,
-    password: process.env.PASSWORD,
-    database: process.env.DATABASE,
-    host: process.env.DATABASE_URL,
-    dialect: process.env.DIALECT,
-    operatorsAliases: false
+    use_env_variable: 'DATABASE_URL'
   }
 };
