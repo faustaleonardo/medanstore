@@ -1,5 +1,6 @@
 const Koa = require('koa');
 const send = require('koa-send');
+const serve = require('koa-static');
 const bodyParser = require('koa-body');
 const logger = require('koa-logger');
 const cors = require('@koa/cors');
@@ -58,9 +59,13 @@ app.on('error', (err, ctx) => {
 });
 
 if (process.env.NODE_ENV === 'production') {
+  const root = require('path').join(__dirname, 'client', 'build');
+
+  app.use(serve(root));
+
   app.use(async ctx => {
     await send(ctx, `/index.html`, {
-      root: `${__dirname}/client/build`
+      root
     });
   });
 }
