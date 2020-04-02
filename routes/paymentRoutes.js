@@ -8,7 +8,7 @@ const {
   finishPayment,
   createPayment,
   updatePayment
-} = require('../controllers/PaymentController');
+} = require('../controllers/paymentController');
 
 const router = new Router();
 

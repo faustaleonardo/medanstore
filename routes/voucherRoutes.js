@@ -8,7 +8,7 @@ const {
   createVoucher,
   updateVoucher,
   deleteVoucher
-} = require('../controllers/VoucherController');
+} = require('../controllers/voucherController');
 
 const router = new Router();
 

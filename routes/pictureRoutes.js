@@ -8,7 +8,7 @@ const {
   createPicture,
   deletePicture,
   deletePictures
-} = require('../controllers/PictureController');
+} = require('../controllers/pictureController');
 
 const router = new Router();
 
