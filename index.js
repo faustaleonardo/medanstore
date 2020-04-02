@@ -2,7 +2,6 @@ const Koa = require('koa');
 const send = require('koa-send');
 const bodyParser = require('koa-body');
 const cors = require('@koa/cors');
-const logger = require('koa-logger');
 const passport = require('koa-passport');
 const session = require('koa-session');
 const { sequelize } = require('./database/models');
@@ -23,7 +22,7 @@ require('./services/passport');
 
 app.use(cors());
 if (process.env.NODE_ENV === 'development') {
-  app.use(logger());
+  app.use(require('koa-logger')());
 }
 
 app.use(bodyParser());
