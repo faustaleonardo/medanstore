@@ -131,9 +131,16 @@ const Order = () => {
             Ordered on {formatDate(payment.createdAt)}
             {payment.courier}
           </p>
-          <p className="text-secondary mb-1">
-            Sent to {payment.deliveryAddress} by {payment.courier}
-          </p>
+          <div className="clearfix mb-1">
+            <div className="float-left">
+              <p className="text-secondary">
+                Sent to {payment.deliveryAddress} by {payment.courier}
+              </p>
+            </div>
+            <div className="float-right">
+              <p className="text-secondary">Order ID #${payment.orderId}</p>
+            </div>
+          </div>
           <table className="table mb-5">
             <thead>
               <tr>

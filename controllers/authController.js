@@ -1,7 +1,6 @@
 const bcrypt = require('bcryptjs');
 const models = require('../database/models');
 const { promisify } = require('util');
-const Email = require('../services/email');
 
 const { sendSuccessResponse } = require('../utils/response');
 

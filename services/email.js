@@ -1,4 +1,5 @@
 const nodemailer = require('nodemailer');
+const nodemailerSendgrid = require('nodemailer-sendgrid');
 const pug = require('pug');
 const htmlToText = require('html-to-text');
 
@@ -13,7 +14,11 @@ class Email {
 
   newTransport() {
     if (process.env.NODE_ENV === 'production') {
-      return 1;
+      return nodemailer.createTransport(
+        nodemailerSendgrid({
+          apiKey: process.env.SENDGRID_PASSWORD
+        })
+      );
     }
 
     return nodemailer.createTransport({
@@ -46,7 +51,7 @@ class Email {
   }
 
   async sendPaymentReminder() {
-    await this.send('paymentReminder', 'Waiting for your payment');
+    await this.send('paymentReminder', 'Medanstore Co. Order');
   }
 }
 

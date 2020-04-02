@@ -7,6 +7,7 @@ import { CartContext } from '../../context/carts/cartState';
 import formatCurrency from '../../utils/formatCurrency';
 import renderWarningAlert from '../../utils/renderWarningAlert.js';
 import CourierModal from '../partials/CourierModal';
+import Loader from '../partials/Loader';
 
 const Checkout = () => {
   const {
@@ -28,11 +29,13 @@ const Checkout = () => {
   const [discountPrice, setDiscountPrice] = useState(0);
   const [finalPrice, setFinalPrice] = useState(0);
   const [cities, setCities] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const history = useHistory();
 
   useEffect(() => {
     const fetchCities = async () => {
+      setLoading(true);
       const response = await axios.get('/api/v1/raja-ongkir/cities');
       const cities = response.data.data.data.rajaongkir.results;
       const filteredCities = cities.map(city => ({
@@ -40,22 +43,26 @@ const Checkout = () => {
         label: city.city_name
       }));
       setCities(filteredCities);
+      setLoading(false);
     };
     fetchCities();
   }, []);
 
   useEffect(() => {
+    setLoading(true);
     const discountPriceValue = countTotalPrice() * (discount / 100);
     setDiscountPrice(discountPriceValue);
 
     let result = countTotalPrice() - discountPriceValue;
     if (!courier) setFinalPrice(result);
     else setFinalPrice(result + courier.cost[0].value);
+    setLoading(false);
   }, [carts, discount, courier]);
 
   // will unmount
   useEffect(() => {
     return () => {
+      setLoading(false);
       resetCart();
     };
   }, []);
@@ -65,6 +72,7 @@ const Checkout = () => {
     if (!voucher) return setError('Voucher code must not be empty!');
 
     try {
+      setLoading(true);
       const response = await axios.get(`/api/v1/vouchers/${voucher}`);
       const result = response.data.data.data;
 
@@ -73,6 +81,7 @@ const Checkout = () => {
     } catch (err) {
       setError(err.response.data);
     }
+    setLoading(false);
     setVoucher('');
   };
 
@@ -95,6 +104,7 @@ const Checkout = () => {
   const handleFinishOder = async () => {
     let response, data;
     try {
+      setLoading(true);
       // create order
       const items = carts.map(cart => ({
         id: cart.id,
@@ -121,6 +131,7 @@ const Checkout = () => {
       history.push('/orders');
     } catch (err) {
       setError(err.response.data);
+      setLoading(false);
     }
   };
 
@@ -158,7 +169,7 @@ const Checkout = () => {
 
   if (!carts.length) return <Redirect to="/items" />;
 
-  if (!cities.length) return null;
+  if (!cities.length || loading) return <Loader />;
 
   return (
     <Fragment>
