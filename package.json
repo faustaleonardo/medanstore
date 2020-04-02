@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "server": "nodemon index.js",
+    "server:prod": "node index.js NODE_ENV=production",
     "client": "npm run start --prefix client",
     "start": "concurrently \"npm run server\" \"npm run client\""
   },
@@ -15,7 +16,6 @@
     "@koa/cors": "^3.0.0",
     "@koa/multer": "^2.0.2",
     "@koa/router": "^8.0.8",
-    "@sendgrid/mail": "^6.5.5",
     "aws-sdk": "^2.648.0",
     "axios": "^0.19.2",
     "bcryptjs": "^2.4.3",
@@ -29,8 +29,10 @@
     "koa-router": "^8.0.8",
     "koa-session": "^5.13.1",
     "multer-s3": "^2.9.0",
+    "nodemailer": "^6.4.6",
     "passport-local": "^1.0.0",
     "pg": "^7.18.2",
+    "pug": "^2.0.4",
     "rajaongkir-nodejs": "^0.2.0",
     "sequelize": "^5.21.5",
     "stripe": "^8.38.0",

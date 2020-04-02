@@ -1,7 +1,7 @@
 const bcrypt = require('bcryptjs');
 const models = require('../database/models');
 const { promisify } = require('util');
-const sendEmail = require('../services/sendEmail');
+const Email = require('../services/email');
 
 const { sendSuccessResponse } = require('../utils/response');
 
@@ -31,9 +31,6 @@ exports.signup = async ctx => {
 };
 
 exports.login = async ctx => {
-  // temporary
-  await sendEmail(ctx.state.user.email);
-
   sendSuccessResponse(ctx, ctx.state.user);
 };
 

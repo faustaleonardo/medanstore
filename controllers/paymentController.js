@@ -1,5 +1,6 @@
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const axios = require('axios');
+const Email = require('../services/email');
 
 const models = require('../database/models');
 const { sendSuccessResponse } = require('../utils/response');
@@ -50,6 +51,13 @@ exports.createPayment = async ctx => {
   const data = { ...filteredBody, orderId, userId, expiredTime };
 
   const payment = await models.Payment.create(data);
+
+  let host;
+  if (process.env.NODE_ENV === 'development') host = 'localhost:3000';
+  else host = ctx.host;
+
+  const url = `${ctx.protocol}://${host}/orders`;
+  await new Email(ctx.state.user, payment.orderId, url).sendPaymentReminder();
 
   sendSuccessResponse(ctx, payment);
 };
