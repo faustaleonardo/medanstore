@@ -1,4 +1,5 @@
 const Koa = require('koa');
+const send = require('koa-send');
 const bodyParser = require('koa-body');
 const cors = require('@koa/cors');
 const logger = require('koa-logger');
@@ -53,8 +54,16 @@ app.on('error', (err, ctx) => {
   console.log(err);
 });
 
-const port = 4000;
+if (process.env.NODE_ENV === 'production') {
+  const path = require('path');
+  app.use(async ctx => {
+    await send(ctx, path.resolve(__dirname, 'client', 'build', 'index.html'), {
+      root: 'client/build'
+    });
+  });
+}
 
+const port = 4000;
 sequelize.sync().then(() => {
   app.listen(port, () => {
     console.log(`Server is listening on port ${port}`);
