@@ -22,7 +22,10 @@ require('dotenv').config();
 require('./services/passport');
 
 app.use(cors());
-app.use(logger());
+if (process.env.NODE_ENV === 'development') {
+  app.use(logger());
+}
+
 app.use(bodyParser());
 
 app.keys = [process.env.COOKIE_KEY];
