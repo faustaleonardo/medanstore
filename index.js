@@ -69,17 +69,17 @@ app.on('error', (err, ctx) => {
   console.log(err);
 });
 
-// if (process.env.NODE_ENV === 'production') {
-const root = require('path').join(__dirname, 'client', 'build');
+if (process.env.NODE_ENV === 'production') {
+  const root = require('path').join(__dirname, 'client', 'build');
 
-app.use(serve(root));
+  app.use(serve(root));
 
-app.use(async ctx => {
-  await send(ctx, `/index.html`, {
-    root
+  app.use(async ctx => {
+    await send(ctx, `/index.html`, {
+      root
+    });
   });
-});
-// }
+}
 
 const port = process.env.PORT || 4000;
 sequelize.sync().then(() => {

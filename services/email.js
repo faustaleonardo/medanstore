@@ -13,13 +13,13 @@ class Email {
   }
 
   newTransport() {
-    // if (process.env.NODE_ENV === 'production') {
-    return nodemailer.createTransport(
-      nodemailerSendgrid({
-        apiKey: process.env.SENDGRID_PASSWORD
-      })
-    );
-    // }
+    if (process.env.NODE_ENV === 'production') {
+      return nodemailer.createTransport(
+        nodemailerSendgrid({
+          apiKey: process.env.SENDGRID_PASSWORD
+        })
+      );
+    }
 
     return nodemailer.createTransport({
       host: process.env.EMAIL_HOST,
