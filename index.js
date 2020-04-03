@@ -1,6 +1,7 @@
 const Koa = require('koa');
 const send = require('koa-send');
 const serve = require('koa-static');
+const compress = require('koa-compress');
 const bodyParser = require('koa-body');
 const logger = require('koa-logger');
 const cors = require('@koa/cors');
@@ -18,6 +19,16 @@ const voucherRouter = require('./routes/voucherRoutes');
 const orderRouter = require('./routes/orderRoutes');
 const paymentRouter = require('./routes/paymentRoutes');
 const rajaOngkirRouter = require('./routes/rajaOngkirRoutes');
+
+app.use(
+  compress({
+    filter(content_type) {
+      return /text/i.test(content_type);
+    },
+    threshold: 2048,
+    flush: require('zlib').Z_SYNC_FLUSH
+  })
+);
 
 require('dotenv').config();
 require('./services/passport');
@@ -58,17 +69,17 @@ app.on('error', (err, ctx) => {
   console.log(err);
 });
 
-if (process.env.NODE_ENV === 'production') {
-  const root = require('path').join(__dirname, 'client', 'build');
+// if (process.env.NODE_ENV === 'production') {
+const root = require('path').join(__dirname, 'client', 'build');
 
-  app.use(serve(root));
+app.use(serve(root));
 
-  app.use(async ctx => {
-    await send(ctx, `/index.html`, {
-      root
-    });
+app.use(async ctx => {
+  await send(ctx, `/index.html`, {
+    root
   });
-}
+});
+// }
 
 const port = process.env.PORT || 4000;
 sequelize.sync().then(() => {
