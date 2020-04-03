@@ -1,5 +1,4 @@
 import React, { useContext } from 'react';
-import $ from 'jquery';
 import { useHistory } from 'react-router-dom';
 
 import { CartContext } from '../../context/carts/cartState';
@@ -25,7 +24,7 @@ const CartModal = () => {
   };
 
   const handleCheckout = () => {
-    $('#cartModal').modal('toggle');
+    document.querySelector('#cartModal .close').click();
     history.push('/checkout');
   };
 

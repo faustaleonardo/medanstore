@@ -2,7 +2,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { CartContext } from '../../context/carts/cartState';
 import axios from 'axios';
-import $ from 'jquery';
 
 import formatCurrency from '../../utils/formatCurrency';
 
@@ -12,7 +11,7 @@ const CourierModal = ({ city, quantity }) => {
 
   const handleChooseCourier = courier => {
     setCourier(courier);
-    $('#courierModal').modal('toggle');
+    document.querySelector('#courierModal .close').click();
   };
 
   useEffect(() => {

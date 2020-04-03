@@ -20,7 +20,9 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build"
+    "build": "react-scripts build",
+    "postbuild": "gzip build/static/js/*.js && gzip build/static/css/*.css",
+    "analyze": "source-map-explorer 'build/static/js/*.gz'"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -36,5 +38,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "source-map-explorer": "^2.4.2"
   }
 }
