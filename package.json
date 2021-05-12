@@ -35,7 +35,7 @@
     "koa-session": "^5.13.1",
     "koa-static": "^5.0.0",
     "multer-s3": "^2.9.0",
-    "nodemailer": "^6.4.6",
+    "nodemailer": "^6.4.16",
     "nodemailer-sendgrid": "^1.0.3",
     "passport-local": "^1.0.0",
     "pg": "^7.18.2",
